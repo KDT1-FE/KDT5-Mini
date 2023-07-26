@@ -1,6 +1,4 @@
 import useDataQuery from "../../Hooks/useData-Query.tsx";
-
-
 /*
   - 개인별
     1. 연차 목록을 리스트 한다.
@@ -10,11 +8,8 @@ import useDataQuery from "../../Hooks/useData-Query.tsx";
   */
 
 export default function Mypage() {
-
-
   const { getPageData } = useDataQuery();
   const { isLoading, error, data: myData } = getPageData;
-  console.log(myData);
 
   if (isLoading) {
     return "Loading...";
@@ -32,15 +27,16 @@ export default function Mypage() {
           <ul>
             {user.annual.map((annualItem: AnnualType) => (
               <li key={annualItem.id}>
-                {annualItem.reason}, Start Date: {annualItem.startDate}, End Date: {annualItem.endDate}, Status: {annualItem.status}
+                {annualItem.reason}, 연차 시작일: {annualItem.startDate}, 연차 마지막일: {annualItem.endDate},
+                승인여부: {annualItem.status}
               </li>
             ))}
           </ul>
           <h3>당직 리스트</h3>
           <ul>
-            {user.duty.map((dutyItem:DutyType) => (
+            {user.duty.map((dutyItem: DutyType) => (
               <li key={dutyItem.id}>
-                Start Date: {dutyItem.startDate}, End Date: {dutyItem.endDate}, Status: {dutyItem.status}
+                당직일: {dutyItem.startDate}, 승인여부: {dutyItem.status}
               </li>
             ))}
           </ul>
@@ -48,4 +44,11 @@ export default function Mypage() {
       ))}
     </>
   );
+}
+export function DateCount({ startDate, endDate }:{startDate:string,endDate:string} )  {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffInTime = end.getTime() - start.getTime();
+  const diffInDays = diffInTime / (1000 * 3600 * 24);
+  return {diffInDays}
 }
