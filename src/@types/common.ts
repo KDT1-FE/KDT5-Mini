@@ -34,7 +34,7 @@ declare interface MyDataType {
     status:string
   ]
 }
-declare interface MyDataUser extends AnnualType{
+declare interface MyDataUser {
   duty: any;
   annual: any;
   name:string,
