@@ -1,4 +1,4 @@
-import Modal from "../../Components/Common/Modal/Modal.tsx";
+import Modal from "../../Components/Modal/Modal.tsx";
 import { useState } from "react";
 import MyDateRangePicker from "../../Components/Calendar-input/Calendar.tsx";
 

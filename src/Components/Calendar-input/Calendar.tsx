@@ -12,7 +12,7 @@ export default function MyDateRangePicker() {
     }
   ]);
 
-  // 선택한 날짜 범위를 받아 옵니다.
+  // 선택한 날짜 범위를 받아 옵니다. 확인용 콘솔입니다.
   console.log(state[0].startDate);
   console.log(state[0].endDate);
 
@@ -25,6 +25,7 @@ export default function MyDateRangePicker() {
       editableDateInputs={true}
       onChange={handleSelect}
       moveRangeOnFirstSelection={false}
+      months={2}
       ranges={state}
     />
   );
