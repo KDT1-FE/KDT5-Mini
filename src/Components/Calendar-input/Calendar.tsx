@@ -13,8 +13,8 @@ export default function MyDateRangePicker() {
   ]);
 
   // 선택한 날짜 범위를 받아 옵니다. 확인용 콘솔입니다.
-  console.log(state[0].startDate);
-  console.log(state[0].endDate);
+  // console.log(state[0].startDate);
+  // console.log(state[0].endDate);
 
   const handleSelect = (ranges: { [key: string]: Range }) => {
     setState([ranges['selection']]);
