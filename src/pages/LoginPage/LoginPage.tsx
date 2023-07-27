@@ -1,8 +1,12 @@
 import { useState } from "react";
 import "./LoginPage.scss";
 import users from "./signup.json";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../Components/apis/login";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -33,16 +37,37 @@ export default function LoginPage() {
     }
   };
 
-  const onClickBtn = () => {
-    const user = users.find((user) => user.email === email);
-    if (user) {
-      if (user.password === password) {
-        alert("로그인 성공");
+  // 약식 (// 로그인 처리 api)
+  // const onClickBtn = () => {
+  //   const user = users.find((user) => user.email === email);
+  //   if (user) {
+  //     if (user.password === password) {
+  //       alert("로그인 성공");
+  //       navigate("/main");
+  //     } else {
+  //       alert("비밀번호 틀림");
+  //     }
+  //   } else {
+  //     alert("해당 이메일로 가입된 계정이 없음");
+  //     navigate("/signup");
+  //   }
+  // };
+
+  // 로그인 처리 api
+  const onClickLogin = async () => {
+    try {
+      const result = await login(email, password);
+      const { accessToken, refreshToken } = result;
+      console.log(accessToken, refreshToken);
+      if (result && result.accessToken && result.refreshToken) {
+        localStorage.setItem("access", accessToken);
+        localStorage.setItem("refresh", refreshToken);
+        navigate("/main");
       } else {
-        alert("비밀번호 틀림");
+        console.log("error");
       }
-    } else {
-      alert("해당 이메일로 가입된 계정이 없음");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -55,7 +80,7 @@ export default function LoginPage() {
         <div className="inputWrap">
           <input
             className="input"
-            placeholder="이메일"
+            placeholder="이메일 @email.com"
             value={email}
             onChange={handleEmail}
           />
@@ -71,20 +96,23 @@ export default function LoginPage() {
           <input
             className="input"
             type="password"
-            placeholder="패스워드"
+            placeholder="비밀번호"
             value={password}
             onChange={handlePassword}
           />
         </div>
         <div className="inputErrorMessage">
           {!passwordValid && password.length > 0 && (
-            <div>올바른 비밀번호 형식을 입력해주세요.</div>
+            <div>
+              영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
+              필요)
+            </div>
           )}
         </div>
       </div>
 
       <div>
-        <button className="login-btn" onClick={onClickBtn}>
+        <button className="login-btn" onClick={onClickLogin}>
           로그인
         </button>
       </div>
