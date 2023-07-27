@@ -1,7 +1,10 @@
-import Main from "./pages/Main/main.tsx";
+import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import Mypage from "./pages/Mypage/mypage.tsx";
 import Admin from "./pages/Admin/admin.tsx";
 import { Route, Routes } from "react-router-dom";
+import Main from "./pages/Main/main.tsx";
+import SignUpPage from "./pages/SignUpPage/SignUpPage.tsx";
+import "./App.css";
 // import ProtectedRoute from "./Components/ProtectedRoute.tsx";
 
 function App() {
