@@ -4,6 +4,8 @@ import MyDateRangePicker from "../../Components/Calendar-input/Calendar.tsx";
 
 export default function Main() {
   const [visibility, setVisibility] = useState(false);
+
+
   return (
     <>
         <h1>Main</h1>
