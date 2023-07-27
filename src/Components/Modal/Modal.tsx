@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-
 import "./Modal.scss";
 
 interface ModalProps {
