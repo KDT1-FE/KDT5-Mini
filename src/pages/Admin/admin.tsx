@@ -1,7 +1,11 @@
+import styles from "./adminpage.module.scss";
+
 export default function Admin() {
   return (
     <>
-      <h1>Admin</h1>
+      <div className={styles.section}>
+        <h1>Adminpage</h1>
+      </div>
     </>
-  )
+  );
 }

@@ -1,0 +1,84 @@
+{
+  "response": [
+    {
+      "id": 1,
+      "name": "김아무",
+      "category": "연차",
+      "startDate": "2023-06-09",
+      "endDate": "2023-06-10",
+      "reason": "경조사 휴가"
+    },
+    {
+      "id": 2,
+      "name": "이아무",
+      "category": "연차",
+      "startDate": "2023-06-02",
+      "endDate": "2023-06-05",
+      "reason": "기타 휴가"
+    },
+    {
+      "id": 3,
+      "name": "박아무",
+      "category": "연차",
+      "startDate": "2023-10-27",
+      "endDate": "2023-10-31",
+      "reason": "병가 휴가"
+    },
+    {
+      "id": 4,
+      "name": "손아무",
+      "category": "연차",
+      "startDate": "2023-01-05",
+      "endDate": "2023-01-07",
+      "reason": "연차유급 휴가"
+    },
+    {
+      "id": 5,
+      "name": "최아무",
+      "category": "연차",
+      "startDate": "2023-03-13",
+      "endDate": "2023-03-14",
+      "reason": "병가 휴가"
+    },
+    {
+      "id": 6,
+      "name": "김이나",
+      "category": "당직",
+      "startDate": "2023-06-05",
+      "endDate": "2023-06-06",
+      "reason": "당직"
+    },
+    {
+      "id": 7,
+      "name": "이이나",
+      "category": "당직",
+      "startDate": "2023-06-15",
+      "endDate": "2023-06-16",
+      "reason": "당직"
+    },
+    {
+      "id": 8,
+      "name": "박이나",
+      "category": "당직",
+      "startDate": "2023-07-03",
+      "endDate": "2023-07-04",
+      "reason": "당직"
+    },
+    {
+      "id": 9,
+      "name": "손이나",
+      "category": "당직",
+      "startDate": "2023-06-07",
+      "endDate": "2023-06-07",
+      "reason": "당직"
+    },
+    {
+      "id": 10,
+      "name": "최이나",
+      "category": "당직",
+      "startDate": "2023-07-12",
+      "endDate": "2023-07-12",
+      "reason": "당직"
+    }
+  ]
+}
