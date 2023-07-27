@@ -36,7 +36,7 @@ declare interface MyDataType {
 }
 declare interface MyDataUser {
   duty: any;
-  annual: any;
+  annual: any ;
   name:string,
   annualBalance:number,
 }
