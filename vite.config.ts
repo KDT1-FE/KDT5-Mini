@@ -11,4 +11,8 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: `${__dirname}/src` }],
   },
+  css: {
+    modules: {}, // CSS 모듈 사용 여부 설정
+    preprocessorOptions: {}, // CSS 전처리기 설정
+  },
 });
