@@ -1,3 +1,4 @@
+import styles from "./mypage.module.scss";
 
 
 export default function Mypage() {
@@ -9,8 +10,9 @@ export default function Mypage() {
   */
   return (
     <>
-      <h1>MyPage</h1>
+      <div className={styles.section}>
+        <h1>MyPage</h1>
+      </div>
     </>
   );
 }
-
