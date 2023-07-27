@@ -1,6 +1,8 @@
+
 import useDataQuery from "../../Hooks/useData-Query.tsx";
 import { DateCount } from "../../Components/Common/DateCount.ts";
 /*
+>>>>>>> origin/main
   - 개인별
     1. 연차 목록을 리스트 한다.- 리액트 쿼리를 사용하여 캐쉬 저장
     2. 당직 목록을 리스트 한다.
@@ -70,4 +72,10 @@ export default function Mypage() {
     </>
   );
 }
-
+export function DateCount({ startDate, endDate }:{startDate:string,endDate:string} )  {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffInTime = end.getTime() - start.getTime();
+  const diffInDays = diffInTime / (1000 * 3600 * 24);
+  return {diffInDays}
+}
