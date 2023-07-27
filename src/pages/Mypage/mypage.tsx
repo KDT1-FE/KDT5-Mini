@@ -48,8 +48,9 @@ export default function Mypage() {
             {user.annual.map((annualItem: AnnualType) => (
               <li key={annualItem.id}>
                 {annualItem.reason}, 연차 시작일: {annualItem.startDate}, 연차 마지막일: {annualItem.endDate},
+                연차사용날짜:<p><DateCount startDate={annualItem.startDate} endDate={annualItem.endDate} /></p>
                 승인여부: {annualItem.status}
-                <p>연차 사용날짜: <DateCount startDate={annualItem.startDate} endDate={annualItem.endDate} /></p>
+
               </li>
             ))}
           </ul>
@@ -71,11 +72,4 @@ export default function Mypage() {
       ))}
     </>
   );
-}
-export function DateCount({ startDate, endDate }:{startDate:string,endDate:string} )  {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const diffInTime = end.getTime() - start.getTime();
-  const diffInDays = diffInTime / (1000 * 3600 * 24);
-  return {diffInDays}
 }

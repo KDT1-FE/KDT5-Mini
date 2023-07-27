@@ -12,5 +12,5 @@ export function DateCount({ startDate, endDate }: { startDate: string, endDate: 
   const diffInDays = end.diff(start, 'day');
   // const calDays = totalAnnual - diffInDays
   // console.log(diffInDays);
-  return diffInDays+1
+  return diffInDays +1
 }
