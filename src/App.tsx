@@ -6,7 +6,6 @@ import Admin from "./pages/Admin/admin.tsx";
 import { Route, Routes } from "react-router-dom";
 // import ProtectedRoute from "@/routes/ProtectedRoute";
 
-
 function App() {
   return (
     <Routes>
