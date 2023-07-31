@@ -111,7 +111,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div>
+      <div className="btnWrap">
         <button className="login-btn" onClick={onClickLogin}>
           로그인
         </button>
