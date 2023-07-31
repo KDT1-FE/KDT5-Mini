@@ -8,9 +8,8 @@ const __dirname = path.resolve();
 export default defineConfig({
   plugins: [react(), sassDts()],
   resolve: {
-    alias: [{ find: "@", replacement: `${__dirname}/src` }],
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    }
   },
-  server:{
-    port: 3000
-  }
 });

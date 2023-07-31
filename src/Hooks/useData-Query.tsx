@@ -1,12 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyPage } from "../Api/api.ts";
+import { getMyPage, getUser } from "../Api/api.ts";
+import { useMyStore, useUserStore } from "@/Store/store.ts";
 
 export default function useDataQuery() {
 
-  const getPageData =
-    useQuery(['myData'], getMyPage,{staleTime: 1000 * 60})
+  const addUser = useUserStore(state => state.addUser);
+  const addMyData = useMyStore(state => state.addMyData);
 
-  return { getPageData,};
+  const getUserData = useQuery(["userData"], () => {
+      return getUser().then( (res)=>{
+        res.forEach((item: User) => addUser(item.email, item.password, item.name, item.joinDate));
+        return res
+      });
+    }
+  ,{staleTime: 1000 * 60});
+
+  const getPageData = useQuery(['myData'],()=> {
+    return getMyPage().then(res => {
+      addMyData(res)
+      return res
+    })
+  },{staleTime: 1000 * 60})
+
+
+  return { getPageData, getUserData };
 }
-
-
