@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyPage } from "../Api/api.ts";
+import { getMyPage } from "../API/apis.ts";
 
 export default function useDataQuery() {
 

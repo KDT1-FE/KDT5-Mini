@@ -10,7 +10,8 @@ import "./App.css";
 function App() {
   return (
   <Routes>
-    <Route path="/" element={<Main />} />
+    <Route path={'/'} element={<LoginPage />} />
+    <Route path="/main" element={<Main />} />
     <Route path={'/mypage'} element={<Mypage />} />
       {/* <Route path={"/admin"} element={<ProtectedRoute adminRequired={true} element={<Admin />}} /> */}
   </Routes>
