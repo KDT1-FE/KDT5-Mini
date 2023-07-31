@@ -1,18 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import sassDts from "vite-plugin-sass-dts";
-import mkcert from "vite-plugin-mkcert";
 import path from "path";
 
 const __dirname = path.resolve();
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), sassDts(), mkcert()],
+  plugins: [react(), sassDts()],
   resolve: {
     alias: [{ find: "@", replacement: `${__dirname}/src` }],
   },
-  css: {
-    modules: {}, // CSS 모듈 사용 여부 설정
-    preprocessorOptions: {}, // CSS 전처리기 설정
-  },
+  server:{
+    port: 3000
+  }
 });

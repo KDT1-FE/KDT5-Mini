@@ -2,43 +2,39 @@ import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
+import eventData from '../../API/dummyAPI/restdayAll.json'
+
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
-
   const [view, setView] = useState(false); 
-
-
-  const events = [
-    { category: '연차', name: 'asd', start: '2023-07-01', end: '2023-07-05' },
-    { category: '당직', name: 'asd', start: '2023-07-10', end: '2023-07-15' },
-    { category: '당직', name: 'assd', start: '2023-07-10', end: '2023-07-15' },
-    { category: '당직', name: 'asd', start: '2023-07-10', end: '2023-07-15' },
-  ];
-
+  const [events, setEvents] = useState(() => {
+    if (Array.isArray(eventData.response)) {
+      // eventData.response가 주어진 JSON 데이터와 동일한 형태라면 그대로 사용
+      return eventData.response;
+    } else {
+      // 만약 다른 형태로 로드되었다면 여기서 가공하여 events로 설정
+      // 예: return eventData.someOtherProperty;
+      return [];
+    }
+  });
+  
+  
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event) => {
-    if (event.category === '연차') {
-      return {
-        ...event,
-        color: '#FEEFEC',
-        textColor: '#EA613C',
-        title: `• ${event.name}`,
-      };
-    } else if (event.category === '당직') {
-      return {
-        ...event,
-        color: '#EEF6F1',
-        textColor: '#3ACAB9',
-        title: `• ${event.name}`,
-      };
-    } else {
-      return event;
-    }
+    const { startDate, endDate, ...rest } = event;
+    return {
+      ...rest,
+      start: startDate,
+      end: endDate,
+      color: event.category === '연차' ? '#FEEFEC' : '#EEF6F1',
+      textColor: event.category === '연차' ? '#EA613C' : '#3ACAB9',
+      title: `• ${event.name}`,
+    };
   });
 
   // 카테고리 선택 버튼 클릭 시
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(selectedCategories.filter((c) => c !== category));
     } else {
@@ -50,7 +46,7 @@ const MainCalendar = () => {
   const filteredEvents =
     selectedCategories.includes('all')
       ? processedEvents
-      : processedEvents.filter((event) =>
+      : processedEvents.filter((event: { category: string; }) =>
           selectedCategories.includes(event.category)
         );
 
@@ -77,9 +73,35 @@ const MainCalendar = () => {
   const formattedDate = `${year}. ${month}. ${day}. ${dayOfWeek}`;
     
 
+    // headerToolbar 커스터마이즈
+    const headerToolbarOptions = {
+      left: 'prev',
+      center: 'title',
+      right: 'next',
+    };
+
+    const handleAddEvent = () => {
+      // 추후에 일정 등록하기 추가
+      console.log('일정 등록하기 버튼 클릭');
+
+      const newEvent = {
+        id: 3,
+        name: '새로운 이벤트',
+        category: '연차',
+        startDate: '2023-08-10',
+        endDate: '2023-08-15',
+        reason: '새로운 이벤트 사유',
+      };
+  
+      // 기존 이벤트들과 새 이벤트를 합쳐서 events 상태를 업데이트
+      setEvents((prevEvents) => [...prevEvents, newEvent]);
+    };
+
+
 
   return (
-    <div>
+    <div className='mainWrap'>
+      <div className='selectWrap'>
       <ul className='UserInfo'
         onClick={() => {setView(!view)}}> 
         반가워요, {userName} 님!       
@@ -93,7 +115,7 @@ const MainCalendar = () => {
 
       <div className='Today'>     {/* 오늘 날짜 렌더링 */}
         <h1>Today</h1>  
-        {formattedDate}
+        <span>{formattedDate}</span> 
       </div>
       <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
         <h1>Calendar</h1>
@@ -110,35 +132,52 @@ const MainCalendar = () => {
       </div>
       <div className='SelectCategories'>
         <h1>Categories</h1>
-        <label>            {/* 연차 카테고리 선택 박스   */}
-          <input
-            type='checkbox'
-            checked={selectedCategories.includes('연차')}
-            onChange={() => handleCategoryChange('연차')}
-          />
-          연차
-        </label>
-        <span>{selectedAnnualLeave}</span>      {/* 연차 리스트 카운트 */}
-        <label>           {/* 당직 카테고리 선택 박스   */}
-          <input
-            type='checkbox'
-            checked={selectedCategories.includes('당직')}
-            onChange={() => handleCategoryChange('당직')}
-          />
-          당직
-        </label>
-        <span>{selectedDuty}</span>          {/* 당직 리스트 카운트 */}
+        <div>
+          <label>            {/* 연차 카테고리 선택 박스   */}
+            <input
+              type='checkbox'
+              checked={selectedCategories.includes('연차')}
+              onChange={() => handleCategoryChange('연차')}
+            />
+            연차
+            <span className='LeaveBox'>{selectedAnnualLeave}</span> 
+                        {/* 연차 리스트 카운트 */}
+          </label>
+          
+        </div>
+        <div>
+          <label>           {/* 당직 카테고리 선택 박스   */}
+            <input
+              type='checkbox'
+              checked={selectedCategories.includes('당직')}
+              onChange={() => handleCategoryChange('당직')}
+            />
+            당직
+            <span className='dutyBox'>{selectedDuty}</span>          
+          {/* 당직 리스트 카운트 */}
+          </label>
+
+        </div>
       </div>
+      <button 
+      className='addScheduleBtn'
+      onClick={handleAddEvent}>
+        <span>일정 등록하기</span>
+        </button>
 
+      </div>
+      
 
-
-
+      <div className='calendarWrap'>
       <FullCalendar        
         plugins={[dayGridPlugin]}
         initialView='dayGridMonth'
-        height={700}
-        events={filteredEvents}
+        height={636}
+        events={filteredEvents} 
+        headerToolbar={headerToolbarOptions}
       />    {/* 캘린더 렌더링 */}
+      </div>
+
 
     </div>
   );

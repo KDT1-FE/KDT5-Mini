@@ -6,5 +6,5 @@ export default function Main() {
     <>
       <MainCalendar></MainCalendar>
     </>
-  )
+  );
 }
