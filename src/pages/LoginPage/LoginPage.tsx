@@ -91,8 +91,11 @@ const LoginPage = () => {
           )}
         </div>
       </div>
-      <div>
-        <button className="login-btn">로그인</button>
+
+      <div className="btnWrap">
+        <button className="login-btn" onClick={onClickLogin}>
+          로그인
+        </button>
       </div>
     </form>
   );
