@@ -1,0 +1,59 @@
+@import "src/_variables.scss";
+
+.list {
+  position: relative;
+  width: 99%;
+  height: 36px;
+  margin: auto;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $black-color;
+  font-size: 14px;
+  font-weight: 400;
+  .list_option {
+    width: 85%;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    background-color: blue;
+    .text {
+      width: 100%;
+      &.name {
+        width: 25%;
+        background-color: orange;
+        &::after {
+          content: "|";
+          float: right;
+          color: $sub-color;
+        }
+      }
+      &.period {
+        width: 50%;
+        background-color: red;
+        &::after {
+          content: "|";
+          float: right;
+          color: $sub-color;
+        }
+      }
+      &.count {
+        width: 25%;
+        background-color: greenyellow;
+        &::after {
+          content: "|";
+          float: right;
+          color: $sub-color;
+        }
+      }
+    }
+  }
+  .permission {
+    background-color: $point-color;
+    color: $white-color;
+    padding: 4px 10px;
+    border-radius: 5px;
+    margin-right: 30px;
+  }
+}
