@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const getNewRefreshToken = async () => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
   const result = await axios.post(
     `${url}/refresh`,
@@ -17,3 +17,4 @@ export const getNewRefreshToken = async () => {
   );
   return result.data;
 };
+

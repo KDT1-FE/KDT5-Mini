@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
-import eventData from '../../API/dummyAPI/restdayAll.json'
+import eventData from '../../API/data/user.json'
 
 
 const MainCalendar = () => {
