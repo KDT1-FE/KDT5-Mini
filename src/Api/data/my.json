@@ -1,17 +1,71 @@
 [
   {
     "name": "고길동",
-    "annualBalance": 20,
-    "annual":[
-      {"id":1,"reason":"경조사","startDate":"2023-01-09","endDate":"2023-01-15","status":"완료"},
-      {"id":2,"reason":"기 타","startDate":"2023-03-10","endDate":"2023-03-20","status":"완료"},
-      {"id":3,"reason":"병 가","startDate":"2023-03-24","endDate":"2023-03-28","status":"완료"},
-      {"id":4,"reason":"병 가","startDate":"2023-02-23","endDate":"2022-02-27","status":"대기"},
-      {"id":5,"reason":"유 급","startDate":"2023-08-05","endDate":"2022-08-15","status":"대기"}
+    "annualBalance": 23,
+    "annual": [
+      {
+        "id": 0,
+        "reason": "경조사",
+        "startDate": "2023-01-09",
+        "endDate": "2023-01-15",
+        "status": "완료"
+      },
+      {
+        "id": 1,
+        "reason": "기 타",
+        "startDate": "2023-03-10",
+        "endDate": "2023-03-20",
+        "status": "완료"
+      },
+      {
+        "id": 2,
+        "reason": "병 가",
+        "startDate": "2023-03-24",
+        "endDate": "2023-03-28",
+        "status": "완료"
+      },
+      {
+        "id": 3,
+        "reason": "병 가",
+        "startDate": "2023-02-23",
+        "endDate": "2023-02-27",
+        "status": "대기"
+      }
     ],
-    "duty":[
-      {"id":1,"startDate":"2023-03-10","endDate":"2023-03-10","status":"대기"},
-      {"id":2,"startDate":"2023-01-19","endDate":"2023-01-19","status":"대기"}
+    "duty": [
+      {
+        "id": 1,
+        "startDate": "2023-03-10",
+        "endDate": "2023-03-10",
+        "status": "대기"
+      },
+      {
+        "id": 2,
+        "startDate": "2023-01-19",
+        "endDate": "2023-01-19",
+        "status": "대기"
+      }
+    ]
+  },
+  {
+    "name": "아무개",
+    "annualBalance": 23,
+    "annual": [
+      {
+        "id": 4,
+        "reason": "유 급",
+        "startDate": "2023-08-05",
+        "endDate": "2023-08-15",
+        "status": "대기"
+      }
+    ],
+    "duty": [
+      {
+        "id": 1,
+        "startDate": "2023-01-10",
+        "endDate": "2023-01-10",
+        "status": "완료"
+      }
     ]
   }
 ]
