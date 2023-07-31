@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
-import users from "./signup.json";
-import { useNavigate } from "react-router-dom";
-import { login } from "../../Components/apis/login";
+import { useCookies } from "react-cookie";
+import { login } from "../../API/apis";
 
-export default function LoginPage() {
-  const navigate = useNavigate();
-
+const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
 
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -37,44 +35,28 @@ export default function LoginPage() {
     }
   };
 
-  // 약식 (// 로그인 처리 api)
-  // const onClickBtn = () => {
-  //   const user = users.find((user) => user.email === email);
-  //   if (user) {
-  //     if (user.password === password) {
-  //       alert("로그인 성공");
-  //       navigate("/main");
-  //     } else {
-  //       alert("비밀번호 틀림");
-  //     }
-  //   } else {
-  //     alert("해당 이메일로 가입된 계정이 없음");
-  //     navigate("/signup");
-  //   }
-  // };
-
   // 로그인 처리 api
-  const onClickLogin = async () => {
+  const onClickLogin = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const result = await login(email, password);
-      const { accessToken, refreshToken } = result;
-      console.log(accessToken, refreshToken);
-      if (result && result.accessToken && result.refreshToken) {
-        localStorage.setItem("access", accessToken);
-        localStorage.setItem("refresh", refreshToken);
-        navigate("/main");
-      } else {
-        console.log("error");
+      const { AC_TOKEN, RF_TOKEN } = result;
+      if (result) {
+        setCookie("AC_TOKEN", AC_TOKEN, { path: "/" });
+        setCookie("RF_TOKEN", RF_TOKEN, { path: "/" });
+        alert("로그인 성공");
+        // navigate("/main");
       }
     } catch (error) {
-      console.log(error);
+      alert("로그인 실패");
+      console.log("LoginPageError: ", error);
+      console.log(email, password);
     }
   };
 
   return (
-    <div className="loginPage">
+    <form className="loginPage" onSubmit={onClickLogin}>
       <div className="titleWrap">로그인</div>
-
       <div className="contentWrap">
         <div className="inputTitle-email">이메일 주소</div>
         <div className="inputWrap">
@@ -90,7 +72,6 @@ export default function LoginPage() {
             <div>올바른 이메일 형식을 입력해주세요.</div>
           )}
         </div>
-
         <div className="inputTitle-password">비밀번호</div>
         <div className="inputWrap">
           <input
@@ -116,6 +97,8 @@ export default function LoginPage() {
           로그인
         </button>
       </div>
-    </div>
+    </form>
   );
-}
+};
+
+export default LoginPage;

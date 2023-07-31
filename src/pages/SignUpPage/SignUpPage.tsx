@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { signUp } from "../../Components/apis/signup";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { signUp } from "../../API/apis";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ export default function SignUpPage() {
 
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
       case "name":
@@ -45,17 +45,19 @@ export default function SignUpPage() {
     }
   };
 
-  const submitClick = async (event) => {
-    event.preventDefault()
+  const onSignupSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     const join = `${selectedYear}-${selectedMonth
       .toString()
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
     try {
-      await signUp(email, password, name, join);
-      navigate("/main");
+      const response = await signUp(email, password, name, join);
+      if (response) {
+        navigate("/main");
+      }
       console.log(email, password, name, join);
     } catch (error) {
-      console.log(error);
+      console.log("signUpPageError: ", error);
     }
   };
 
@@ -63,9 +65,10 @@ export default function SignUpPage() {
     <div className="signUpPage">
       <div className="titleWrap">회원가입</div>
       <section className="section-form">
-        <form onSubmit={submitClick}>
+        <form onSubmit={onSignupSubmit}>
           <div>가입 정보</div>
           <div>
+            <div>이름</div>
             <input
               name="name" // name 속성 추가
               value={name}
@@ -73,9 +76,10 @@ export default function SignUpPage() {
               placeholder="이름 | 닉네임"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {<div>사용할 수 없는 닉네임입니다.</div>}
+            {<div style={{ color: "red" }}>사용할 수 없는 닉네임입니다.</div>}
           </div>
           <div>
+            <div>이메일</div>
             <input
               name="email" // name 속성 추가
               value={email}
@@ -83,27 +87,36 @@ export default function SignUpPage() {
               placeholder="이메일 @email.com"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {<div>사용할 수 없는 이메일입니다.</div>}
+            {
+              <div style={{ color: "red" }}>
+                이메일 형식이 올바르지 않습니다.
+              </div>
+            }
           </div>
           <div>
+            <div>비밀번호</div>
             <input
-              name="password" // name 속성 추가
+              name="password"
               value={password}
               type="password"
-              placeholder="비밀번호 입력(유효성 검사 추후 적용)"
+              placeholder="비밀번호 입력"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {<div>비밀번호 유효성 검사</div>}
           </div>
           <div>
+            <div>비밀번호 확인</div>
             <input
-              name="confirmPassword" // name 속성 추가
+              name="confirmPassword"
               value={confirmPassword}
               type="password"
               placeholder="비밀번호 재입력"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {<div>비밀번호가 일치하지 않습니다.</div>}
+            {password !== confirmPassword ? (
+              <div style={{color: 'red'}}>비밀번호가 일치하지 않습니다.</div>
+            ) : (
+              ""
+            )}
           </div>
 
           <section className="section-date-pick">
