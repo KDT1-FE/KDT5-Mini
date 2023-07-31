@@ -14,7 +14,7 @@ export async function getMyPage() {
   }
 }
 
-// login 호출
+// 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
     const response = await axios.post("/back-end-api/login", {
@@ -23,7 +23,26 @@ export const login = async (email: string, password: string) => {
     });
     return response.data;
   } catch (error) {
-    console.log("loginApi: ", error);
+    console.log("loginApi호출 : ", error);
   }
 };
 
+// 회원가입 요청
+export const signUp = async (
+  email: string,
+  password: string,
+  name: string,
+  join: string,
+) => {
+  try {
+    const response = await axios.post("/back-end-api/signup", {
+      email,
+      password,
+      name,
+      join,
+    });
+    return response.data;
+  } catch (error) {
+    console.log("signupAPI호출 :", error);
+  }
+};
