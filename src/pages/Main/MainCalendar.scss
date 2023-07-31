@@ -1,0 +1,147 @@
+@import '/src/variables';
+
+.calendarWrap{
+  width: 761px;
+  height: 700px;
+  background-color: $white-color;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+
+.mainWrap {
+  display: flex;
+  border-radius: 20px;
+  h1{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "montserrat";
+    color: $black-color;
+    margin-bottom: 24px;
+  }
+}
+
+
+.mainWrap {
+  width: 1080px; 
+  height: 850px;
+  background-color: $light-Green-BG-color;
+  margin: 0 auto;
+}
+
+
+
+.fc .fc-toolbar{
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.fc-toolbar-title{
+  padding: 0 20px;
+}
+
+.fc-view-harness-active{
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+
+
+.Today{
+  margin-bottom: 35px;
+  width: 220px;
+}
+
+.Today span{
+  font-size: 18px;
+  font-family: "montserrat";
+}
+
+.SelectCanlendar {
+  border-top: 1px solid $green-BG-color;
+  padding-top: 22px;
+  width: 220px;
+}
+
+.fc-daygrid-block-event .fc-event-title{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+.SelectCanlendar label {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "noto-sans";
+}
+
+.SelectCategories{
+  border-top: 1px solid $green-BG-color;
+  width: 220px;
+  margin-top: 30px;
+}
+
+.SelectCategories h1{
+  margin-top: 24px;
+}
+
+
+.SelectCategories{
+  label{
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "noto-sans";
+  }
+}
+
+
+.SelectCategories {
+  .LeaveBox,
+  .dutyBox{
+    margin-left: 100px;
+    padding: 3px 15px;
+    border: none;
+    background-color: $green-BG-color;
+    color: $main-color;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.SelectCategories input{
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+}
+
+
+.addScheduleBtn{
+  width: 220px;
+  height: 54px;
+  background-color: $point-color;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: $white-color;
+  box-shadow: 4px 4px 30px rgba($color: #497174, $alpha: 0.3);
+  cursor: pointer;
+}
+
+
+
+.fc .fc-button-primary {
+  background-color: $white-green;
+  border: none;
+  color: $sub-color;
+}
+
+.fc .fc-toolbar-title{
+  font-size: 36px;
+  font-weight: bold;
+}
+
