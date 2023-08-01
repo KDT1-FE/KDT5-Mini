@@ -1,10 +1,6 @@
 import { PropsWithChildren } from "react";
 import "./Modal.scss";
 
-interface ModalProps {
-  visibility: boolean;
-  toggle: (param: boolean) => void;
-}
 
 export default function Modal(props: PropsWithChildren<ModalProps>) {
   return (
