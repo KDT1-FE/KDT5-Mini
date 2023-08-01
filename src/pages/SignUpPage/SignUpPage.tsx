@@ -1,36 +1,59 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { signUp } from "../../API/apis";
+import "./SignUpPage.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [isNameValid, setIsNameValid] = useState<boolean>(false);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedDay, setSelectedDay] = useState<string>("");
   const currentYear = new Date().getFullYear();
   const months = Array.from({ length: 12 }, (_, index) => index + 1); // index가 0부터 시작이니까 +1
   const days = Array.from({ length: 31 }, (_, index) => index + 1);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ]*$/; // 자음, 모음, 한글
+  const emailRegex = // @ . 포함
+    /^(([^<>()\\[\].,;:\s@"]+(\.[^<>()\\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+  const passwordRegex = // 영문, 숫자, 특수문자 포함 8자 이상
+    /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
       case "name":
         setName(value);
+        setIsNameValid(koreanRegex.test(value));
         break;
       case "email":
         setEmail(value);
+        setIsEmailValid(emailRegex.test(value));
         break;
       case "password":
         setPassword(value);
+        setIsPasswordValid(passwordRegex.test(value));
         break;
       case "confirmPassword":
         setConfirmPassword(value);
         break;
+      default:
+        break;
+    }
+  };
+
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    switch (name) {
       case "year":
         setSelectedYear(value);
         break;
@@ -45,17 +68,35 @@ export default function SignUpPage() {
     }
   };
 
-  const onSignupSubmit = async (event: FormEvent) => {
+  const checkEmptyForm = () => {
+    return (
+      email.trim() !== "" &&
+      password.trim() !== "" &&
+      confirmPassword.trim() !== "" &&
+      name.trim() !== "" &&
+      selectedYear !== "" &&
+      selectedMonth !== "" &&
+      selectedDay !== ""
+    );
+  };
+
+  const onSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!checkEmptyForm()) {
+      alert("입력사항을 모두 채워주세요.");
+      return;
+    }
     const join = `${selectedYear}-${selectedMonth
       .toString()
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
     try {
       const response = await signUp(email, password, name, join);
       if (response) {
-        navigate("/main");
+        // navigate("/main");
+        alert("로그인 성공");
+      } else {
+        alert("로그인 실패");
       }
-      console.log(email, password, name, join);
     } catch (error) {
       console.log("signUpPageError: ", error);
     }
@@ -66,20 +107,22 @@ export default function SignUpPage() {
       <div className="titleWrap">회원가입</div>
       <section className="section-form">
         <form onSubmit={onSignupSubmit}>
-          <div>가입 정보</div>
-          <div>
-            <div>이름</div>
+          <div className="input-title">가입 정보</div>
+          <div className="inputWrap">
             <input
               name="name" // name 속성 추가
               value={name}
               type="text"
-              placeholder="이름 | 닉네임"
+              placeholder="이름"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {<div style={{ color: "red" }}>사용할 수 없는 닉네임입니다.</div>}
-          </div>
-          <div>
-            <div>이메일</div>
+          </div>{" "}
+          {!isNameValid && name.length > 0 && (
+            <div className="inputErrorMessage" style={{ color: "red" }}>
+              이름은 한글로 작성해주세요.
+            </div>
+          )}
+          <div className="inputWrap">
             <input
               name="email" // name 속성 추가
               value={email}
@@ -87,14 +130,13 @@ export default function SignUpPage() {
               placeholder="이메일 @email.com"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {
-              <div style={{ color: "red" }}>
-                이메일 형식이 올바르지 않습니다.
-              </div>
-            }
           </div>
-          <div>
-            <div>비밀번호</div>
+          {!isEmailValid && email.length > 0 && (
+            <div className="inputErrorMessage" style={{ color: "red" }}>
+              이메일 형식이 올바르지 않습니다.
+            </div>
+          )}
+          <div className="inputWrap">
             <input
               name="password"
               value={password}
@@ -103,8 +145,12 @@ export default function SignUpPage() {
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
           </div>
-          <div>
-            <div>비밀번호 확인</div>
+          {!isPasswordValid && password.length > 0 && (
+            <div className="inputErrorMessage" style={{ color: "red" }}>
+              영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
+            </div>
+          )}
+          <div className="inputWrap">
             <input
               name="confirmPassword"
               value={confirmPassword}
@@ -112,19 +158,21 @@ export default function SignUpPage() {
               placeholder="비밀번호 재입력"
               onChange={handleInputChange} // onChange 이벤트 핸들러 연결
             />
-            {password !== confirmPassword ? (
-              <div style={{color: 'red'}}>비밀번호가 일치하지 않습니다.</div>
-            ) : (
-              ""
-            )}
           </div>
-
+          {password !== confirmPassword ? (
+            <div className="inputErrorMessage" style={{ color: "red" }}>
+              비밀번호가 일치하지 않습니다.
+            </div>
+          ) : (
+            ""
+          )}
           <section className="section-date-pick">
-            <div>입사일</div>
+            <div className="input-title">입사일</div>
             <select
+              className="select-long"
               name="year"
               value={selectedYear}
-              onChange={handleInputChange}
+              onChange={handleSelectChange}
             >
               <option value="year">연도</option>
               {Array.from(
@@ -138,9 +186,10 @@ export default function SignUpPage() {
               <option value={currentYear}>{currentYear}</option>
             </select>
             <select
+              className="select-short"
               name="month"
               value={selectedMonth}
-              onChange={handleInputChange}
+              onChange={handleSelectChange}
             >
               <option value="month">월</option>
               {months.map((month) => (
@@ -149,7 +198,12 @@ export default function SignUpPage() {
                 </option>
               ))}
             </select>
-            <select name="day" value={selectedDay} onChange={handleInputChange}>
+            <select
+              className="select-short"
+              name="day"
+              value={selectedDay}
+              onChange={handleSelectChange}
+            >
               <option value="day">일</option>
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -158,8 +212,13 @@ export default function SignUpPage() {
               ))}
             </select>
           </section>
-          <div className="signup-btn">
-            <button type="submit">가입하기</button>
+          <div className="btn_Wrap">
+            <div className="cancel_btn">
+              <button onClick={() => navigate("/")}>취소하기</button>
+            </div>
+            <div className="signup_btn">
+              <button type="submit">가입하기</button>
+            </div>
           </div>
         </form>
       </section>
