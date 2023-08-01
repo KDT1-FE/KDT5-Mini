@@ -33,25 +33,37 @@ export default function Admin() {
             <div className={styles.search_box}>
               <span className={styles.search_option}>
                 <button>이름</button>
-                <button className={styles.btn}>직급</button>
+                <button className={styles.btn}>제목</button>
               </span>
-              <input
-                className={styles.search_bar}
-                type="text"
-                placeholder="검색"
-              />
+              <div className={styles.search_bar}>
+                <input
+                  className={styles.search_input}
+                  type="text"
+                  placeholder="검색..."
+                />
+                <img
+                  className={styles.search_icon}
+                  src="../../assets/search_icon.png"
+                  alt="search icon"
+                />
+              </div>
             </div>
           </header>
           <div className={styles.list_info}>
-            <section className={`${styles.lists_box} ${styles.dayoff_box}`}>
+            <section className={styles.lists_box}>
               <div className={styles.lists_title}>연차 내역</div>
               <div className={styles.lists_index}>
-                <span>상신인</span>
-                <span>사용 날짜</span>
-                <span>개수</span>
-                <span>상태</span>
+                <span className={styles.name}>상신인</span>
+                <span className={styles.title}>제목</span>
+                <span className={styles.period}>사용 날짜</span>
+                <span className={styles.count}>개수</span>
+                <span className={styles.permission}>상태</span>
               </div>
               <ol className={styles.lists}>
+                <DayoffList></DayoffList>
+                <DayoffList></DayoffList>
+                <DayoffList></DayoffList>
+                <DayoffList></DayoffList>
                 <DayoffList></DayoffList>
                 <DayoffList></DayoffList>
                 <DayoffList></DayoffList>
@@ -61,11 +73,16 @@ export default function Admin() {
             <section className={`${styles.lists_box} ${styles.duty_box}`}>
               <div className={styles.lists_title}>당직 내역</div>
               <div className={styles.lists_index}>
-                <span>상신인</span>
-                <span>사용 날짜</span>
-                <span>상태</span>
+                <span className={styles.duty_name}>상신인</span>
+                <span className={styles.duty_title}>제목</span>
+                <span className={styles.duty_period}>사용 날짜</span>
+                <span className={styles.duty_permission}>상태</span>
               </div>
               <ol className={styles.lists}>
+                <DutyList></DutyList>
+                <DutyList></DutyList>
+                <DutyList></DutyList>
+                <DutyList></DutyList>
                 <DutyList></DutyList>
                 <DutyList></DutyList>
                 <DutyList></DutyList>

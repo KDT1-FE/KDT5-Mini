@@ -55,49 +55,55 @@ const LoginPage = () => {
   };
 
   return (
-    <form className="loginPage" onSubmit={onClickLogin}>
-      <div className="titleWrap">로그인</div>
-      <div className="contentWrap">
-        <div className="inputTitle-email">이메일 주소</div>
-        <div className="inputWrap">
-          <input
-            className="input"
-            placeholder="이메일 @email.com"
-            value={email}
-            onChange={handleEmail}
-          />
-        </div>
-        <div className="inputErrorMessage">
-          {!emailValid && email.length > 0 && (
-            <div>올바른 이메일 형식을 입력해주세요.</div>
-          )}
-        </div>
-        <div className="inputTitle-password">비밀번호</div>
-        <div className="inputWrap">
-          <input
-            className="input"
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={handlePassword}
-          />
-        </div>
-        <div className="inputErrorMessage">
-          {!passwordValid && password.length > 0 && (
-            <div>
-              영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
-              필요)
+    <div className="login_page">
+      <form className="login_box" onSubmit={onClickLogin}>
+        <div className="title_Wrap">로그인</div>
+        <div className="content_Wrap">
+          <div className="content_box">
+            <div className="inputTitle">이메일 주소</div>
+            <div className="inputWrap">
+              <input
+                className="input"
+                placeholder="이메일 @email.com"
+                value={email}
+                onChange={handleEmail}
+              />
             </div>
-          )}
+            <div className="inputErrorMessage">
+              {!emailValid && email.length > 0 && (
+                <div>올바른 이메일 형식을 입력해주세요.</div>
+              )}
+            </div>
+          </div>
+          <div className="content_box">
+            <div className="inputTitle">비밀번호</div>
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={handlePassword}
+              />
+            </div>
+            <div className="inputErrorMessage">
+              {!passwordValid && password.length > 0 && (
+                <div>
+                  영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
+                  필요)
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="btnWrap">
-        <button className="login-btn" onClick={onClickLogin}>
-          로그인
-        </button>
-      </div>
-    </form>
+        <div className="btn_Wrap">
+          <button className="login_btn" onClick={onClickLogin}>
+            로그인
+          </button>
+          <div className="signup_btn">회원가입</div>
+        </div>
+      </form>
+    </div>
   );
 };
 

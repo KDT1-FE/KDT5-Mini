@@ -5,7 +5,6 @@ declare const classNames: {
   readonly name: "name";
   readonly title: "title";
   readonly period: "period";
-  readonly count: "count";
   readonly permission: "permission";
 };
 export = classNames;

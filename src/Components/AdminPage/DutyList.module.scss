@@ -28,7 +28,7 @@
         }
       }
       &.title {
-        width: 37%;
+        width: 46%;
         &::after {
           content: "|";
           float: right;
@@ -36,15 +36,7 @@
         }
       }
       &.period {
-        width: 31%;
-        &::after {
-          content: "|";
-          float: right;
-          color: $sub-color;
-        }
-      }
-      &.count {
-        width: 11%;
+        width: 33%;
         &::after {
           content: "|";
           float: right;
