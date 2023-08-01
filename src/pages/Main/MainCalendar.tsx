@@ -6,7 +6,6 @@ import eventData from '../../API/dummyAPI/restdayAll.json'
 import DetailModal from './detailModal';
 
 
-
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
   const [view, setView] = useState(false); 

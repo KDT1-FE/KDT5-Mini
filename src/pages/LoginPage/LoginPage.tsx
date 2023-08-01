@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
-import users from "./signup.json";
+import { useCookies } from "react-cookie";
+import { login } from "../../API/apis";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../Components/apis/login";
 
-export default function LoginPage() {
-  const navigate = useNavigate();
-
+const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
 
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -37,85 +38,78 @@ export default function LoginPage() {
     }
   };
 
-  // 약식 (// 로그인 처리 api)
-  // const onClickBtn = () => {
-  //   const user = users.find((user) => user.email === email);
-  //   if (user) {
-  //     if (user.password === password) {
-  //       alert("로그인 성공");
-  //       navigate("/main");
-  //     } else {
-  //       alert("비밀번호 틀림");
-  //     }
-  //   } else {
-  //     alert("해당 이메일로 가입된 계정이 없음");
-  //     navigate("/signup");
-  //   }
-  // };
-
   // 로그인 처리 api
-  const onClickLogin = async () => {
+  const onClickLogin = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const result = await login(email, password);
-      const { accessToken, refreshToken } = result;
-      console.log(accessToken, refreshToken);
-      if (result && result.accessToken && result.refreshToken) {
-        localStorage.setItem("access", accessToken);
-        localStorage.setItem("refresh", refreshToken);
-        navigate("/main");
-      } else {
-        console.log("error");
+      const { AC_TOKEN, RF_TOKEN } = result;
+      if (result) {
+        setCookie("AC_TOKEN", AC_TOKEN, { path: "/" });
+        setCookie("RF_TOKEN", RF_TOKEN, { path: "/" });
+        alert("로그인 성공");
+        // navigate("/main");
       }
     } catch (error) {
-      console.log(error);
+      alert("로그인 실패");
+      console.log("LoginPageError: ", error);
+      console.log(email, password);
     }
   };
 
   return (
-    <div className="loginPage">
-      <div className="titleWrap">로그인</div>
-
-      <div className="contentWrap">
-        <div className="inputTitle-email">이메일 주소</div>
-        <div className="inputWrap">
-          <input
-            className="input"
-            placeholder="이메일 @email.com"
-            value={email}
-            onChange={handleEmail}
-          />
-        </div>
-        <div className="inputErrorMessage">
-          {!emailValid && email.length > 0 && (
-            <div>올바른 이메일 형식을 입력해주세요.</div>
-          )}
-        </div>
-
-        <div className="inputTitle-password">비밀번호</div>
-        <div className="inputWrap">
-          <input
-            className="input"
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={handlePassword}
-          />
-        </div>
-        <div className="inputErrorMessage">
-          {!passwordValid && password.length > 0 && (
-            <div>
-              영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
-              필요)
+    <div className="login_page">
+      <form className="login_box" onSubmit={onClickLogin}>
+        <div className="title_Wrap">로그인</div>
+        <div className="content_Wrap">
+          <div className="content_box">
+            {/* <div className="inputTitle">이메일 주소</div> */}
+            <div className="inputWrap">
+              <input
+                className="input"
+                placeholder="이메일 @email.com"
+                value={email}
+                onChange={handleEmail}
+              />
             </div>
-          )}
+            <div className="inputErrorMessage">
+              {!emailValid && email.length > 0 && (
+                <div>올바른 이메일 형식을 입력해주세요.</div>
+              )}
+            </div>
+          </div>
+          <div className="content_box">
+            {/* <div className="inputTitle">비밀번호</div> */}
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={handlePassword}
+              />
+            </div>
+            <div className="inputErrorMessage">
+              {!passwordValid && password.length > 0 && (
+                <div>
+                  영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
+                  필요)
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div>
-        <button className="login-btn" onClick={onClickLogin}>
-          로그인
-        </button>
-      </div>
+        <div className="btn_Wrap">
+          <button className="login_btn" onClick={onClickLogin}>
+            로그인
+          </button>
+          <div className="signup_btn" onClick={() => navigate("/signup")}>
+            회원가입
+          </div>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default LoginPage;

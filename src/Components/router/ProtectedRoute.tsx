@@ -5,8 +5,8 @@ type ProtectedRouteProps = {
   adminRequired?: boolean;
 };
 
-export default function ProtectedRoute(
-  { element, adminRequired }: ProtectedRouteProps) {
+// export default function ProtectedRoute(
+//   { element, adminRequired }: ProtectedRouteProps) {
 
   // const { userInfo } = ;
 
@@ -17,4 +17,4 @@ export default function ProtectedRoute(
   //   return <Navigate to="/" replace />;
   // }
   // return <>{element}</>;
-}
+// }

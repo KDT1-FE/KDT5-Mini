@@ -1,7 +1,225 @@
 @import "src/_variables.scss";
 
-.section {
+.page {
+  position: relative;
+  top: 0;
+  padding-top: 100px;
+  padding-bottom: 50px;
   width: 100%;
-  height: 100%;
+  height: 125vh;
   background-color: $light-Green-BG-color;
+  .container {
+    margin: auto;
+    padding-top: 50px;
+    width: 1080px;
+    height: 830px;
+    border-radius: 40px;
+    background-color: $white-color;
+    box-shadow: 5px 5px 20px $main-color-30;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", "Noto Sans KR", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .admin_info {
+    width: 90%;
+    height: 60px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px 0;
+    .admin_name {
+      width: 200px;
+      height: 50px;
+      padding: 0 45px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 10px;
+      text-align: cetner;
+      background-color: $main-color;
+      color: $sub-color;
+      .admin_id {
+        color: $white-color;
+        font-size: 20px;
+        font-weight: 700;
+      }
+    }
+    .search_box {
+      position: relative;
+      width: 550px;
+      height: 50px;
+      display: flex;
+      justify-content: space-between;
+      .search_option {
+        width: 30%;
+        height: 100%;
+        margin-right: 20px;
+        border-radius: 10px;
+        background-color: $light-Green-BG-color;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        button {
+          width: 50%;
+          padding: 8px;
+          color: $sub-color;
+        }
+        .btn {
+          width: 65%;
+          &::before {
+            content: "|";
+            float: left;
+          }
+        }
+      }
+      .search_bar {
+        width: 70%;
+        height: 100%;
+        border-radius: 15px;
+        font-size: 14px;
+        padding: 10px 20px;
+        background-color: $light-Grey-color;
+        color: $main-color;
+        display: flex;
+        justify-content: space-between;
+        &::placeholder {
+          font-size: 14px;
+          color: $sub-color;
+        }
+        .search_icon {
+          margin: auto;
+          width: 24px;
+          height: 24px;
+          opacity: 30%;
+          cursor: pointer;
+        }
+        .search_input {
+          width: 100%;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+  .list_info {
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    padding-top: 70px;
+    display: flex;
+    flex-direction: column;
+    // background-color: blue;
+    .lists_box {
+      margin-top: 10px;
+      width: 100%;
+      height: 42%;
+      font-family: 700;
+      // background-color: red;
+      .lists_title {
+        width: 100%;
+        padding-left: 20px;
+      }
+      .lists_index {
+        width: 99%;
+        height: 46px;
+        margin-top: 10px;
+        padding: 20px 12px;
+        background-color: $light-Green-BG-color;
+        color: $main-color;
+        border-radius: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        .name {
+          width: 18%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .title {
+          width: 33%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .period {
+          width: 28%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .count {
+          width: 10%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .permission {
+          width: 11%;
+        }
+        .duty_name {
+          width: 18%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .duty_title {
+          width: 41%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .duty_period {
+          width: 30%;
+          &::after {
+            content: "|";
+            float: right;
+            color: $sub-color;
+          }
+        }
+        .duty_permission {
+          width: 11%;
+        }
+      }
+      .lists {
+        width: 99%;
+        height: 64%;
+        margin-top: 5px;
+        // background-color: green;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          width: 10px; /* 스크롤바의 너비 */
+        }
+        &::-webkit-scrollbar-thumb {
+          height: 5px; /* 스크롤바의 길이 */
+          background: $light-Green-BG-color; /* 스크롤바의 색상 */
+          border-radius: 10px;
+        }
+      }
+    }
+    .lists_box.duty_box {
+      .lists {
+        width: 99%;
+        height: 64%;
+        margin-top: 5px;
+      }
+    }
+  }
 }
