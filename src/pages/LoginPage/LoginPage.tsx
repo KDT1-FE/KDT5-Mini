@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { login } from "../../API/apis";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,6 +12,8 @@ const LoginPage = () => {
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -60,7 +63,7 @@ const LoginPage = () => {
         <div className="title_Wrap">로그인</div>
         <div className="content_Wrap">
           <div className="content_box">
-            <div className="inputTitle">이메일 주소</div>
+            {/* <div className="inputTitle">이메일 주소</div> */}
             <div className="inputWrap">
               <input
                 className="input"
@@ -76,7 +79,7 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="content_box">
-            <div className="inputTitle">비밀번호</div>
+            {/* <div className="inputTitle">비밀번호</div> */}
             <div className="inputWrap">
               <input
                 className="input"
@@ -100,7 +103,9 @@ const LoginPage = () => {
           <button className="login_btn" onClick={onClickLogin}>
             로그인
           </button>
-          <div className="signup_btn">회원가입</div>
+          <div className="signup_btn" onClick={() => navigate("/signup")}>
+            회원가입
+          </div>
         </div>
       </form>
     </div>
