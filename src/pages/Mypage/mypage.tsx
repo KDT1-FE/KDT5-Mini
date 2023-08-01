@@ -1,6 +1,7 @@
 import useDataQuery from "../../Hooks/useData-Query.tsx";
 import UserBanner from "@/Components/userBanner/UserBanner.tsx";
 import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
+import DutyList from "@/Components/DutyList/DutyList.tsx";
 /*
   - 개인별
     3. 수정, 삭제 기능을 추가한다. - reduce 사용하여 한 컴포넌트에서 action 관리
@@ -25,18 +26,12 @@ export default function Mypage() {
   }
   return (
     <>
-        <div>
-          <UserBanner name={myData[0].name} />
+        <div className={'container'}>
+          <UserBanner name={myData[1].name} />
           <h3>연차 리스트</h3>
-          <AnnualList name={myData[0].name} />
+          <AnnualList name={myData[1].name} />
           <h3>당직 리스트</h3>
-          {/*<ul>*/}
-          {/*  {user.duty.map((dutyItem: DutyType) => (*/}
-          {/*    <li key={dutyItem.id}>*/}
-          {/*      당직일: {dutyItem.startDate}, 승인여부: {dutyItem.status}*/}
-          {/*    </li>*/}
-          {/*  ))}*/}
-          {/*</ul>*/}
+          <DutyList name={myData[1].name} />
           <button
             onClick={handleUpdate}
           >수정 </button>
