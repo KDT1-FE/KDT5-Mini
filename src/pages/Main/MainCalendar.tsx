@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
 import eventData from '../../API/dummyAPI/restdayAll.json'
+import DetailModal from './detailModal';
+
 
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
   const [view, setView] = useState(false); 
+
   const [events, setEvents] = useState(() => {
     if (Array.isArray(eventData.response)) {
       // eventData.response가 주어진 JSON 데이터와 동일한 형태라면 그대로 사용
@@ -32,6 +35,7 @@ const MainCalendar = () => {
       title: `• ${event.name}`,
     };
   });
+
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -80,8 +84,18 @@ const MainCalendar = () => {
       right: 'next',
     };
 
+
+    const handleEventClick = (eventInfo) => {
+      const { reason, title, start, end, category } = eventInfo.event;
+      console.log('Clicked event - Reason:', reason);
+      console.log('Clicked event - Title:', title);
+      console.log('Clicked event - Start:', start);
+      console.log('Clicked event - End:', end);
+      console.log('Clicked event - Category:', category);
+    };
+    
+  
     const handleAddEvent = () => {
-      // 추후에 일정 등록하기 추가
       console.log('일정 등록하기 버튼 클릭');
 
       const newEvent = {
@@ -106,7 +120,6 @@ const MainCalendar = () => {
         onClick={() => {setView(!view)}}> 
         반가워요, {userName} 님!       
         {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
-
         <li>마이페이지</li>
         <li>로그아웃</li>
       </ul>
@@ -175,6 +188,7 @@ const MainCalendar = () => {
         height={636}
         events={filteredEvents} 
         headerToolbar={headerToolbarOptions}
+        eventClick={handleEventClick}
       />    {/* 캘린더 렌더링 */}
       </div>
 
