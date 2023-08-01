@@ -23,7 +23,7 @@ const MainCalendar = () => {
   
   
   // 당직, 연차 값을 조건에 따라 색상 변경
-  const processedEvents = events.map((event) => {
+  const processedEvents = events.map((event:any) => {
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -54,16 +54,16 @@ const MainCalendar = () => {
         );
 
   // 연차 리스트 개수
-  const selectedAnnualLeave = events.filter((event) => 
+  const selectedAnnualLeave = events.filter((event: { category: string; }) =>
   event.category === '연차').length;
 
 
   // 당직 리스트 개수
-  const selectedDuty = events.filter((event) => 
+  const selectedDuty = events.filter((event: { category: string; }) =>
     event.category === '당직').length;
 
   // 유저 이름 표시
-  const userName = events.map((event) => event.name);   
+  const userName = events.map((event: { name: string; }) => event.name);
 
   // 오늘 날짜 
   const today = new Date();
@@ -107,7 +107,7 @@ const MainCalendar = () => {
       };
   
       // 기존 이벤트들과 새 이벤트를 합쳐서 events 상태를 업데이트
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
+      setEvents((prevEvents: any) => [...prevEvents, newEvent]);
     };
 
 

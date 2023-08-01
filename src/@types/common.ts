@@ -98,3 +98,7 @@ declare interface CounterType {
   setAnnualCal:(value:number) => void,
   setCount:(value:number) => void
 }
+declare interface ModalProps {
+  visibility: boolean;
+  toggle: (param: boolean) => void;
+}
