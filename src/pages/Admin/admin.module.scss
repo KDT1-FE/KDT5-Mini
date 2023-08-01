@@ -124,7 +124,7 @@
         padding-left: 20px;
       }
       .lists_index {
-        width: 100%;
+        width: 99%;
         height: 46px;
         margin-top: 10px;
         padding: 20px 12px;
@@ -144,7 +144,7 @@
           }
         }
         .title {
-          width: 34%;
+          width: 33%;
           &::after {
             content: "|";
             float: right;
@@ -168,7 +168,7 @@
           }
         }
         .permission {
-          width: 10%;
+          width: 11%;
         }
         .duty_name {
           width: 18%;
@@ -179,7 +179,7 @@
           }
         }
         .duty_title {
-          width: 42%;
+          width: 41%;
           &::after {
             content: "|";
             float: right;
@@ -195,26 +195,28 @@
           }
         }
         .duty_permission {
-          width: 10%;
+          width: 11%;
         }
       }
       .lists {
-        width: 100%;
+        width: 99%;
         height: 64%;
         margin-top: 5px;
         // background-color: green;
         overflow-y: scroll;
-        -ms-overflow-style: none; /*IE, Edge*/
-        scrollbar-width: none; /*Firefox*/
         &::-webkit-scrollbar {
-          display: none; /*Chrome, Safari, Opera*/
-          width: 0px;
+          width: 10px; /* 스크롤바의 너비 */
+        }
+        &::-webkit-scrollbar-thumb {
+          height: 5px; /* 스크롤바의 길이 */
+          background: $light-Green-BG-color; /* 스크롤바의 색상 */
+          border-radius: 10px;
         }
       }
     }
     .lists_box.duty_box {
       .lists {
-        width: 100%;
+        width: 99%;
         height: 64%;
         margin-top: 5px;
       }
