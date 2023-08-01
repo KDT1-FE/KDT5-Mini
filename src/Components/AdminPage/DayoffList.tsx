@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import styles from "./DayoffList.module.scss";
 
 export default function DayoffList() {
@@ -6,6 +6,7 @@ export default function DayoffList() {
     <li className={styles.list}>
       <span className={styles.list_option}>
         <span className={`${styles.text} ${styles.name}`}>이름</span>
+        <span className={`${styles.text} ${styles.title}`}>제목</span>
         <span className={`${styles.text} ${styles.period}`}>
           2023 / 7 / 29 ~ 2023 / 7 / 30
         </span>
