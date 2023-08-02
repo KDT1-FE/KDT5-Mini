@@ -1,0 +1,28 @@
+@import '/src/variables';
+
+
+
+.ReactModal__Overlay{
+  z-index: 9999;
+  background-color: rgba($main-color, $alpha: .5);
+  position: fixed;
+  inset: 0px;
+}
+
+.custom-modal-content{
+  width: 660px;
+  height: 322px;
+  margin: auto;
+  border-radius: 35px;
+  position: absolute;
+    inset: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+
+    outline: none;
+    padding: 20px;
+}
+
+
+
