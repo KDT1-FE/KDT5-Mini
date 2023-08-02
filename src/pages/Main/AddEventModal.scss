@@ -61,28 +61,68 @@
 .addEvent-title{
     width: 473px;
     height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    input{
+      float: right;
+    }
 }
 
 
 .addEvent-start{
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  input{
+    float: right;
+  }
 }
 
 .addEvent-end{
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  input{
+    float: right;
+  }
 }
 
 .addEvent-category{
+  display: flex;
+  align-items: center;
 
+  input{
+    float: left;
+    width: 22px;
+  }
+
+  .addRest{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .addDuty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .addEvent-reason{
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  input{
+    float: right;
+  }
+  select{
+    width: 400px;
+    height: 50px;
+  }
 }
 
-.addEvent-reason{
-
-}
 
 
 .btn-group {

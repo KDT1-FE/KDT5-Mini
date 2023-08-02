@@ -3,18 +3,14 @@ import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { login } from "../../API/apis";
 import { useNavigate } from "react-router-dom";
-
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
-
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
-
   const navigate = useNavigate();
-
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     const regex =
@@ -25,7 +21,6 @@ const LoginPage = () => {
       setEmailValid(false);
     }
   };
-
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     // 영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경 필요)
@@ -37,18 +32,16 @@ const LoginPage = () => {
       setPasswordValid(false);
     }
   };
-
   // 로그인 처리 api
   const onClickLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const result = await login(email, password);
-      const { AC_TOKEN, RF_TOKEN } = result;
-      if (result) {
+      const response = await login(email, password);
+      const AC_TOKEN = response?.data;
+      if (response) {
         setCookie("AC_TOKEN", AC_TOKEN, { path: "/" });
-        setCookie("RF_TOKEN", RF_TOKEN, { path: "/" });
         alert("로그인 성공");
-        // navigate("/main");
+        navigate('/main')
       }
     } catch (error) {
       alert("로그인 실패");
@@ -56,7 +49,6 @@ const LoginPage = () => {
       console.log(email, password);
     }
   };
-
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
@@ -111,5 +103,4 @@ const LoginPage = () => {
     </div>
   );
 };
-
 export default LoginPage;

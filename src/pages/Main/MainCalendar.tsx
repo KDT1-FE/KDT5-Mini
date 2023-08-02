@@ -1,19 +1,16 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
-import eventData from '../../API/dummyAPI/restdayAll.json'
 import AddEventModal from './AddEventModal';
 import EventModal from './EventModal';
 import axios from 'axios';
 
-
-
-
-
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
-  const [view, setView] = useState(false); 
+  const [view, setView] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [events, setEvents] = useState([]); // 빈 배열로 초기화
 
   useEffect(() => {
     // API 호출
@@ -27,21 +24,6 @@ const MainCalendar = () => {
         console.error('Error fetching events:', error);
       });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-
-
-
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [events, setEvents] = useState(() => {
-    if (Array.isArray(eventData.response)) {
-      // eventData.response가 주어진 JSON 데이터와 동일한 형태라면 그대로 사용
-      return eventData.response;
-    } else {
-      // 만약 다른 형태로 로드되었다면 여기서 가공하여 events로 설정
-      // 예: return eventData.someOtherProperty;
-      return [];
-    }
-  });
-  
   
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event) => {
@@ -118,9 +100,23 @@ const MainCalendar = () => {
 
 
 
-  function handleAddEvent(newEvent: any): void {
-    throw new Error('Function not implemented.');
-  }
+    function handleAddEvent(newEvent: NewEvent): void {
+      // Send the new event data to the server
+      axios.post('http://52.78.200.157/api/annual', newEvent)
+        .then(response => {
+          console.log('Event successfully submitted:', response.data);
+          // 서버로부터의 응답을 처리할 수 있음
+          // 새 이벤트가 등록되었다는 알림을 사용자에게 표시하거나
+          // 새로운 이벤트를 state에 추가하는 등의 작업을 수행할 수 있습니다.
+        })
+        .catch(error => {
+          console.error('Error submitting event:', error);
+          // 에러 처리를 위한 로직 추가
+        });
+    
+      // Close the modal
+      setIsAddModalOpen(false);
+    }
 
   return (
     <div className='mainWrap'>
