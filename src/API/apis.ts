@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const ApiHttp = axios.create({
-  baseURL: "@/Api/data/",
+  baseURL: "http://52.78.200.157/api",
 });
 
 export async function getMyPage() {
@@ -14,14 +14,20 @@ export async function getMyPage() {
   }
 }
 
+
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post("/back-end-api/login", {
-      email,
-      password,
-    });
-    return response.data;
+    const response = await axios.post(
+      "http://52.78.200.157/api/login",
+      {
+        email,
+        password,
+      },
+      { withCredentials: true },
+    );
+
+    return response;
   } catch (error) {
     console.log("loginApi호출 : ", error);
   }
@@ -35,7 +41,7 @@ export const signUp = async (
   join: string,
 ) => {
   try {
-    const response = await axios.post("/back-end-api/signup", {
+    const response = await axios.post("http://52.78.200.157/api/register", {
       email,
       password,
       name,

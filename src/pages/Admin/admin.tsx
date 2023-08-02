@@ -60,14 +60,7 @@ export default function Admin() {
                 <span className={styles.permission}>상태</span>
               </div>
               <ol className={styles.lists}>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
-                <DayoffList></DayoffList>
+                <DayoffList />
               </ol>
             </section>
             <section className={`${styles.lists_box} ${styles.duty_box}`}>

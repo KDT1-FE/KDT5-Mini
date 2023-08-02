@@ -24,6 +24,8 @@ export default function Mypage() {
   const handleDelete = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
     console.log(e.target);
   }
+
+  
   return (
     <>
         <div className={'container'}>
