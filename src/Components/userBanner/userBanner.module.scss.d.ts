@@ -1,0 +1,23 @@
+declare const classNames: {
+  readonly container: "container";
+  readonly head: "head";
+  readonly list: "list";
+  readonly personal_info: "personal_info";
+  readonly banner: "banner";
+  readonly personal: "personal";
+  readonly Name: "Name";
+  readonly answer: "answer";
+  readonly annual: "annual";
+  readonly annualTitle: "annualTitle";
+  readonly annualTotal: "annualTotal";
+  readonly annualTotalTitle: "annualTotalTitle";
+  readonly annualUse: "annualUse";
+  readonly annualUseTitle: "annualUseTitle";
+  readonly annualUseCount: "annualUseCount";
+  readonly annualUseCountTitle: "annualUseCountTitle";
+  readonly restAnnual: "restAnnual";
+  readonly restAnnualTitle: "restAnnualTitle";
+  readonly restAnnualTotal: "restAnnualTotal";
+  readonly restAnnualTitleTotal: "restAnnualTitleTotal";
+};
+export = classNames;

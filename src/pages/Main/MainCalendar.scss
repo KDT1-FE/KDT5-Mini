@@ -22,6 +22,10 @@
 }
 
 
+.UserInfo {
+  width: 300px;
+}
+
 .mainWrap {
   width: 1080px; 
   height: 850px;
@@ -45,7 +49,11 @@
   margin-right: 40px;
 }
 
-
+.fc-event-main-frame:hover{
+  background-color: black;
+  cursor: pointer;
+  border-radius: 2px;
+}
 
 .Today{
   margin-bottom: 35px;
@@ -131,8 +139,12 @@
   box-shadow: 4px 4px 30px rgba($color: #497174, $alpha: 0.3);
   cursor: pointer;
 }
-
-
+.fc-dayGridMonth-view .fc-view .fc-daygrid{
+  z-index: 10;
+}
+.fc-view-harness .fc-view-harness-active{
+  z-index: 10;
+}
 
 .fc .fc-button-primary {
   background-color: $white-green;
@@ -144,4 +156,3 @@
   font-size: 36px;
   font-weight: bold;
 }
-
