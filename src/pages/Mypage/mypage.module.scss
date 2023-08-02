@@ -1,0 +1,41 @@
+@import "src/_variables.scss";
+
+.page {
+  top: 0;
+  padding-top: 100px;
+  width: 100%;
+  height: 125vh;
+  background-color: $light-Green-BG-color;
+
+  .container {
+    margin: auto;
+    position: relative;
+    padding-top: 50px;
+    width: 1080px;
+    height: 830px;
+    border-radius: 40px;
+    background-color: $white-color;
+    box-shadow: 5px 5px 20px $main-color-30;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", "Noto Sans KR", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .annualTitle {
+      position: absolute;
+      font-size: 18px;
+      left: 40px;
+      top: 300px;
+      margin-left: 40px;
+    }
+    .dutyTitle{
+      position: absolute;
+      font-size: 18px;
+      left: 40px;
+      top: 600px;
+      margin-left: 40px;
+    }
+  }
+}
