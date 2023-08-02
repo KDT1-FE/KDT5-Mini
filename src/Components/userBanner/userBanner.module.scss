@@ -1,0 +1,127 @@
+@import "src/_variables.scss";
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.head{
+  position:absolute;
+  left: 60px;
+  top: 60px;
+  display: flex;
+  font-size: 20px;
+  margin-bottom: 40px;
+  align-items: center;
+  padding: 10px;
+  .list {
+    color: $main-color;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 20px;
+    margin-right: 10px;
+    border-right: 2px solid $main-color;
+  }
+  .personal_info {
+    color: $main-color;
+  }
+  :hover {
+    cursor: pointer;
+    opacity: 50%;
+  }
+}
+
+.banner {
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  width: auto;
+  height: 97px;
+  background: #497174;
+  border: none;
+  border-radius:30px;
+  padding: 20px;
+  margin-right: 10px;
+  .personal{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-right: 2px solid $sub-color;
+    .Name{
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    .answer{
+      color: $green-BG-color;
+      font-size: 14px;
+      margin-left: 10px;
+      opacity: 70%;
+    }
+  }
+  .annual{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-right: 2px solid $sub-color;
+    .annualTitle{
+      font-size: 16px;
+      color: $green-BG-color;
+      margin-right: 10px;
+    }
+    .annualTotal {
+      font-size: 36px;
+      color: $white-color;
+      margin-right: 10px;
+    }
+    .annualTotalTitle {
+      color: $green-BG-color;
+    }
+  }
+  .annualUse {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-right: 2px solid $sub-color;
+
+    .annualUseTitle {
+      font-size: 16px;
+      color: $green-BG-color;
+      margin-right: 10px;
+    }
+
+    .annualUseCount {
+      font-size: 36px;
+      color: $white-color;
+      margin-right: 10px;
+    }
+
+    .annualUseCountTitle {
+      color: $green-BG-color;
+    }
+  }
+  .restAnnual{
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      .restAnnualTitle{
+        font-size: 16px;
+        color: $green-BG-color;
+        margin-right: 10px;
+      }
+      .restAnnualTotal{
+        font-size: 36px;
+        color: $white-color;
+        margin-right: 10px;
+      }
+      .restAnnualTitleTotal{
+        color: $green-BG-color;
+      }
+    }
+
+  }
+

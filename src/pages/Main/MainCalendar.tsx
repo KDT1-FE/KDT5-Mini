@@ -1,15 +1,16 @@
-import { useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import "./MainCalendar.scss";
-import eventData from "../../API/data/user.json";
+import React, { useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import './MainCalendar.scss';
+import eventData from '../../API/dummyAPI/restdayAll.json';
+import EventModal from './EventModal';
+import AddEventModal from './AddEventModal';
 
-const MainCalendar = () => {
-  const [selectedCategories, setSelectedCategories] = useState([
-    "연차",
-    "당직",
-  ]);
+
+const MainCalendar: React.FC = () => {
+  const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
   const [view, setView] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState(() => {
     if (Array.isArray(eventData.response)) {
       // eventData.response가 주어진 JSON 데이터와 동일한 형태라면 그대로 사용
@@ -20,6 +21,9 @@ const MainCalendar = () => {
       return [];
     }
   });
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event: any) => {
@@ -33,6 +37,7 @@ const MainCalendar = () => {
       title: `• ${event.name}`,
     };
   });
+
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -93,30 +98,75 @@ const MainCalendar = () => {
       reason: "새로운 이벤트 사유",
     };
 
-    // 기존 이벤트들과 새 이벤트를 합쳐서 events 상태를 업데이트
-    setEvents((prevEvents: any) => [...prevEvents, newEvent]);
-  };
+
+    const handleEventClick = (eventInfo) => {
+      const { reason, title, start, end, category } = eventInfo.event;
+      console.log('Clicked event - Reason:', reason);
+      console.log('Clicked event - Title:', title);
+      console.log('Clicked event - Start:', start);
+      console.log('Clicked event - End:', end);
+      console.log('Clicked event - Category:', category);
+  
+      setSelectedEvent(eventInfo.event);
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      // 이 부분이 추가되었습니다.
+      setIsModalOpen(false);
+    };
+  
+    const handleAddEvent = (newEvent: any) => {
+      setEvents((prevEvents: any) => [...prevEvents, newEvent]);
+      // 새로운 이벤트가 추가되었으므로, 모달을 열기 위해 isModalOpen 상태를 true로 설정하고 selectedEvent 상태를 초기화
+      setIsModalOpen(true);
+      setSelectedEvent(null);
+    };
 
   return (
-    <div className="mainWrap">
-      <div className="selectWrap">
-        <ul
-          className="UserInfo"
-          onClick={() => {
-            setView(!view);
-          }}
-        >
-          반가워요, {userName} 님!
-          {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
-          <li>마이페이지</li>
-          <li>로그아웃</li>
-        </ul>
+    <div className='mainWrap'>
+      <div className='selectWrap'>
+      <ul className='UserInfo'
+        onClick={() => {setView(!view)}}> 
+        반가워요, {userName} 님!       
+        {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
+        <li>마이페이지</li>
+        <li>로그아웃</li>
+      </ul>
 
-        <div className="Today">
-          {" "}
-          {/* 오늘 날짜 렌더링 */}
-          <h1>Today</h1>
-          <span>{formattedDate}</span>
+
+
+      <div className='Today'>     {/* 오늘 날짜 렌더링 */}
+        <h1>Today</h1>  
+        <span>{formattedDate}</span> 
+      </div>
+      <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
+        <h1>Calendar</h1>
+        <label>
+          <input 
+            type='checkbox'
+          />전체 일정
+        </label>
+        <label>
+          <input 
+            type='checkbox'
+          />내 일정
+        </label>
+      </div>
+      <div className='SelectCategories'>
+        <h1>Categories</h1>
+        <div>
+          <label>            {/* 연차 카테고리 선택 박스   */}
+            <input
+              type='checkbox'
+              checked={selectedCategories.includes('연차')}
+              onChange={() => handleCategoryChange('연차')}
+            />
+            연차
+            <span className='LeaveBox'>{selectedAnnualLeave}</span> 
+                        {/* 연차 리스트 카운트 */}
+          </label>
+          
         </div>
         <div className="SelectCanlendar">
           {" "}
@@ -130,53 +180,41 @@ const MainCalendar = () => {
             <input type="checkbox" />내 일정
           </label>
         </div>
-        <div className="SelectCategories">
-          <h1>Categories</h1>
-          <div>
-            <label>
-              {" "}
-              {/* 연차 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("연차")}
-                onChange={() => handleCategoryChange("연차")}
-              />
-              연차
-              <span className="LeaveBox">{selectedAnnualLeave}</span>
-              {/* 연차 리스트 카운트 */}
-            </label>
-          </div>
-          <div>
-            <label>
-              {" "}
-              {/* 당직 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("당직")}
-                onChange={() => handleCategoryChange("당직")}
-              />
-              당직
-              <span className="dutyBox">{selectedDuty}</span>
-              {/* 당직 리스트 카운트 */}
-            </label>
-          </div>
-        </div>
-        <button className="addScheduleBtn" onClick={handleAddEvent}>
-          <span>일정 등록하기</span>
-        </button>
       </div>
-
-      <div className="calendarWrap">
+      <button 
+        className='addScheduleBtn'
+        onClick={handleAddEvent}
+      >
+        <span>일정 등록하기</span>
+      </button>
+      <AddEventModal
+        isOpen={isAddModalOpen}
+        closeModal={() => setIsAddModalOpen(false)}
+        handleAddEvent={handleAddEvent}
+      />
+      </div>
+      
+      
+      <div className='calendarWrap'>
         <FullCalendar
           plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
+          initialView='dayGridMonth'
           height={636}
           events={filteredEvents}
           headerToolbar={headerToolbarOptions}
-        />{" "}
-        {/* 캘린더 렌더링 */}
+          eventClick={handleEventClick}
+        />
       </div>
+      {/* 이전 코드 생략 */}
+      {isModalOpen && selectedEvent && (
+        <EventModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          eventInfo={selectedEvent}
+        />
+      )}
     </div>
   );
 };
+
 export default MainCalendar;

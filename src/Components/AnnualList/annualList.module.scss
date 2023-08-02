@@ -1,0 +1,36 @@
+@import "src/_variables.scss";
+
+.annualContainer {
+  width: 968px;
+  border-radius: 30px;
+  margin-top: 10px;
+  .annualContainerTitle{
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    background:$light-Green-BG-color;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+  }
+  .item{
+    border: 1px solid beige;
+    font-size: 18px;
+    color: $main-color;
+  }
+  .list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: $black-color;
+    padding: 10px;
+    :hover{
+      cursor: pointer;
+    }
+  }
+}
