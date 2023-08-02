@@ -139,8 +139,12 @@
   box-shadow: 4px 4px 30px rgba($color: #497174, $alpha: 0.3);
   cursor: pointer;
 }
-
-
+.fc-dayGridMonth-view .fc-view .fc-daygrid{
+  z-index: 10;
+}
+.fc-view-harness .fc-view-harness-active{
+  z-index: 10;
+}
 
 .fc .fc-button-primary {
   background-color: $white-green;

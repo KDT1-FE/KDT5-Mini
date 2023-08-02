@@ -1,15 +1,16 @@
-import  { useState } from 'react';
+import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
-import eventData from '../../API/dummyAPI/restdayAll.json'
-import DetailModal from './detailModal';
+import eventData from '../../API/dummyAPI/restdayAll.json';
+import EventModal from './EventModal';
+import AddEventModal from './AddEventModal';
 
 
-const MainCalendar = () => {
+const MainCalendar: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
-  const [view, setView] = useState(false); 
-
+  const [view, setView] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState(() => {
     if (Array.isArray(eventData.response)) {
       // eventData.response가 주어진 JSON 데이터와 동일한 형태라면 그대로 사용
@@ -21,7 +22,9 @@ const MainCalendar = () => {
     }
   });
   
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event:any) => {
     const { startDate, endDate, ...rest } = event;
@@ -91,26 +94,22 @@ const MainCalendar = () => {
       console.log('Clicked event - Start:', start);
       console.log('Clicked event - End:', end);
       console.log('Clicked event - Category:', category);
+  
+      setSelectedEvent(eventInfo.event);
+      setIsModalOpen(true);
     };
-    
   
-    const handleAddEvent = () => {
-      console.log('일정 등록하기 버튼 클릭');
-
-      const newEvent = {
-        id: 3,
-        name: '새로운 이벤트',
-        category: '연차',
-        startDate: '2023-08-10',
-        endDate: '2023-08-15',
-        reason: '새로운 이벤트 사유',
-      };
+    const closeModal = () => {
+      // 이 부분이 추가되었습니다.
+      setIsModalOpen(false);
+    };
   
-      // 기존 이벤트들과 새 이벤트를 합쳐서 events 상태를 업데이트
+    const handleAddEvent = (newEvent: any) => {
       setEvents((prevEvents: any) => [...prevEvents, newEvent]);
+      // 새로운 이벤트가 추가되었으므로, 모달을 열기 위해 isModalOpen 상태를 true로 설정하고 selectedEvent 상태를 초기화
+      setIsModalOpen(true);
+      setSelectedEvent(null);
     };
-
-
 
   return (
     <div className='mainWrap'>
@@ -172,27 +171,39 @@ const MainCalendar = () => {
         </div>
       </div>
       <button 
-      className='addScheduleBtn'
-      onClick={handleAddEvent}>
+        className='addScheduleBtn'
+        onClick={handleAddEvent}
+      >
         <span>일정 등록하기</span>
-        </button>
-
+      </button>
+      <AddEventModal
+        isOpen={isAddModalOpen}
+        closeModal={() => setIsAddModalOpen(false)}
+        handleAddEvent={handleAddEvent}
+      />
       </div>
       
-
+      
       <div className='calendarWrap'>
-      <FullCalendar        
-        plugins={[dayGridPlugin]}
-        initialView='dayGridMonth'
-        height={636}
-        events={filteredEvents} 
-        headerToolbar={headerToolbarOptions}
-        eventClick={handleEventClick}
-      />    {/* 캘린더 렌더링 */}
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView='dayGridMonth'
+          height={636}
+          events={filteredEvents}
+          headerToolbar={headerToolbarOptions}
+          eventClick={handleEventClick}
+        />
       </div>
-
-
+      {/* 이전 코드 생략 */}
+      {isModalOpen && selectedEvent && (
+        <EventModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          eventInfo={selectedEvent}
+        />
+      )}
     </div>
   );
 };
+
 export default MainCalendar;
