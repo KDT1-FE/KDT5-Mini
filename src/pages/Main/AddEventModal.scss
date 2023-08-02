@@ -1,0 +1,104 @@
+@import '/src/variables';
+
+
+
+.ReactModal__Overlay{
+  z-index: 9999;
+  background-color: rgba($main-color, $alpha: .5);
+  position: fixed;
+  inset: 0px;
+}
+
+
+.custom-modal-content{
+    width: 660px;
+    height: 600px;
+    margin: auto;
+    border-radius: 35px;
+    position: absolute;
+      inset: 40px;
+      border: 1px solid rgb(204, 204, 204);
+      background: rgb(255, 255, 255);
+      overflow: auto;
+    font-family: 'noto-sans';
+      outline: none;
+      padding: 20px;
+
+      input{
+        width: 399px;
+        height: 46px;
+        border: none;
+        border-radius: 10px;
+        background-color: $light-Grey-color;
+    }
+
+    div{
+        margin-bottom: 13px;
+    }
+  }
+
+.addEvent-wrap{
+    width: 473px;
+    height: 464px;
+    margin:auto;
+    padding: 68px 0px;
+
+}
+.addEvent-wrap label{
+    font-size: 16px;
+    font-weight: bold;
+    color: $main-color;
+}
+
+.addEvent-header{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.addEvent-title{
+    width: 473px;
+    height: 46px;
+}
+
+
+.addEvent-start{
+
+}
+
+.addEvent-end{
+
+}
+
+.addEvent-category{
+
+}
+
+.addEvent-reason{
+
+}
+
+.addEvent-reason{
+
+}
+
+
+.btn-group {
+    width: 365px;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    button{
+        width: 177px;
+        height: 54px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+}

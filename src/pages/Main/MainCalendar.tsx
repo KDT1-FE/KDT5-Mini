@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './MainCalendar.scss';
-import eventData from '../../API/dummyAPI/restdayAll.json';
-import EventModal from './EventModal';
+import eventData from '../../API/dummyAPI/restdayAll.json'
 import AddEventModal from './AddEventModal';
+import EventModal from './EventModal';
+import axios from 'axios';
 
 
-const MainCalendar: React.FC = () => {
+
+
+
+const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
-  const [view, setView] = useState(false);
+  const [view, setView] = useState(false); 
+
+  useEffect(() => {
+    // API 호출
+    axios.get('http://52.78.200.157/api/main')
+      .then(response => {
+        // API에서 받아온 데이터를 state에 설정
+        setEvents(response.data);
+        console.log('Fetched events:', response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
+      });
+  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+
+
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState(() => {
     if (Array.isArray(eventData.response)) {
@@ -22,11 +42,9 @@ const MainCalendar: React.FC = () => {
     }
   });
   
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
-
+  
   // 당직, 연차 값을 조건에 따라 색상 변경
-  const processedEvents = events.map((event:any) => {
+  const processedEvents = events.map((event) => {
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -57,16 +75,16 @@ const MainCalendar: React.FC = () => {
         );
 
   // 연차 리스트 개수
-  const selectedAnnualLeave = events.filter((event: { category: string; }) =>
+  const selectedAnnualLeave = events.filter((event) => 
   event.category === '연차').length;
 
 
   // 당직 리스트 개수
-  const selectedDuty = events.filter((event: { category: string; }) =>
+  const selectedDuty = events.filter((event) => 
     event.category === '당직').length;
 
   // 유저 이름 표시
-  const userName = events.map((event: { name: string; }) => event.name);
+  const userName = events.map((event) => event.name);   
 
   // 오늘 날짜 
   const today = new Date();
@@ -94,22 +112,15 @@ const MainCalendar: React.FC = () => {
       console.log('Clicked event - Start:', start);
       console.log('Clicked event - End:', end);
       console.log('Clicked event - Category:', category);
-  
-      setSelectedEvent(eventInfo.event);
-      setIsModalOpen(true);
     };
+    
   
-    const closeModal = () => {
-      // 이 부분이 추가되었습니다.
-      setIsModalOpen(false);
-    };
-  
-    const handleAddEvent = (newEvent: any) => {
-      setEvents((prevEvents: any) => [...prevEvents, newEvent]);
-      // 새로운 이벤트가 추가되었으므로, 모달을 열기 위해 isModalOpen 상태를 true로 설정하고 selectedEvent 상태를 초기화
-      setIsModalOpen(true);
-      setSelectedEvent(null);
-    };
+
+
+
+  function handleAddEvent(newEvent: any): void {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <div className='mainWrap'>
@@ -171,39 +182,32 @@ const MainCalendar: React.FC = () => {
         </div>
       </div>
       <button 
-        className='addScheduleBtn'
-        onClick={handleAddEvent}
+      className='addScheduleBtn'
+      onClick={() => setIsAddModalOpen(true)} 
       >
         <span>일정 등록하기</span>
-      </button>
-      <AddEventModal
-        isOpen={isAddModalOpen}
-        closeModal={() => setIsAddModalOpen(false)}
-        handleAddEvent={handleAddEvent}
-      />
+        </button>
+        <AddEventModal
+          isOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+          handleAddEvent={handleAddEvent}
+        />
       </div>
       
-      
+
       <div className='calendarWrap'>
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView='dayGridMonth'
-          height={636}
-          events={filteredEvents}
-          headerToolbar={headerToolbarOptions}
-          eventClick={handleEventClick}
-        />
+      <FullCalendar        
+        plugins={[dayGridPlugin]}
+        initialView='dayGridMonth'
+        height={636}
+        events={filteredEvents} 
+        headerToolbar={headerToolbarOptions}
+        eventClick={handleEventClick}
+      />    {/* 캘린더 렌더링 */}
       </div>
-      {/* 이전 코드 생략 */}
-      {isModalOpen && selectedEvent && (
-        <EventModal
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          eventInfo={selectedEvent}
-        />
-      )}
+
+
     </div>
   );
 };
-
 export default MainCalendar;
