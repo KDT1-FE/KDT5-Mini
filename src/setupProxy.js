@@ -10,3 +10,13 @@ export default function setupProxy(app) {
     }),
   );
 }
+
+// proxy: {
+//   "/kdt5": {
+//     target: "https://chickenlecture.xyz/api",
+//     changeOrigin: true,
+//     secure: true,
+//     rewrite: (path) => path.replace(/^\/kdt5/, ""),
+//   },
+// },
+// },
