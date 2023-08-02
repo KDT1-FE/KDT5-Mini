@@ -1,17 +1,27 @@
-// import React from "react";
-
 import styles from "./DayoffList.module.scss";
+import { AdminListsAll } from "src/@types/adminList.ts";
 
-export default function DayoffList() {
+interface Props {
+  item: AdminListsAll;
+}
+
+export default function DayoffList({ item }: Props) {
+  const listData = item;
   return (
-    <li className={styles.list}>
+    <li key={item.name} className={styles.list}>
       <span className={styles.list_option}>
-        <span className={`${styles.text} ${styles.name}`}>이름</span>
-        <span className={`${styles.text} ${styles.title}`}>제목</span>
-        <span className={`${styles.text} ${styles.period}`}>
-          2023 / 7 / 29 ~ 2023 / 7 / 30
+        <span className={`${styles.text} ${styles.name}`}>{listData.name}</span>
+        {/* Add the necessary logic to get the title and period */}
+        <span className={`${styles.text} ${styles.title}`}>
+          {listData.title}
         </span>
-        <span className={`${styles.text} ${styles.count}`}>2개</span>
+        <span className={`${styles.text} ${styles.period}`}>
+          {listData.startDate}-{listData.endDate}
+        </span>
+        {/* Add the necessary logic to get the count */}
+        <span className={`${styles.text} ${styles.count}`}>
+          {listData.reason}
+        </span>
       </span>
       <button className={styles.permission}>결재 대기</button>
     </li>

@@ -28,22 +28,24 @@ declare interface LoginType {
 }
 
 declare type MyDataType = {
-  name: string,
-  annualBalance: number,
+  name: string;
+  annualBalance: number;
   annual: Array<{
-    id: number,
-    reason: string,
-    startDate: string,
-    endDate: string,
-    status: string
-  }>,
+    id: number;
+    title: string;
+    reason: string;
+    startDate: string;
+    endDate: string;
+    status: string;
+  }>;
   duty: Array<{
-    id: number,
-    startDate: string,
-    endDate: string,
-    status: string
-  }>,
-}
+    id: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+    status: string;
+  }>;
+};
 
 
 declare interface MyDataAction {
@@ -102,3 +104,4 @@ declare interface ModalProps {
   visibility: boolean;
   toggle: (param: boolean) => void;
 }
+
