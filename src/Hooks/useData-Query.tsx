@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyPage, getUser } from "../API/api";
+import { getMyPage, getUser } from "../API/apis";
 import { useMyStore, useUserStore } from "@/Store/store.ts";
 
 export default function useDataQuery() {
