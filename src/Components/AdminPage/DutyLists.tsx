@@ -1,7 +1,7 @@
 // import React from 'react'
-import styles from "./DutyList.module.scss";
+import styles from "./DutyLists.module.scss";
 
-export default function DutyList() {
+export default function DutyLists() {
   return (
     <li className={styles.list}>
       <span className={styles.list_option}>

@@ -109,23 +109,25 @@
     width: 90%;
     height: 100%;
     margin: auto;
-    padding-top: 70px;
+    padding-top: 60px;
     display: flex;
     flex-direction: column;
     // background-color: blue;
     .lists_box {
       margin-top: 10px;
       width: 100%;
-      height: 42%;
+      height: 46%;
       font-family: 700;
       // background-color: red;
       .lists_title {
         width: 100%;
+        font-size: 16px;
         padding-left: 20px;
       }
       .lists_index {
-        width: 99%;
+        width: 100%;
         height: 46px;
+        margin: auto;
         margin-top: 10px;
         padding: 20px 12px;
         background-color: $light-Green-BG-color;
@@ -137,62 +139,32 @@
         text-align: center;
         .name {
           width: 18%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
+          // &::after {
+          //   content: "|";
+          //   float: right;
+          //   color: $sub-color;
+          // }
         }
         .title {
           width: 33%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .period {
           width: 28%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .count {
           width: 10%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .permission {
           width: 11%;
         }
         .duty_name {
           width: 18%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .duty_title {
           width: 41%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .duty_period {
           width: 30%;
-          &::after {
-            content: "|";
-            float: right;
-            color: $sub-color;
-          }
         }
         .duty_permission {
           width: 11%;
@@ -200,9 +172,9 @@
       }
       .lists {
         width: 99%;
-        height: 64%;
+        height: 73%;
         margin-top: 5px;
-        // background-color: green;
+        background-color: green;
         overflow-y: scroll;
         &::-webkit-scrollbar {
           width: 10px; /* 스크롤바의 너비 */
@@ -217,7 +189,7 @@
     .lists_box.duty_box {
       .lists {
         width: 99%;
-        height: 64%;
+        height: 73%;
         margin-top: 5px;
       }
     }

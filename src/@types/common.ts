@@ -58,6 +58,7 @@ declare interface MyDataAction {
 declare interface AnnualType {
   id: number,
   reason: string,
+  title : string,
   startDate: string,
   endDate: string,
   status: string
@@ -65,6 +66,7 @@ declare interface AnnualType {
 
 declare interface DutyType {
   id: number,
+  title: string,
   startDate: string,
   endDate: string,
   status: string

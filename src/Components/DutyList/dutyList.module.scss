@@ -1,37 +1,59 @@
 @import "src/_variables.scss";
 
-.dutyContainer {
-  width: 968px;
-  border-radius: 30px;
-  margin-top: 10px;
-  margin-bottom: 60px;
-  .dutyContainerTitle{
+.container {
+  width: 100%;
+  height: 100%;
+  // background-color: rgba(0, 0, 255, 0.543);
+  .index {
     width: 100%;
-    height: 60px;
-    border-radius: 10px;
-    background:$light-Green-BG-color;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    justify-items: center;
-    gap: 10px;
-  }
-  .item{
-    border: 1px solid beige;
-    font-size: 18px;
-    color: $main-color;
-  }
-  .list{
+    height: 46px;
+    margin-top: 10px;
+    padding: 0px 40px;
+    border-radius: 13px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.5fr 2fr 0.5fr 0.6fr;
     align-items: center;
-    justify-items: center;
-    gap: 10px;
-    font-size: 16px;
-    color: $black-color;
-    padding: 10px;
-    :hover{
-      cursor: pointer;
+    text-align: center;
+    background-color: $light-Green-BG-color;
+    color: $main-color;
+    .index_title {
+      font-size: 14px;
+    }
+  }
+  .lists_content {
+    height: 100%;
+    width: 100%;
+    margin-top: 10px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 10px; /* 스크롤바의 너비 */
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 5px; /* 스크롤바의 길이 */
+      background: $light-Green-BG-color; /* 스크롤바의 색상 */
+      border-radius: 10px;
+    }
+    .lists {
+      width: 100%;
+      height: 38px;
+      padding: 5px 40px;
+      display: grid;
+      grid-template-columns: 0.5fr 2fr 0.5fr 0.5fr;
+      align-items: center;
+      text-align: center;
+      font-weight: 300;
+      color: $black-color;
+      &:hover {
+        cursor: pointer;
+      }
+      .list {
+        padding: 5px 0px;
+        &::before {
+          content: "|";
+          float: left;
+          color: $sub-color;
+        }
+      }
     }
   }
 }

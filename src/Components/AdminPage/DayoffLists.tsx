@@ -1,11 +1,11 @@
-import styles from "./DayoffList.module.scss";
+import styles from "./DayoffLists.module.scss";
 import { AdminListsAll } from "src/@types/adminList.ts";
 
 interface Props {
   item: AdminListsAll;
 }
 
-export default function DayoffList({ item }: Props) {
+export default function DayoffLists({ item }: Props) {
   const listData = item;
   return (
     <li key={item.name} className={styles.list}>
