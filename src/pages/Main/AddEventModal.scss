@@ -28,8 +28,21 @@
         width: 399px;
         height: 46px;
         border: none;
+        font-size: 16px;
         border-radius: 10px;
+        padding-right: 20px;
         background-color: $light-Grey-color;
+        padding-left: 20px;
+        color: $sub-color;
+  
+    }
+
+    select{
+      padding-left: 20px;
+      color: $sub-color;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     div{
@@ -41,7 +54,7 @@
     width: 473px;
     height: 464px;
     margin:auto;
-    padding: 68px 0px;
+    padding: 58px 0px;
 
 }
 .addEvent-wrap label{
@@ -56,6 +69,7 @@
     font-weight: bold;
     margin: 0 auto;
     margin-bottom: 40px;
+    font-family: 'noto-sans';
 }
 
 .addEvent-title{
@@ -90,23 +104,39 @@
 
 .addEvent-category{
   display: flex;
+  justify-content: space-between;
   align-items: center;
-
   input{
     float: left;
     width: 22px;
   }
 
+.addCategory-wrap {
+  width: 400px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+
   .addRest{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-right: 30px;
+    input {
+      margin-right: 10px;
+    }
   }
 
   .addDuty{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-right: 30px;
+    input {
+      margin-right: 10px;
+    }
   }
 }
 
@@ -118,6 +148,9 @@
     float: right;
   }
   select{
+    border-radius: 10px;
+    background-color: $light-Grey-color;
+    border: none;
     width: 400px;
     height: 50px;
   }
@@ -129,16 +162,24 @@
     width: 365px;
     height: 54px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin: 0 auto;
+    margin-top: 50px;
 
     button{
+      font-family: "noto-sans";
         width: 177px;
         height: 54px;
         font-size: 16px;
         font-weight: bold;
-        border: 1px solid black;
+        border: 2px solid $main-color;
+        color: $main-color;
         border-radius: 10px;
     }
-
+    
+    button:hover{
+      background-color: $main-color;
+      color: white;
+    }
 }

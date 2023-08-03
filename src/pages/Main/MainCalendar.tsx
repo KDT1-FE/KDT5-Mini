@@ -5,26 +5,39 @@ import './MainCalendar.scss';
 import AddEventModal from './AddEventModal';
 import EventModal from './EventModal';
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
+import { ApiHttpWithAuth } from '@/API/mainApi';
+import { useNavigate } from "react-router-dom";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState(['연차', '당직']);
   const [view, setView] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
 
+  const toggleUserInfo = () => {
+    setUserInfoVisible(!userInfoVisible);
+  };
+  const handleMyPageClick = () => {
+    // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
+    navigate('/mypage');
+  };
+
+
+
   useEffect(() => {
-    // API 호출
-    axios.get('http://52.78.200.157/api/main')
+    ApiHttpWithAuth.get('/main')
       .then(response => {
-        // API에서 받아온 데이터를 state에 설정
         setEvents(response.data);
         console.log('Fetched events:', response.data);
       })
       .catch(error => {
         console.error('Error fetching events:', error);
       });
-  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-  
+  }, []);
+
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event) => {
     const { startDate, endDate, ...rest } = event;
@@ -38,6 +51,12 @@ const MainCalendar = () => {
     };
   });
 
+  const cookie = new Cookies();
+  const AC_TOKEN = cookie.get('AC_TOKEN');
+  
+  // API 요청을 보낼 때 "Authorization" 헤더에 토큰을 넣어주세요.
+  axios.defaults.headers.common['Authorization'] = `Bearer ${AC_TOKEN}`;
+  
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -102,7 +121,7 @@ const MainCalendar = () => {
 
     function handleAddEvent(newEvent: NewEvent): void {
       // Send the new event data to the server
-      axios.post('http://52.78.200.157/api/annual', newEvent)
+      axios.post('https://miniproject-team9.p-e.kr/api/annual', newEvent)
         .then(response => {
           console.log('Event successfully submitted:', response.data);
           // 서버로부터의 응답을 처리할 수 있음
@@ -121,12 +140,14 @@ const MainCalendar = () => {
   return (
     <div className='mainWrap'>
       <div className='selectWrap'>
-      <ul className='UserInfo'
-        onClick={() => {setView(!view)}}> 
-        반가워요, {userName} 님!       
-        {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
-        <li>마이페이지</li>
-        <li>로그아웃</li>
+      <ul className={`UserInfo ${userInfoVisible ? 'active' : ''}`}
+        onClick={toggleUserInfo}>
+        반가워요, <span className='UserNameInfo'>테스트{userName}</span>님!       
+        <div className={`HideInfo ${userInfoVisible ? 'visible' : ''}`}>
+          <li onClick={handleMyPageClick}>마이 페이지</li>
+          <li>로그아웃</li>
+        </div>
+
       </ul>
 
 
@@ -137,16 +158,18 @@ const MainCalendar = () => {
       </div>
       <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
         <h1>Calendar</h1>
-        <label>
-          <input 
-            type='checkbox'
-          />전체 일정
-        </label>
-        <label>
-          <input 
-            type='checkbox'
-          />내 일정
-        </label>
+        <div className='SelectSchedule'>
+          <label>
+            <input 
+              type='checkbox'
+            />전체 일정
+          </label>
+          <label>
+            <input 
+              type='checkbox'
+            />내 일정
+          </label>
+        </div>
       </div>
       <div className='SelectCategories'>
         <h1>Categories</h1>

@@ -84,6 +84,7 @@ export default function SignUpPage() {
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
     try {
       const response = await signUp(email, password, name, join);
+      console.log(response.data);
       if (response) {
         // navigate("/main");
         alert("로그인 성공");

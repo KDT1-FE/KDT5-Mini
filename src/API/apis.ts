@@ -1,6 +1,6 @@
 import axios from "axios";
 export const ApiHttp = axios.create({
-  baseURL: "http://52.78.200.157/api",
+  baseURL: "https://miniproject-team9.p-e.kr/api",
 });
 export async function getMyPage() {
   try {
@@ -14,7 +14,7 @@ export async function getMyPage() {
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post("http://52.78.200.157/api/login", {
+    const response = await axios.post("https://miniproject-team9.p-e.kr/api/login", {
       email,
       password,
     });
@@ -31,7 +31,7 @@ export const signUp = async (
   join: string,
 ) => {
   try {
-    const response = await axios.post("http://52.78.200.157/api/register", {
+    const response = await axios.post("https://miniproject-team9.p-e.kr/api/register", {
       email,
       password,
       name,

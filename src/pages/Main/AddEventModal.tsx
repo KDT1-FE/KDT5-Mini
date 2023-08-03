@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import "./AddEventModal.scss";
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 
 interface AddEventModalProps {
@@ -40,9 +41,16 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
   
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.checked ? '연차' : '당직';
-    setNewEvent((prevEvent) => ({ ...prevEvent, category: value }));
+    const value = event.target.value; // 클릭한 체크박스의 value 값을 가져옴
+    setNewEvent((prevEvent) => ({
+      ...prevEvent,
+      category: value, // 클릭한 체크박스의 값으로 카테고리 값을 변경
+    }));
   };
+  
+  const cookie = new Cookies();
+  const AC_TOKEN = cookie.get('AC_TOKEN');
+
   const handleSubmit = () => {
 
     handleAddEvent(newEvent);
@@ -52,7 +60,14 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       reason: newEvent.reason,
     };
 
-     axios.post('http://52.78.200.157/api/annual', eventDataToSend)
+axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
+  headers: {
+    Authorization: `Bearer ${AC_TOKEN}`,
+    "Access-Control-Allow-Origin": "http://localhost:5173",
+    
+  }
+})
+
       .then(response => {
         console.log('Event successfully submitted:', response.data);
       })
@@ -104,8 +119,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
         </div>
         <div className='addEvent-category'>
           <label>종류</label>
-          <label
-                        className='addRest'>
+          <div className='addCategory-wrap'>          
+            <label
+            className='addRest'>
             <input
               type="checkbox"
               name="category"
@@ -116,17 +132,18 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             연차
           </label>
           <label
-                        className='addDuty'>
+            className='addDuty'>
             <input
               type="checkbox"
               name="category"
               value="당직"
-
               checked={newEvent.category === '당직'}
               onChange={handleCategoryChange}
             />
             당직
           </label>
+          </div>
+
         </div>
         <div className='addEvent-reason'>
           <label>사유</label> 
