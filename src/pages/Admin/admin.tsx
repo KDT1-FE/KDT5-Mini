@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import styles from "./admin.module.scss";
 import Header from "../../Components/Header/Header.tsx";
 import DutyLists from "../../Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "../../Components/AdminPage/DayoffLists.tsx";
 import { AdminListsAll } from "src/@types/adminList.ts";
-import { getListAll } from "src/API/adminApi.ts";
 // import { useState, useEffect } from "react";
 
 export default function Admin() {
@@ -12,17 +11,15 @@ export default function Admin() {
   // const AC_TOKEN = cookie.get("AC_TOKEN");
   
   // const [monsters, setMonsters] = useState([]);
-
   // useEffect(() => {
-  //   fetch("작고 소중한 오픈 API 주소 🖥 ", {
-  //     method: "GET",
+  //   fetch(“작고 소중한 오픈 API 주소 :데스크톱_컴퓨터: “, {
+  //     method: “GET”,
   //   })
   //     .then((res) => res.json())
   //     .then((res) => {
   //       setMonsters(res);
   //     });
   // }, []);
-
   // const handleChange = (e) => {
   //   setUserInput(e.target.value);
   // };
