@@ -36,7 +36,6 @@ export async function getUser() {
   }
 }
 
-
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
