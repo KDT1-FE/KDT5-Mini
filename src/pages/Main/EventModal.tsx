@@ -23,12 +23,25 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, closeModal, eventInfo }
       overlayClassName="custom-overlay"
       className="custom-modal-content" 
     >
-      <h1>일정 상세</h1>
-      <h2>{eventInfo.title}</h2>
-      <p>{eventInfo.start.toISOString()}</p>
-      <p>{eventInfo.end.toISOString()}</p>
-      <p>{eventInfo.category}</p>
-      <button onClick={closeModal}>닫기</button>
+      <div className='detail-wrap'>      
+        <h1 className='detail-header'>일정 상세</h1>
+      <h2 className='detail-name'>{eventInfo.title}</h2>
+      <p className='detail-title'>
+        <span>제목:</span>{eventInfo.start.toISOString()}</p>
+      <p className='detail-date'><span>기간:</span>{eventInfo.end.toISOString()}</p>
+      <p className='detail-category'><span>종류:</span>
+
+      <div className='detail-duty'>
+      <span>• 당직</span>
+      </div>
+      <div className='detail-rest'>
+      <span>• 연차</span>
+      </div>{eventInfo.category}</p>
+      <button 
+      className='detail-close'
+      onClick={closeModal}>✖</button>
+      </div>
+
     </Modal>
   );
 };

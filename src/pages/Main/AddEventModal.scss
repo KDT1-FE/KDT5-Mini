@@ -1,10 +1,14 @@
 @import '/src/variables';
+
+
 .ReactModal__Overlay{
   z-index: 9999;
   background-color: rgba($main-color, $alpha: .5);
   position: fixed;
   inset: 0px;
 }
+
+
 .custom-modal-content{
     width: 660px;
     height: 600px;
@@ -18,6 +22,8 @@
     font-family: 'noto-sans';
       outline: none;
       padding: 20px;
+
+
       input{
         width: 399px;
         height: 46px;
@@ -36,21 +42,28 @@
       font-size: 16px;
       cursor: pointer;
     }
+
+
     div{
         margin-bottom: 13px;
     }
   }
+
 .addEvent-wrap{
     width: 473px;
     height: 464px;
     margin:auto;
     padding: 58px 0px;
+
+
 }
 .addEvent-wrap label{
     font-size: 16px;
     font-weight: bold;
     color: $main-color;
 }
+
+
 .addEvent-header{
     text-align: center;
     font-size: 24px;
@@ -59,6 +72,8 @@
     margin-bottom: 40px;
     font-family: 'noto-sans';
 }
+
+
 .addEvent-title{
     width: 473px;
     height: 46px;
@@ -69,6 +84,8 @@
       float: right;
     }
 }
+
+
 .addEvent-start{
   display: flex;
   align-items: center;
@@ -77,6 +94,7 @@
     float: right;
   }
 }
+
 .addEvent-end{
   display: flex;
   align-items: center;
@@ -85,6 +103,7 @@
     float: right;
   }
 }
+
 .addEvent-category{
   display: flex;
   justify-content: space-between;
@@ -93,12 +112,14 @@
     float: left;
     width: 22px;
   }
+
 .addCategory-wrap {
   width: 400px;
   margin: 0;
   display: flex;
   flex-direction: row;
 }
+
   .addRest{
     display: flex;
     justify-content: center;
@@ -108,6 +129,7 @@
       margin-right: 10px;
     }
   }
+
   .addDuty{
     display: flex;
     justify-content: center;
@@ -118,6 +140,7 @@
     }
   }
 }
+
 .addEvent-reason{
   display: flex;
   align-items: center;
@@ -133,6 +156,7 @@
     height: 50px;
   }
 }
+
 .btn-group {
     width: 365px;
     height: 54px;
@@ -141,6 +165,7 @@
     align-items: center;
     margin: 0 auto;
     margin-top: 50px;
+
     button{
       font-family: "noto-sans";
         width: 177px;
@@ -151,6 +176,7 @@
         color: $main-color;
         border-radius: 10px;
     }
+
     button:hover{
       background-color: $main-color;
       color: white;
