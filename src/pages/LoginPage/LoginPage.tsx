@@ -8,11 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["accessToken"]);
-
   console.log(cookies);
-
-
-
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
@@ -47,14 +43,12 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      console.log(response);
 
-      // 쿠키에 저장 리프레쉬 토큰
       const accessToken = response?.data;
       if (response) {
         setCookie("accessToken", accessToken );
         alert("로그인 성공");
-        // navigate("/main");
+        navigate("/main");
       }
     } catch (error) {
       alert("로그인 실패");
@@ -69,11 +63,10 @@ const LoginPage = () => {
         <div className="title_Wrap">로그인</div>
         <div className="content_Wrap">
           <div className="content_box">
-            {/* <div className="inputTitle">이메일 주소</div> */}
             <div className="inputWrap">
               <input
                 className="input"
-                placeholder="이메일 @email.com"
+                placeholder="이메일"
                 value={email}
                 onChange={handleEmail}
               />
