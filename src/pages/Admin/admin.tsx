@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import styles from "./admin.module.scss";
 import Header from "../../Components/Header/Header.tsx";
-import DutyList from "../../Components/AdminPage/DutyList";
-import DayoffList from "../../Components/AdminPage/DayoffList";
+import DutyLists from "../../Components/AdminPage/DutyLists.tsx";
+import DayoffLists from "../../Components/AdminPage/DayoffLists.tsx";
 import { AdminListsAll } from "src/@types/adminList.ts";
-import { getListAll } from "src/API/adminApi.ts";
 // import { useState, useEffect } from "react";
 
 export default function Admin() {
-  const accessToken = localStorage.getItem("token") || "";
+  // const cookie = new Cookies();
+  // const AC_TOKEN = cookie.get("AC_TOKEN");
+  
   // const [monsters, setMonsters] = useState([]);
-
   // useEffect(() => {
-  //   fetch("작고 소중한 오픈 API 주소 🖥 ", {
-  //     method: "GET",
+  //   fetch(“작고 소중한 오픈 API 주소 :데스크톱_컴퓨터: “, {
+  //     method: “GET”,
   //   })
   //     .then((res) => res.json())
   //     .then((res) => {
   //       setMonsters(res);
   //     });
   // }, []);
-
   // const handleChange = (e) => {
   //   setUserInput(e.target.value);
   // };
@@ -64,7 +63,7 @@ export default function Admin() {
                 <span className={styles.permission}>상태</span>
               </div>
               <ul className={styles.lists}>
-                <DayoffList key={index} item={item} />
+                {/* <DayoffLists key={index} item={item} /> */}
               </ul>
             </section>
             <section className={`${styles.lists_box} ${styles.duty_box}`}>
@@ -76,7 +75,7 @@ export default function Admin() {
                 <span className={styles.duty_permission}>상태</span>
               </div>
               <ul className={styles.lists}>
-                <DutyList />
+                <DutyLists />
               </ul>
             </section>
           </div>

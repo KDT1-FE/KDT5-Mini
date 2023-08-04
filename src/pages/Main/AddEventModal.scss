@@ -1,7 +1,6 @@
 @import '/src/variables';
 
 
-
 .ReactModal__Overlay{
   z-index: 9999;
   background-color: rgba($main-color, $alpha: .5);
@@ -24,6 +23,7 @@
       outline: none;
       padding: 20px;
 
+
       input{
         width: 399px;
         height: 46px;
@@ -34,9 +34,7 @@
         background-color: $light-Grey-color;
         padding-left: 20px;
         color: $sub-color;
-  
     }
-
     select{
       padding-left: 20px;
       color: $sub-color;
@@ -44,6 +42,7 @@
       font-size: 16px;
       cursor: pointer;
     }
+
 
     div{
         margin-bottom: 13px;
@@ -56,12 +55,14 @@
     margin:auto;
     padding: 58px 0px;
 
+
 }
 .addEvent-wrap label{
     font-size: 16px;
     font-weight: bold;
     color: $main-color;
 }
+
 
 .addEvent-header{
     text-align: center;
@@ -71,6 +72,7 @@
     margin-bottom: 40px;
     font-family: 'noto-sans';
 }
+
 
 .addEvent-title{
     width: 473px;
@@ -118,7 +120,6 @@
   flex-direction: row;
 }
 
-
   .addRest{
     display: flex;
     justify-content: center;
@@ -156,8 +157,6 @@
   }
 }
 
-
-
 .btn-group {
     width: 365px;
     height: 54px;
@@ -177,7 +176,7 @@
         color: $main-color;
         border-radius: 10px;
     }
-    
+
     button:hover{
       background-color: $main-color;
       color: white;

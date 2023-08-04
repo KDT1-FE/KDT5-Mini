@@ -4,7 +4,6 @@ import "./AddEventModal.scss";
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
-
 interface AddEventModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -16,9 +15,10 @@ interface NewEvent {
   startDate: string;
   endDate: string;
   category: string;
-  reason: string; 
-}
 
+  reason: string;
+
+}
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
   const [newEvent, setNewEvent] = useState({
     title: '',
@@ -30,16 +30,15 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
-  
+
     // name이 'select-reason'인 경우, reason 값을 설정
     if (name === 'select-reason') {
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
     }
-  };
-  
 
+  };
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value; // 클릭한 체크박스의 value 값을 가져옴
     setNewEvent((prevEvent) => ({
@@ -47,24 +46,19 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       category: value, // 클릭한 체크박스의 값으로 카테고리 값을 변경
     }));
   };
-  
   const cookie = new Cookies();
   const AC_TOKEN = cookie.get('AC_TOKEN');
-
   const handleSubmit = () => {
-
     handleAddEvent(newEvent);
-  
+
     const eventDataToSend = {
       ...newEvent,
       reason: newEvent.reason,
     };
 
-axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
+axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
   headers: {
-    Authorization: `Bearer ${AC_TOKEN}`,
-    "Access-Control-Allow-Origin": "http://localhost:5173",
-    
+    Authorization: `Bearer ${AC_TOKEN}`
   }
 })
 
@@ -78,7 +72,6 @@ axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
     // Close the modal
     closeModal();
   };
-  
 
   return (
     <Modal
@@ -119,7 +112,9 @@ axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
         </div>
         <div className='addEvent-category'>
           <label>종류</label>
-          <div className='addCategory-wrap'>          
+
+          <div className='addCategory-wrap'>
+
             <label
             className='addRest'>
             <input
@@ -146,11 +141,10 @@ axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
 
         </div>
         <div className='addEvent-reason'>
-          <label>사유</label> 
+          <label>사유</label>
           <select name="select-reason" id="reason" onChange={handleInputChange}>
             <option value="">========== 선택하세요 ==========</option>
             <option value="연차유급 휴가">연차유급 휴가</option>
-            
             <option value="병가 휴가">병가 휴가</option>
             <option value="경조사 휴가">경조사 휴가</option>
             <option value="출산 전휴 휴가">출산 전휴 휴가</option>
@@ -166,5 +160,4 @@ axios.post('https://miniproject-team9.p-e.kr/api/annual', eventDataToSend, {
     </Modal>
   );
 };
-
 export default AddEventModal;

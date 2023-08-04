@@ -7,7 +7,12 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
+
+  const [cookies, setCookie] = useCookies(["RF_TOKEN"]);
+  // const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
+
+  // input 유효성 검사
+
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -30,12 +35,16 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const AC_TOKEN = response?.data;
-      console.log(response);
+
+      const RF_TOKEN = response?.data;
       if (response) {
-        setCookie("AC_TOKEN", AC_TOKEN, { path: "/" });
+        setCookie("RF_TOKEN", RF_TOKEN, {
+          path: "/",
+        });
+
         alert("로그인 성공");
       }
+      console.log(response);
     } catch (error) {
       alert("로그인 실패");
       console.log("LoginPageError: ", error);

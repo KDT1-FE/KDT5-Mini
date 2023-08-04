@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -6,7 +7,6 @@ import AddEventModal from './AddEventModal';
 import EventModal from './EventModal';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import { ApiHttpWithAuth } from '@/API/mainApi';
 import { useNavigate } from "react-router-dom";
 
 const MainCalendar = () => {
@@ -26,17 +26,19 @@ const MainCalendar = () => {
   };
 
 
-
   useEffect(() => {
-    ApiHttpWithAuth.get('/main')
-      .then(response => {
+    // API 호출
+    axios
+      .get("http://52.78.200.157/api/main")
+      .then((response) => {
+        // API에서 받아온 데이터를 state에 설정
         setEvents(response.data);
-        console.log('Fetched events:', response.data);
+        console.log("Fetched events:", response.data);
       })
-      .catch(error => {
-        console.error('Error fetching events:', error);
+      .catch((error) => {
+        console.error("Error fetching events:", error);
       });
-  }, []);
+  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const processedEvents = events.map((event) => {
@@ -45,19 +47,16 @@ const MainCalendar = () => {
       ...rest,
       start: startDate,
       end: endDate,
-      color: event.category === '연차' ? '#FEEFEC' : '#EEF6F1',
-      textColor: event.category === '연차' ? '#EA613C' : '#3ACAB9',
+      color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+      textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
       title: `• ${event.name}`,
     };
   });
 
   const cookie = new Cookies();
-  const AC_TOKEN = cookie.get('AC_TOKEN');
-  
+  const AC_TOKEN = cookie.get("AC_TOKEN");
   // API 요청을 보낼 때 "Authorization" 헤더에 토큰을 넣어주세요.
-  axios.defaults.headers.common['Authorization'] = `Bearer ${AC_TOKEN}`;
-  
-
+  axios.defaults.headers.common["Authorization"] = `Bearer ${AC_TOKEN}`;
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -66,16 +65,14 @@ const MainCalendar = () => {
       setSelectedCategories([...selectedCategories, category]);
     }
   };
-
   // 선택된 카테고리에 따라 이벤트 필터링
-  const filteredEvents =
-    selectedCategories.includes('all')
-      ? processedEvents
-      : processedEvents.filter((event: { category: string; }) =>
-          selectedCategories.includes(event.category)
-        );
-
+  const filteredEvents = selectedCategories.includes("all")
+    ? processedEvents
+    : processedEvents.filter((event: { category: string }) =>
+        selectedCategories.includes(event.category),
+      );
   // 연차 리스트 개수
+
   const selectedAnnualLeave = events.filter((event) => 
   event.category === '연차').length;
 
@@ -88,14 +85,15 @@ const MainCalendar = () => {
   const userName = events.map((event) => event.name);   
 
   // 오늘 날짜 
+
   const today = new Date();
   const year = today.getFullYear(); // 년도 (예: 2023)
   const month = today.getMonth() + 1; // 월 (0 ~ 11, 1을 더해서 1 ~ 12로변환)
   const day = today.getDate(); // 오늘 날짜 (1 ~ 31)
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayOfWeek = daysOfWeek[today.getDay()]; // 요일 (0 ~ 6)
-    
   const formattedDate = `${year}. ${month}. ${day}. ${dayOfWeek}`;
+
     
 
     // headerToolbar 커스터마이즈
@@ -186,20 +184,62 @@ const MainCalendar = () => {
           </label>
           
         </div>
-        <div>
-          <label>           {/* 당직 카테고리 선택 박스   */}
-            <input
-              type='checkbox'
-              checked={selectedCategories.includes('당직')}
-              onChange={() => handleCategoryChange('당직')}
-            />
-            당직
-            <span className='dutyBox'>{selectedDuty}</span>          
-          {/* 당직 리스트 카운트 */}
+        <div className="SelectCanlendar">
+          {" "}
+          {/* 일정 선택 박스 */}
+          <h1>Calendar</h1>
+          <label>
+            <input type="checkbox" />
+            전체 일정
           </label>
-
+          <label>
+            <input type="checkbox" />내 일정
+          </label>
         </div>
+        <div className="SelectCategories">
+          <h1>Categories</h1>
+          <div>
+            <label>
+              {" "}
+              {/* 연차 카테고리 선택 박스   */}
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes("연차")}
+                onChange={() => handleCategoryChange("연차")}
+              />
+              연차
+              <span className="LeaveBox">{selectedAnnualLeave}</span>
+              {/* 연차 리스트 카운트 */}
+            </label>
+          </div>
+          <div>
+            <label>
+              {" "}
+              {/* 당직 카테고리 선택 박스   */}
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes("당직")}
+                onChange={() => handleCategoryChange("당직")}
+              />
+              당직
+              <span className="dutyBox">{selectedDuty}</span>
+              {/* 당직 리스트 카운트 */}
+            </label>
+          </div>
+        </div>
+        <button
+          className="addScheduleBtn"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          <span>일정 등록하기</span>
+        </button>
+        <AddEventModal
+          isOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+          handleAddEvent={handleAddEvent}
+        />
       </div>
+
       <button 
       className='addScheduleBtn'
       onClick={() => setIsAddModalOpen(true)} 
