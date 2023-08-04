@@ -1,15 +1,14 @@
 import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
-import { login } from "../../API/apis";
 import { useNavigate } from "react-router-dom";
+import { login } from "@/Api/apis.ts";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie] = useCookies(["RF_TOKEN"]);
-  // const [cookies, setCookie] = useCookies(["AC_TOKEN", "RF_TOKEN"]);
-
+  const [cookies, setCookie] = useCookies(["accessToken"]);
+  console.log(cookies);
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
@@ -44,19 +43,19 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const RF_TOKEN = response?.data;
+      console.log(response);
+
+      // 쿠키에 저장 리프레쉬 토큰
+      const accessToken = response?.data;
       if (response) {
-        setCookie("RF_TOKEN", RF_TOKEN, {
-          path: "/",
-        });
+        setCookie("accessToken", accessToken );
         alert("로그인 성공");
         // navigate("/main");
       }
-      console.log(response);
     } catch (error) {
       alert("로그인 실패");
       console.log("LoginPageError: ", error);
-      console.log(email, password);
+      // console.log(email, password);
     }
   };
 

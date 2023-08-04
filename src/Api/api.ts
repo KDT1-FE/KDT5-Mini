@@ -1,8 +1,11 @@
 import axios from "axios";
-
+import { Cookies } from "react-cookie";
+const cookie = new Cookies;
+const coo = cookie.get('accessToken')
 export const ApiHttp = axios.create({
-  baseURL: "http://52.78.200.157/api",
+  baseURL: "/mini",
   headers:{
+    Authorization: `Bearer ${coo}`
   }
 });
 
@@ -49,7 +52,7 @@ export async function postRegister(data:User) {
 
 export async function getMainCalendar() {
   try{
-    const res = await ApiHttp.get('/main')
+    const res = await ApiHttp.get('/api/main')
     return res.data;
   } catch (error) {
     console.error('data를 가져오는데 실패 하였습니다.')

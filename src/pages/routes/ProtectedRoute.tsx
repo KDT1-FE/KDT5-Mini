@@ -1,22 +1,11 @@
-// import { Navigate } from "react-router-dom";
-// import { userStore } from "@/store";
 
-// interface ProtectedRouteProps {
-//   element: React.ReactNode;
-//   adminRequired?: boolean;
-// }
+import { Navigate } from 'react-router-dom'
 
-// export default function ProtectedRoute({
-//   element,
-//   adminRequired,
-// }: ProtectedRouteProps) {
-//   const { userInfo } = userStore();
+export default function ProtectedRouter({children?, isAdmin?}) {
+  // 인증처리//
 
-//   if (!userInfo) {
-//     return <Navigate to="/login" replace />;
-//   }
-//   if (adminRequired && !userInfo.isAdmin) {
-//     return <Navigate to="/" replace />;
-//   }
-//   return <>{element}</>;
-// }
+  if(!user || (isAdmin && !user.isAdmin)) {
+    return <Navigate to="/" replace />
+  }
+  return children
+}

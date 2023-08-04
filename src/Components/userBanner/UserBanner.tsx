@@ -17,7 +17,7 @@ export default function UserBanner({ name }: { name: string }) {
   return (
     <div className={styles.container}>
       <div className={styles.my_menu}>
-        <span className={styles.my_list}>상신 내역</span>
+        <span >상신 내역</span>
         <span className={styles.bar}>|</span>
         <span className={styles.my_profile}>개인정보 수정</span>
       </div>
@@ -29,7 +29,7 @@ export default function UserBanner({ name }: { name: string }) {
           </p>
           <span className={styles.user_text}>KDT-5 회원정보</span>
         </div>
-        <div className={`${styles.banner_box} ${styles.annual}`}>
+        <div className={`${styles.banner_box} `}>
           <p className={styles.total_count}>
             <span className={styles.total_num}>{jik.annualBalance}</span>
             <span className={styles.total_unit}>개</span>

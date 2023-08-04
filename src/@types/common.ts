@@ -106,4 +106,10 @@ declare interface ModalProps {
   visibility: boolean;
   toggle: (param: boolean) => void;
 }
-
+declare interface NewEvent {
+  title: string;
+  startDate: string;
+  endDate: string;
+  category: string;
+  reason: string;
+}

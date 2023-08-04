@@ -4,10 +4,14 @@ import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
 import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
+import { useCookies } from "react-cookie";
 
 export default function Mypage() {
   const { getPageData } = useDataQuery();
   const { isLoading, error, data: myData } = getPageData;
+  const [cookies, setCookie] = useCookies(['cookieName']);
+  console.log(cookies);
+
 
   if (isLoading) {
     return "Loading...";
