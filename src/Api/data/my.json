@@ -1,5 +1,6 @@
 [
   {
+    "email:erhafa@n"
     "name": "고길동",
     "annualBalance": 23,
     "annual": [
@@ -49,6 +50,10 @@
   {
     "name": "아무개",
     "annualBalance": 23,
+    "currentpassword": dfjafafaf,
+    "password": dafjalfjaf,
+    "email": fjlaf@naver.com,
+    "joinDate": "2021-03-31",
     "annual": [
       {
         "id": 4,

@@ -1,14 +1,20 @@
 import axios from "axios";
-
 import { Cookies } from "react-cookie";
+
+
 const cookie = new Cookies;
 const coo = cookie.get('accessToken')
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers:{
-    Authorization: `Bearer ${coo}`
+    Authorization:`Bearer ${coo}`
   }
 });
+
+export const ApiLogin = axios.create({
+  baseURL: "/mini",
+});
+
 
 export async function getMyPage() {
   try {
@@ -46,7 +52,7 @@ export async function getUser() {
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
-    const response = await ApiHttp.post(
+    const response = await ApiLogin.post(
       "/api/login",
       {
         email,
@@ -69,7 +75,7 @@ export const signUp = async (
   join: string,
 ) => {
   try {
-    const response = await axios.post(
+    const response = await ApiLogin.post(
       "/api/register",
       {
         email,

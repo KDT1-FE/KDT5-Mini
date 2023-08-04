@@ -9,8 +9,9 @@ import { useCookies } from "react-cookie";
 export default function Mypage() {
   const { getPageData } = useDataQuery();
   const { isLoading, error, data: myData } = getPageData;
-  const [cookies, setCookie] = useCookies(['cookieName']);
+  const [cookies, setCookie] = useCookies(['accessToken']);
   console.log(cookies);
+
 
 
   if (isLoading) {

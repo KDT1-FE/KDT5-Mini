@@ -8,7 +8,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["accessToken"]);
+
   console.log(cookies);
+
+
+
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);

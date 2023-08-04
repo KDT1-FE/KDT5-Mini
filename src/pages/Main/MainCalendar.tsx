@@ -3,18 +3,14 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
-
 import axios from "axios";
-// import { Cookies } from "react-cookie";
-
 import { Cookies } from "react-cookie";
+
+
 const cookie = new Cookies;
 const coo = cookie.get('accessToken')
 export const ApiHttp = axios.create({
   baseURL: "/mini",
-  headers:{
-    Authorization: `Bearer ${coo}`
-  }
 });
 
 
@@ -29,18 +25,16 @@ const MainCalendar = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
 
-  // const cookie = new Cookies();
-  // const RF_TOKEN = cookie.get("RF_TOKEN");
-  // // API 요청을 보낼 때 "Authorization" 헤더에 토큰을 넣어주세요. RF_Token을 보내고 잇습니다
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${RF_TOKEN}`;
-
-
 
 
   useEffect(() => {
     // API 호출
     ApiHttp
-      .get("/api/main")
+      .get("/api/main",{
+        headers:{
+          Authorization: `Bearer ${coo}`
+        }
+      })
       .then((response) => {
         // API에서 받아온 데이터를 state에 설정
         console.log(response);
