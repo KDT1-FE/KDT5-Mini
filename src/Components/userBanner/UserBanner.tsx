@@ -30,23 +30,23 @@ export default function UserBanner({ name }: { name: string }) {
           <span className={styles.user_text}>KDT-5 회원정보</span>
         </div>
         <div className={`${styles.banner_box} `}>
-          <p className={styles.total_count}>
+          <p>
             <span className={styles.total_num}>{jik.annualBalance}</span>
-            <span className={styles.total_unit}>개</span>
+            <span>개</span>
           </p>
           <span className={styles.total_text}>총 발생 연차</span>
         </div>
-        <div className={`${styles.banner_box} ${styles.used_annual}`}>
-          <p className={styles.total_count}>
+        <div className={`${styles.banner_box}`}>
+          <p>
             <span className={styles.total_num}>{count}</span>
-            <span className={styles.total_unit}>개</span>
+            <span>개</span>
           </p>
           <span className={styles.total_text}>총 사용 연차</span>
         </div>
-        <div className={`${styles.banner_box} ${styles.rest_Annual}`}>
-          <p className={styles.total_count}>
+        <div className={`${styles.banner_box} `}>
+          <p>
             <span className={styles.total_num}>{restAnnual}</span>
-            <span className={styles.total_unit}>개</span>
+            <span>개</span>
           </p>
           <span className={styles.total_text}>총 잔여 연차</span>
         </div>

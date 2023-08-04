@@ -1,13 +1,21 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
+
+
 const cookie = new Cookies;
 const coo = cookie.get('accessToken')
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers:{
-    Authorization: `Bearer ${coo}`
+    Authorization:`Bearer ${coo}`
   }
 });
+
+export const ApiLogin = axios.create({
+  baseURL: "/mini",
+});
+
+
 export async function getMyPage() {
   try {
     const res = await axios.get("src/Api/data/my.json");
@@ -17,6 +25,7 @@ export async function getMyPage() {
     throw error;
   }
 }
+
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
 export async function getListAll() {
   try {
@@ -39,10 +48,11 @@ export async function getUser() {
   }
 }
 
+
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
-    const response = await ApiHttp.post(
+    const response = await ApiLogin.post(
       "/api/login",
       {
         email,
@@ -56,6 +66,7 @@ export const login = async (email: string, password: string) => {
     console.log("loginApi호출 : ", error);
   }
 };
+
 // 회원가입 요청
 export const signUp = async (
   email: string,
@@ -64,7 +75,7 @@ export const signUp = async (
   join: string,
 ) => {
   try {
-    const response = await axios.post(
+    const response = await ApiLogin.post(
       "/api/register",
       {
         email,
@@ -78,3 +89,4 @@ export const signUp = async (
     console.log("signupAPI호출 :", error);
   }
 };
+
