@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/Api/apis.ts";
+import { login } from "../../API/apis";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");

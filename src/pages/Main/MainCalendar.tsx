@@ -136,35 +136,7 @@ const MainCalendar = () => {
         <h1>Today</h1>
         <span>{formattedDate}</span>
       </div>
-      <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
-        <h1>Calendar</h1>
-        <div className='SelectSchedule'>
-          <label>
-            <input
-              type='checkbox'
-            />전체 일정
-          </label>
-          <label>
-            <input
-              type='checkbox'
-            />내 일정
-          </label>
-        </div>
-      </div>
-      <div className='SelectCategories'>
-        <h1>Categories</h1>
-        <div>
-          <label>            {/* 연차 카테고리 선택 박스   */}
-            <input
-              type='checkbox'
-              checked={selectedCategories.includes('연차')}
-              onChange={() => handleCategoryChange('연차')}
-            />
-            연차
-            <span className='LeaveBox'>{selectedAnnualLeave}</span>
-                        {/* 연차 리스트 카운트 */}
-          </label>
-        </div>
+
         <div className="SelectCanlendar">
           {" "}
           {/* 일정 선택 박스 */}
@@ -192,7 +164,7 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-          </div>
+
           <div>
             <label>
               {" "}
@@ -220,17 +192,7 @@ const MainCalendar = () => {
           handleAddEvent={handleAddEvent}
         />
       </div>
-      <button
-      className='addScheduleBtn'
-      onClick={() => setIsAddModalOpen(true)}
-      >
-        <span>일정 등록하기</span>
-        </button>
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          closeModal={() => setIsAddModalOpen(false)}
-          handleAddEvent={handleAddEvent}
-        />
+
       </div>
       <div className='calendarWrap'>
       <FullCalendar
