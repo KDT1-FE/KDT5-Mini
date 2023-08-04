@@ -9,7 +9,6 @@ export default function AnnualList({ name }: { name: string }) {
   );
   const setCount = useAnnualStore((state) => state.setCount);
   let totalCount = 0;
-  console.log(user);
 
   user?.annual.forEach((annual) => {
     const count = Number(

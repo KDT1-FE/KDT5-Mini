@@ -13,11 +13,10 @@ export default defineConfig({
     alias: [{ find: "@", replacement: `${__dirname}/src` }],
   },
   server: {
-    host: "local.miniproject-team9.p-e.kr",
-    port: 3000,
+    host: "localhost",
     proxy: {
       "/mini": {
-        target: "https://miniproject-team9.p-e.kr/api",
+        target: "https://miniproject-team9.p-e.kr/",
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/mini/, ""),

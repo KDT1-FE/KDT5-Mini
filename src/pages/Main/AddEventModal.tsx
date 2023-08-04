@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
 import "./AddEventModal.scss";
+import Modal from 'react-modal';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
@@ -19,6 +19,7 @@ interface NewEvent {
   reason: string;
 
 }
+
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
   const [newEvent, setNewEvent] = useState({
     title: '',
@@ -46,8 +47,11 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       category: value, // 클릭한 체크박스의 값으로 카테고리 값을 변경
     }));
   };
+
+
   const cookie = new Cookies();
   const AC_TOKEN = cookie.get('AC_TOKEN');
+
   const handleSubmit = () => {
     handleAddEvent(newEvent);
 
@@ -55,6 +59,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       ...newEvent,
       reason: newEvent.reason,
     };
+
 
 axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
   headers: {
@@ -72,6 +77,7 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
     // Close the modal
     closeModal();
   };
+
 
   return (
     <Modal

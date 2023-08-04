@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyPage, getUser } from "../API/apis";
+import { getMyPage, getUser } from "@/Api/apis.ts";
+
 import { useMyStore, useUserStore } from "@/Store/store.ts";
 
 export default function useDataQuery() {
@@ -29,6 +30,5 @@ export default function useDataQuery() {
     },
     { staleTime: 1000 * 60 },
   );
-
   return { getPageData, getUserData };
 }
