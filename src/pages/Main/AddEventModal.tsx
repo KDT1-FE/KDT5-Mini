@@ -3,17 +3,21 @@ import Modal from 'react-modal';
 import "./AddEventModal.scss";
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+
 interface AddEventModalProps {
   isOpen: boolean;
   closeModal: () => void;
   handleAddEvent: (newEvent: NewEvent) => void; // NewEvent 타입으로 수정
 }
+
 interface NewEvent {
   title: string;
   startDate: string;
   endDate: string;
   category: string;
+
   reason: string;
+
 }
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
   const [newEvent, setNewEvent] = useState({
@@ -23,14 +27,17 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     category: '',
     reason: '',
   });
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
+
     // name이 'select-reason'인 경우, reason 값을 설정
     if (name === 'select-reason') {
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
     }
+
   };
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value; // 클릭한 체크박스의 value 값을 가져옴
@@ -43,24 +50,29 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
   const AC_TOKEN = cookie.get('AC_TOKEN');
   const handleSubmit = () => {
     handleAddEvent(newEvent);
+
     const eventDataToSend = {
       ...newEvent,
       reason: newEvent.reason,
     };
+
 axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
   headers: {
     Authorization: `Bearer ${AC_TOKEN}`
   }
 })
+
       .then(response => {
         console.log('Event successfully submitted:', response.data);
       })
       .catch(error => {
         console.error('Error submitting event:', error);
       });
+
     // Close the modal
     closeModal();
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -100,7 +112,9 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
         </div>
         <div className='addEvent-category'>
           <label>종류</label>
+
           <div className='addCategory-wrap'>
+
             <label
             className='addRest'>
             <input
@@ -124,6 +138,7 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
             당직
           </label>
           </div>
+
         </div>
         <div className='addEvent-reason'>
           <label>사유</label>
@@ -141,6 +156,7 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
           <button onClick={handleSubmit}>등록</button>
         </div>
       </div>
+
     </Modal>
   );
 };

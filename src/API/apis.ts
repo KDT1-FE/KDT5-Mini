@@ -1,9 +1,7 @@
 import axios from "axios";
-
 export const ApiHttp = axios.create({
   baseURL: "http://52.78.200.157/api",
 });
-
 export async function getMyPage() {
   try {
     const res = await axios.get("src/Api/data/my.json");
@@ -13,7 +11,6 @@ export async function getMyPage() {
     throw error;
   }
 }
-
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
 export async function getListAll() {
   try {
@@ -53,7 +50,6 @@ export const login = async (email: string, password: string) => {
     console.log("loginApi호출 : ", error);
   }
 };
-
 // 회원가입 요청
 export const signUp = async (
   email: string,

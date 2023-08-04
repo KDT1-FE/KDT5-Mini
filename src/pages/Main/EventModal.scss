@@ -19,10 +19,129 @@
     border: 1px solid rgb(204, 204, 204);
     background: rgb(255, 255, 255);
     overflow: auto;
-
+  font-family: 'noto-sans';
     outline: none;
     padding: 20px;
 }
 
+.detail-wrap{
+  margin: auto;
+ width: 519px;
+ height: 227px;
+ padding-top: 20px;
+ border-bottom: 2px solid $green-BG-color;
+}
 
+.detail-header{
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $green-BG-color;
+  padding-left: 30px;
+}
+
+.detail-name {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 0px 6px 0px;
+  border-top: 1px solid $green-BG-color;
+  border-bottom: 1px solid $green-BG-color;
+  padding-left: 30px;
+}
+
+.detail-title{
+  font-size: 16px;
+  padding-top: 17px;
+}
+
+.detail-title span{
+  font-weight: bold;
+  padding: 0 20px 0 30px;
+}
+
+
+
+.detail-date {
+  font-size: 16px;
+  padding-top: 17px;
+}
+
+
+.detail-date span{
+  font-weight: bold;
+  padding: 0 20px 0 30px;
+}
+
+
+.detail-category{
+  display: flex;
+  align-items: center;
+  font-size: 16px;  
+  padding-top: 17px;
+
+}
+
+.detail-category span{
+  font-weight: bold;
+  padding: 0 20px 0 30px;
+}
+
+
+.detail-duty {
+  display: inline-block;
+  width: 70px;
+  height: 28px;
+  color: $date-rcolor;
+  background-color: $white-green;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin: auto 0;
+  }
+
+  .detail-duty span{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .detail-rest {
+    display: inline-block;
+    width: 70px;
+    height: 28px;
+    color: $point-color;
+    background-color: $white-orange;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    }
+  
+    .detail-rest span{
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+    }
+  
+
+.detail-close {
+  top: 6%;
+  right: 5%;
+  position: absolute;
+  background-color: $green-BG-color;
+  color: white;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 50px;
+}
 
