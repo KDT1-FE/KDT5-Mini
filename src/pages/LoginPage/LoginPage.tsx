@@ -65,11 +65,10 @@ const LoginPage = () => {
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
-        <div className="title_wrap">로그인</div>
+        <div className="login_title">로그인</div>
         <div className="content_wrap">
           <div className="content_box">
             <div className="input_box">
-              {/* <span className="input_label">이메일</span> */}
               <input
                 className="input"
                 placeholder="이메일 @email.com"
@@ -79,7 +78,9 @@ const LoginPage = () => {
             </div>
             <div className="inputErrorMessage">
               {!emailValid && email.length > 0 && (
-                <div>올바른 이메일 형식을 입력해주세요.</div>
+                <div className="error_message">
+                  올바른 이메일 형식을 입력해주세요.
+                </div>
               )}
             </div>
           </div>
@@ -104,9 +105,9 @@ const LoginPage = () => {
                 ></i>
               )}
             </div>
-            <div className="inputErrorMessage">
+            <div>
               {!passwordValid && password.length > 0 && (
-                <div>
+                <div className="error_message">
                   영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
                   필요)
                 </div>
