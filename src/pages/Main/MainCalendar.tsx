@@ -6,13 +6,11 @@ import AddEventModal from "./AddEventModal";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
-
-const cookie = new Cookies;
-const coo = cookie.get('accessToken')
+const cookie = new Cookies();
+const coo = cookie.get("accessToken");
 export const ApiHttp = axios.create({
   baseURL: "/mini",
 });
-
 
 console.log(coo);
 
@@ -25,16 +23,13 @@ const MainCalendar = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
 
-
-
   useEffect(() => {
     // API 호출
-    ApiHttp
-      .get("/api/main",{
-        headers:{
-          Authorization: `Bearer ${coo}`
-        }
-      })
+    ApiHttp.get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${coo}`,
+      },
+    })
       .then((response) => {
         // API에서 받아온 데이터를 state에 설정
         console.log(response);
@@ -47,7 +42,6 @@ const MainCalendar = () => {
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
   // 당직, 연차 값을 조건에 따라 색상 변경
 
-
   const processedEvents = events.map((event) => {
     const { startDate, endDate, ...rest } = event;
     return {
@@ -59,8 +53,6 @@ const MainCalendar = () => {
       title: `• ${event.name}`,
     };
   });
-
-
 
   // 카테고리 선택 버튼 클릭 시
 
