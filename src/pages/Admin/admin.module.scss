@@ -1,17 +1,19 @@
 @import "src/_variables.scss";
+@import "src/_mixin.scss";
+
 .page {
   position: relative;
   top: 0;
   padding-top: 100px;
   padding-bottom: 50px;
   width: 100%;
-  height: 125vh;
+  height: 135vh;
   background-color: $light-Green-BG-color;
   .container {
     margin: auto;
     padding-top: 50px;
     width: 1080px;
-    height: 830px;
+    height: 900px;
     border-radius: 40px;
     background-color: $white-color;
     box-shadow: 5px 5px 20px $main-color-30;
@@ -108,14 +110,14 @@
     width: 90%;
     height: 100%;
     margin: auto;
-    padding-top: 60px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     // background-color: blue;
     .lists_box {
-      margin-top: 10px;
+      margin-top: 30px;
       width: 100%;
-      height: 46%;
+      height: 42%;
       font-family: 700;
       // background-color: red;
       .lists_title {
@@ -125,10 +127,10 @@
       }
       .lists_index {
         width: 100%;
-        height: 46px;
+        height: 44px;
         margin: auto;
-        margin-top: 10px;
-        padding: 20px 12px;
+        margin-top: 12px;
+        padding: 20px 20px;
         background-color: $light-Green-BG-color;
         color: $main-color;
         border-radius: 13px;
@@ -137,24 +139,22 @@
         align-items: center;
         text-align: center;
         .name {
-          width: 18%;
-          // &::after {
-          //   content: "|";
-          //   float: right;
-          //   color: $sub-color;
-          // }
+          width: 10%;
         }
         .title {
-          width: 33%;
+          width: 40%;
+        }
+        .reason {
+          width: 10%;
         }
         .period {
           width: 28%;
         }
         .count {
-          width: 10%;
+          width: 12%;
         }
         .permission {
-          width: 11%;
+          width: 10%;
         }
         .duty_name {
           width: 18%;
@@ -170,10 +170,10 @@
         }
       }
       .lists {
-        width: 99%;
+        width: 100%;
         height: 73%;
-        margin-top: 5px;
-        background-color: green;
+        margin-top: 10px;
+        background-color: $light-Grey-color;
         overflow-y: scroll;
         &::-webkit-scrollbar {
           width: 10px; /* 스크롤바의 너비 */
@@ -187,17 +187,10 @@
     }
     .lists_box.duty_box {
       .lists {
-        width: 99%;
+        width: 100%;
         height: 73%;
-        margin-top: 5px;
+        margin-top: 10px;
       }
     }
   }
 }
-
-
-
-
-
-
-

@@ -9,6 +9,22 @@
   font-weight: 700;
   cursor: pointer;
 }
+@mixin permission-button {
+  padding: 4px 10px;
+  border-radius: 5px;
+  color: $white-color;
+  font-weight: 700;
+  background-color: $point-color;
+  cursor: pointer;
+}
+
+@mixin non-permission-button {
+  background-color: $white-orange;
+  color: $point-color;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 @mixin wide-input {
   width: 100%;
   font-size: 14px;
@@ -32,9 +48,9 @@
 
 @mixin select-wide-input {
   width: 200px;
-  padding: 12px;
+  padding: 10px;
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   text-align: right;
   color: $sub-color;
@@ -50,9 +66,9 @@
 
 @mixin select-middle-input {
   width: 100px;
-  padding: 12px;
+  padding: 10px;
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   text-align: right;
   color: $sub-color;
@@ -62,4 +78,10 @@
   &:focus-within {
     border: 1.5px solid $sub-color;
   }
+}
+
+@mixin index-bar {
+  content: "|";
+  float: right;
+  color: $green-BG-color;
 }

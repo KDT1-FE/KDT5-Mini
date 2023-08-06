@@ -13,7 +13,6 @@ export default function Mypage() {
   console.log(cookies);
 
 
-
   if (isLoading) {
     return "Loading...";
   } else if (error instanceof Error) {

@@ -29,7 +29,7 @@ export async function getMyPage() {
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
 export async function getListAll() {
   try {
-    const res = await axios.get("src/Api/data/adminApi.json");
+    const res = await axios.get("src/Api/data/admin.json");
     return res.data;
   } catch (error) {
     console.log(error);

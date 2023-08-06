@@ -1,8 +1,9 @@
 @import "src/_variables.scss";
+@import "src/_mixin.scss";
 
 .list {
   position: relative;
-  width: 100%;
+  width: 98%;
   height: 38px;
   margin: auto;
   padding: 5px 0px;
@@ -14,54 +15,49 @@
   font-weight: 400;
   .list_option {
     width: 89%;
+    margin-left: 15px;
     display: flex;
     text-align: center;
     justify-content: space-between;
+    // background-color: violet;
     .text {
       width: 100%;
       &.name {
-        width: 21%;
+        width: 10%;
         &::after {
-          content: "|";
-          float: right;
-          color: $sub-color;
+          @include index-bar;
         }
       }
       &.title {
-        width: 37%;
+        width: 40%;
         &::after {
-          content: "|";
-          float: right;
-          color: $sub-color;
+          @include index-bar;
+        }
+      }
+      &.reason {
+        width: 10%;
+        &::after {
+          @include index-bar;
         }
       }
       &.period {
-        width: 31%;
+        width: 30%;
         &::after {
-          content: "|";
-          float: right;
-          color: $sub-color;
+          @include index-bar;
         }
       }
       &.count {
-        width: 11%;
+        width: 10%;
         &::after {
-          content: "|";
-          float: right;
-          color: $sub-color;
+          @include index-bar;
         }
       }
     }
   }
   .permission {
-    background-color: $point-color;
-    color: $white-color;
-    padding: 4px 10px;
-    border-radius: 5px;
-    margin-right: 14px;
-    &:hover {
-      background-color: $white-orange;
-      color: $point-color;
-    }
+    @include permission-button;
+  }
+  .checked {
+    @include non-permission-button;
   }
 }
