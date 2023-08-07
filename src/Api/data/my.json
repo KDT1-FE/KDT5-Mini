@@ -1,12 +1,13 @@
-[
+
   {
-    "email:erhafa@n"
     "name": "고길동",
-    "annualBalance": 23,
-    "annual": [
+    "annualBalance": 20,
+    "annualUsed": 15,
+    "annualRemain": 8,
+    "annualHistories": [
       {
         "id": 0,
-        "title" : "고길동 | 여름 휴가 연차 사용의 건",
+        "title": "여름 휴가 연차 사용의 건",
         "reason": "경조사",
         "startDate": "2023-01-09",
         "endDate": "2023-01-15",
@@ -14,7 +15,7 @@
       },
       {
         "id": 2,
-        "title": "고길동 대리 | 병가 휴가 연차 사용의 건",
+        "title": "병가 휴가 연차 사용의 건",
         "reason": "병 가",
         "startDate": "2023-03-24",
         "endDate": "2023-03-28",
@@ -22,56 +23,21 @@
       },
       {
         "id": 3,
-        "title": "고길동 주임 | 경조사 휴가 사용의 건",
+        "title": "경조사 휴가 사용의 건",
         "reason": "병 가",
         "startDate": "2023-02-23",
         "endDate": "2023-02-27",
         "status": "대기"
       }
     ],
-    "duty": [
+    "dutyHistories": [
       {
         "id": 1,
         "title": "고길동 대리 | 7월 당직 결재건",
         "startDate": "2023-03-10",
         "endDate": "2023-03-10",
         "status": "대기"
-      },
-      {
-        "id": 2,
-        "title": "아무개 과장 | 7월 당직 결재건",
-        "startDate": "2023-01-19",
-        "endDate": "2023-01-19",
-        "status": "대기"
-      }
-    ]
-  },
-
-  {
-    "name": "아무개",
-    "annualBalance": 23,
-    "currentpassword": dfjafafaf,
-    "password": dafjalfjaf,
-    "email": fjlaf@naver.com,
-    "joinDate": "2021-03-31",
-    "annual": [
-      {
-        "id": 4,
-        "title": "아무개 주임 | 경조사 휴가 사용의 건",
-        "reason": "유 급",
-        "startDate": "2023-08-05",
-        "endDate": "2023-08-15",
-        "status": "대기"
-      }
-    ],
-    "duty": [
-      {
-        "id": 1,
-        "title": "아무개 과장 | 7월 당직 결재건",
-        "startDate": "2023-01-10",
-        "endDate": "2023-01-10",
-        "status": "완료"
       }
     ]
   }
-]
+

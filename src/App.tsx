@@ -21,7 +21,6 @@ function App() {
           <Route path={"/mypage"} element={<Mypage />} />
           {/* 어드민 페이지 */}
           <Route path="/admin" element={<Admin />} />
-
       </Routes>
     </CookiesProvider>
   );
