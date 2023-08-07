@@ -3,16 +3,10 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
+// import useDataQuery from "@/Hooks/useData-Query.tsx";
 import axios from "axios";
 import { Cookies } from "react-cookie";
-
-const cookie = new Cookies();
-const coo = cookie.get("accessToken");
-export const ApiHttp = axios.create({
-  baseURL: "/mini",
-});
-
-console.log(coo);
+import { Link } from "react-router-dom";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -23,13 +17,38 @@ const MainCalendar = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
 
+
+  const cookie = new Cookies;
+  const coo = cookie.get("accessToken");
+  console.log(coo);
+
+  const ApiHttp = axios.create({
+    baseURL: "/mini",
+    headers: {
+      Authorization: `Bearer ${coo}`
+    }
+  });
+
+  //usequery 사용
+  // const {getMainData} = useDataQuery()
+  // const {isLoading, error, data: mainData} = getMainData;
+
+ // useEffect(()=>{
+ //   if(mainData){
+ //     setEvents(mainData)
+ //   }
+ // },[mainData])
+ //
+ //  if (isLoading) {
+ //    return "Loading...";
+ //  } else if (error instanceof Error) {
+ //    return `An error has occurred: ${error.message}`;
+ //  }
+
   useEffect(() => {
     // API 호출
-    ApiHttp.get("/api/main", {
-      headers: {
-        Authorization: `Bearer ${coo}`,
-      },
-    })
+    ApiHttp
+      .get("/api/main")
       .then((response) => {
         // API에서 받아온 데이터를 state에 설정
         console.log(response);
@@ -42,7 +61,10 @@ const MainCalendar = () => {
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
   // 당직, 연차 값을 조건에 따라 색상 변경
 
-  const processedEvents = events.map((event) => {
+
+
+  const processedEvents = events.map((event: any) => {
+
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -71,14 +93,14 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event) => event.category === "연차",
+    (event:any) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event) => event.category === "당직",
+    (event:any) => event.category === "당직",
   ).length;
   // 유저 이름 표시
-  const userName = events.map((event) => event.name);
+  const userName = events.map((event:any) => event.name);
   // 오늘 날짜
   const today = new Date();
   const year = today.getFullYear(); // 년도 (예: 2023)
@@ -93,7 +115,7 @@ const MainCalendar = () => {
     center: "title",
     right: "next",
   };
-  const handleEventClick = (eventInfo) => {
+  const handleEventClick = (eventInfo: any) => {
     const { reason, title, start, end, category } = eventInfo.event;
     console.log("Clicked event - Reason:", reason);
     console.log("Clicked event - Title:", title);
@@ -101,10 +123,16 @@ const MainCalendar = () => {
     console.log("Clicked event - End:", end);
     console.log("Clicked event - Category:", category);
   };
+
+
+
   function handleAddEvent(newEvent: NewEvent): void {
+    console.log(newEvent);
+    // postMainData.mutate(newEvent)
+
     // Send the new event data to the server
-    axios
-      .post("http://52.78.200.157/api/annual", newEvent)
+    ApiHttp
+      .post("/api/annual", newEvent)
       .then((response) => {
         console.log("Event successfully submitted:", response.data);
         // 서버로부터의 응답을 처리할 수 있음
@@ -118,6 +146,7 @@ const MainCalendar = () => {
     // Close the modal
     setIsAddModalOpen(false);
   }
+
   return (
     <div className="mainWrap">
       <div className="selectWrap">
@@ -128,8 +157,8 @@ const MainCalendar = () => {
           }}
         >
           반가워요, {userName} 님!
-          {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
-          <li>마이페이지</li>
+           {/*추후에 {loggedInUser.name} 로 변환할 것  */}
+          <li><Link to={'/mypage'}>마이페이지</Link></li>
           <li>로그아웃</li>
         </ul>
         <div className="Today">

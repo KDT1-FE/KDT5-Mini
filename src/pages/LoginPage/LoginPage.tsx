@@ -15,6 +15,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+
+
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     const regex =
@@ -48,7 +50,6 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-
       const accessToken = response?.data;
       if (response) {
         setCookie("accessToken", accessToken);

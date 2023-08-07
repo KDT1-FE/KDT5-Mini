@@ -28,22 +28,24 @@ declare interface LoginType {
 }
 
 declare type MyDataType = {
-  name: string;
-  annualBalance: number;
-  annual: Array<{
-    id: number;
-    title: string;
-    reason: string;
-    startDate: string;
-    endDate: string;
-    status: string;
+  name: string,
+  annualBalance: number,
+  annualUsed:string,
+  annualRemain: number,
+  annualHistories: Array<{
+    id: number,
+    title: string,
+    reason: string,
+    startDate: string,
+    endDate: string,
+    status: string,
   }>;
-  duty: Array<{
-    id: number;
-    title: string;
-    startDate: string;
-    endDate: string;
-    status: string;
+  dutyHistories: Array<{
+    id: number,
+    title: string,
+    startDate: string,
+    endDate: string,
+    status: string,
   }>;
 };
 
@@ -56,20 +58,25 @@ declare interface MyDataAction {
 }
 
 declare interface AnnualType {
-  id: number,
-  reason: string,
-  title : string,
-  startDate: string,
-  endDate: string,
-  status: string
+  annual: {
+    reason: string;
+    title: string;
+    startDate: string;
+    endDate: string;
+    annualRemain: number;
+    status: string;
+  }[];
 }
 
+
 declare interface DutyType {
-  id: number,
-  title: string,
-  startDate: string,
-  endDate: string,
-  status: string
+  duty:{
+    id: number,
+    title: string,
+    startDate: string,
+    endDate: string,
+    status: string
+  }[];
 }
 
 declare type MyStore = {
@@ -113,3 +120,5 @@ declare interface NewEvent {
   category: string;
   reason: string;
 }
+
+declare type HandleClickType = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
