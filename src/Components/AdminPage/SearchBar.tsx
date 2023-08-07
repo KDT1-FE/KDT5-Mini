@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./SearchBar.module.scss";
 
 interface Props {
-  onSearch: (searchTerm: string, searchOption: string)  => void;
+  onSearch: (searchTerm: string, searchOption: string) => void;
 }
 
 export default function SearchBar({ onSearch }: Props) {
@@ -11,7 +11,12 @@ export default function SearchBar({ onSearch }: Props) {
 
   const handleSearch = () => {
     onSearch(searchTerm, searchOption);
-    console.log('msg: 여기까진 된다.')
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -37,6 +42,7 @@ export default function SearchBar({ onSearch }: Props) {
           placeholder="검색..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
         <button className={styles.search_icon} onClick={handleSearch}>
           <img

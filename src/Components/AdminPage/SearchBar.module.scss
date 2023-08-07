@@ -31,9 +31,6 @@
     }
     .btn {
       width: 65%;
-      &::before {
-        @include index-bar;
-      }
     }
   }
   .search_bar {

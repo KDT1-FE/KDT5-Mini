@@ -3,12 +3,20 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
-// import useDataQuery from "@/Hooks/useData-Query.tsx";
 import axios from "axios";
-import { Cookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { Cookies, useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import EventModal from "./EventModal";
+import { getAuth, getNewAccessToken, getMyPage } from "@/Api/apis";
+
+const cookie = new Cookies();
+const accessToken = cookie.get("accessToken");
+export const ApiHttp = axios.create({
+  baseURL: "/mini",
+});
 
 const MainCalendar = () => {
+  const [cookies, setCookie] = useCookies(["accessToken"]);
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
@@ -16,55 +24,49 @@ const MainCalendar = () => {
   const [view, setView] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
-
-
-  const cookie = new Cookies;
-  const coo = cookie.get("accessToken");
-  console.log(coo);
-
-  const ApiHttp = axios.create({
-    baseURL: "/mini",
-    headers: {
-      Authorization: `Bearer ${coo}`
-    }
-  });
-
-  //usequery 사용
-  // const {getMainData} = useDataQuery()
-  // const {isLoading, error, data: mainData} = getMainData;
-
- // useEffect(()=>{
- //   if(mainData){
- //     setEvents(mainData)
- //   }
- // },[mainData])
- //
- //  if (isLoading) {
- //    return "Loading...";
- //  } else if (error instanceof Error) {
- //    return `An error has occurred: ${error.message}`;
- //  }
+  const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // API 호출
-    ApiHttp
-      .get("/api/main")
-      .then((response) => {
-        // API에서 받아온 데이터를 state에 설정
-        console.log(response);
-        setEvents(response.data);
-        console.log("Fetched events:", response.data);
+    const getMainInfo = getMyPage(accessToken);
+    getMainInfo
+      ?.then((res) => {
+        console.log(res);
+        setEvents(res.data);
       })
       .catch((error) => {
-        console.error("Error fetching events:", error);
+        if (error.response.status === 401) {
+          const newAccessToken = getNewAccessToken();
+          new Cookies().set("accessToken", newAccessToken, { path: "/" });
+          // 새로운 accessToken으로 재시도
+          const config = error.config;
+          config.headers.Authorization = newAccessToken;
+          ApiHttp.get(config.url, config)
+            .then((res) => {
+              console.log(res);
+              setEvents(res.data);
+            })
+            .catch((error) => {
+              console.error("Error while retrying API call:", error);
+            });
+        } else {
+          console.error("API call error:", error);
+        }
       });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+
   // 당직, 연차 값을 조건에 따라 색상 변경
+  const toggleUserInfo = () => {
+    setUserInfoVisible(!userInfoVisible);
+  };
+  const handleMyPageClick = () => {
+    // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
+    navigate("/mypage");
+  };
 
-
-
-  const processedEvents = events.map((event: any) => {
-
+  const processedEvents = events.map((event) => {
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -93,14 +95,15 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event:any) => event.category === "연차",
+    (event) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event:any) => event.category === "당직",
+    (event) => event.category === "당직",
   ).length;
   // 유저 이름 표시
-  const userName = events.map((event:any) => event.name);
+  const userName = events.map((event) => event.name);
+
   // 오늘 날짜
   const today = new Date();
   const year = today.getFullYear(); // 년도 (예: 2023)
@@ -109,29 +112,19 @@ const MainCalendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayOfWeek = daysOfWeek[today.getDay()]; // 요일 (0 ~ 6)
   const formattedDate = `${year}. ${month}. ${day}. ${dayOfWeek}`;
+
   // headerToolbar 커스터마이즈
   const headerToolbarOptions = {
     left: "prev",
     center: "title",
     right: "next",
   };
-  const handleEventClick = (eventInfo: any) => {
-    const { reason, title, start, end, category } = eventInfo.event;
-    console.log("Clicked event - Reason:", reason);
-    console.log("Clicked event - Title:", title);
-    console.log("Clicked event - Start:", start);
-    console.log("Clicked event - End:", end);
-    console.log("Clicked event - Category:", category);
+  const handleEventClick = (eventInfo) => {
+    setSelectedEvent(eventInfo); // 수정된 부분
   };
-
-
-
   function handleAddEvent(newEvent: NewEvent): void {
-    console.log(newEvent);
-    // postMainData.mutate(newEvent)
-
     // Send the new event data to the server
-    ApiHttp
+    axios
       .post("/api/annual", newEvent)
       .then((response) => {
         console.log("Event successfully submitted:", response.data);
@@ -151,15 +144,14 @@ const MainCalendar = () => {
     <div className="mainWrap">
       <div className="selectWrap">
         <ul
-          className="UserInfo"
-          onClick={() => {
-            setView(!view);
-          }}
+          className={`UserInfo ${userInfoVisible ? "active" : ""}`}
+          onClick={toggleUserInfo}
         >
-          반가워요, {userName} 님!
-           {/*추후에 {loggedInUser.name} 로 변환할 것  */}
-          <li><Link to={'/mypage'}>마이페이지</Link></li>
-          <li>로그아웃</li>
+          반가워요, <span className="UserNameInfo">테스트{userName}</span>님!
+          <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
+            <li onClick={handleMyPageClick}>마이 페이지</li>
+            <li>로그아웃</li>
+          </div>
         </ul>
         <div className="Today">
           {" "}
@@ -167,17 +159,20 @@ const MainCalendar = () => {
           <h1>Today</h1>
           <span>{formattedDate}</span>
         </div>
+
         <div className="SelectCanlendar">
           {" "}
           {/* 일정 선택 박스 */}
           <h1>Calendar</h1>
-          <label>
-            <input type="checkbox" />
-            전체 일정
-          </label>
-          <label>
-            <input type="checkbox" />내 일정
-          </label>
+          <div className="SelectSchedule">
+            <label>
+              <input type="checkbox" />
+              전체 일정
+            </label>
+            <label>
+              <input type="checkbox" />내 일정
+            </label>
+          </div>
         </div>
         <div className="SelectCategories">
           <h1>Categories</h1>
@@ -194,33 +189,34 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
+
+            <div>
+              <label>
+                {" "}
+                {/* 당직 카테고리 선택 박스   */}
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes("당직")}
+                  onChange={() => handleCategoryChange("당직")}
+                />
+                당직
+                <span className="dutyBox">{selectedDuty}</span>
+                {/* 당직 리스트 카운트 */}
+              </label>
+            </div>
           </div>
-          <div>
-            <label>
-              {" "}
-              {/* 당직 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("당직")}
-                onChange={() => handleCategoryChange("당직")}
-              />
-              당직
-              <span className="dutyBox">{selectedDuty}</span>
-              {/* 당직 리스트 카운트 */}
-            </label>
-          </div>
+          <button
+            className="addScheduleBtn"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <span>일정 등록하기</span>
+          </button>
+          <AddEventModal
+            isOpen={isAddModalOpen}
+            closeModal={() => setIsAddModalOpen(false)}
+            handleAddEvent={handleAddEvent}
+          />
         </div>
-        <button
-          className="addScheduleBtn"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          <span>일정 등록하기</span>
-        </button>
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          closeModal={() => setIsAddModalOpen(false)}
-          handleAddEvent={handleAddEvent}
-        />
       </div>
       <div className="calendarWrap">
         <FullCalendar
@@ -230,8 +226,14 @@ const MainCalendar = () => {
           events={filteredEvents}
           headerToolbar={headerToolbarOptions}
           eventClick={handleEventClick}
-        />{" "}
-        {/* 캘린더 렌더링 */}
+        />
+        {selectedEvent && (
+          <EventModal
+            isOpen={true} // 여기서 모달을 열려면 true로 설정하거나, 필요한 조건에 따라서 설정해주어야 합니다.
+            closeModal={() => setSelectedEvent(null)} // 모달 닫기 함수
+            eventInfo={selectedEvent} // 이벤트 정보 전달
+          />
+        )}
       </div>
     </div>
   );

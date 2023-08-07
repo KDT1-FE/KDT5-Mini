@@ -1,28 +1,52 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
-const cookie = new Cookies;
+const cookie = new Cookies();
 const token = cookie.get("accessToken");
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${token}`
-  }
+    Authorization: `Bearer ${token}`,
+  },
 });
 
 export const ApiLogin = axios.create({
-  baseURL: "/mini"
+  baseURL: "/mini",
 });
 
+// 리프레시 토큰 요청 => 새로운 엑세스 토큰 반환
+export const getNewAccessToken = async () => {
+  const cookie = new Cookies();
+  const accessToken = cookie.get("accessToken");
+  const refreshToken = cookie.get("refreshToken");
 
-export async function getMyPage() {
-  try{
-    const res = await ApiHttp.get('/api/user')
-    return res.data
+  const response = ApiHttp.post(
+    "/api/token",
+    { refreshToken },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    },
+  );
+  const newAccessToken = await response;
+  return newAccessToken;
+};
+
+// 마이페이지 요청
+export const getMyPage = (token: any) => {
+  try {
+    const response = ApiHttp.get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
   } catch (error) {
-    console.error('마이페이지를 읽어 오지 못햇습니다.',error)
+    console.log(error);
   }
-}
+};
 
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
 // /api/admin/
@@ -62,23 +86,22 @@ export async function getUser() {
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
-    return await ApiLogin.post(
-      "/api/login",
-      { email, password }
-    ).then(res => {
-      return res
-    })
+    return await ApiLogin.post("/api/login", { email, password }).then(
+      (res) => {
+        return res;
+      },
+    );
   } catch (error) {
     console.error("로그인 에러 : ", error);
   }
 };
 
-export async function logOut () {
-  try{
-    const res =  await ApiHttp.post('/api/logout')
-    return res
+export async function logOut() {
+  try {
+    const res = await ApiHttp.post("/api/logout");
+    return res;
   } catch (error) {
-    console.error('로그아웃이 실패 하였습니다.',error)
+    console.error("로그아웃이 실패 하였습니다.", error);
   }
 }
 
@@ -87,13 +110,15 @@ export const signUp = async (
   email: string,
   password: string,
   name: string,
-  join: string
+  join: string,
 ) => {
   try {
-    const response = await ApiLogin.post(
-      "/api/register",
-      { email, password, name, join }
-    );
+    const response = await ApiLogin.post("/api/register", {
+      email,
+      password,
+      name,
+      join,
+    });
     return response.data;
   } catch (error) {
     console.log("signupAPI호출 :", error);
@@ -112,11 +137,10 @@ export async function getMain() {
 
 export async function postMain(data: NewEvent) {
   try {
-    await ApiHttp.post("/api/annual", {data})
-      .then((res) => {
-        console.log("새로운 등록 완료", res.data);
-        return res.data;
-      });
+    await ApiHttp.post("/api/annual", { data }).then((res) => {
+      console.log("새로운 등록 완료", res.data);
+      return res.data;
+    });
   } catch (error) {
     console.error("Error submitting event:", error);
   }
