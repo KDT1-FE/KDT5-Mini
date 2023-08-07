@@ -1,19 +1,12 @@
-import { DateCount, JickCounter } from "@/Common/CommonFunction.ts";
-import { useAnnualStore, useUserStore } from "@/Store/store.ts";
-import dayjs from "dayjs";
+// import { DateCount, JickCounter } from "@/Common/CommonFunction.ts";
+// import { useAnnualStore, useUserStore } from "@/Store/store.ts";
+// import dayjs from "dayjs";
 import styles from "./userBanner.module.scss";
 
-export default function UserBanner({ name }: { name: string }) {
-  const { users } = useUserStore((state) => state);
-  const { count } = useAnnualStore((state) => state);
-  const user = users.find((user) => name === user.name);
-  const today = dayjs().format("YYYY-MM-DD");
-  const totalDays = DateCount({
-    startDate: user?.joinDate as string,
-    endDate: today,
-  });
-  const jik = JickCounter(totalDays as string);
-  const restAnnual = jik.annualBalance - count;
+
+export default function UserBanner(props:{myData:MyDataType}) {
+  const myData = props.myData;
+
   return (
     <div className={styles.container}>
       <div className={styles.my_menu}>
@@ -24,28 +17,28 @@ export default function UserBanner({ name }: { name: string }) {
       <div className={styles.banner}>
         <div className={`${styles.banner_box} ${styles.annual_info}`}>
           <p className={styles.user_info}>
-            <span className={styles.user_name}>{user?.name} </span>
-            <span className={styles.user_position}>{jik.answer}</span>
+            <span className={styles.user_name}>{myData.name} </span>
+            {/*<span className={styles.user_position}>{jik.answer}</span>*/}
           </p>
           <span className={styles.user_text}>KDT-5 회원정보</span>
         </div>
         <div className={`${styles.banner_box} `}>
           <p>
-            <span className={styles.total_num}>{jik.annualBalance}</span>
+            <span className={styles.total_num}>{myData.annualBalance}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 발생 연차</span>
         </div>
         <div className={`${styles.banner_box}`}>
           <p>
-            <span className={styles.total_num}>{count}</span>
+            <span className={styles.total_num}>{myData.annualUsed}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 사용 연차</span>
         </div>
         <div className={`${styles.banner_box} `}>
           <p>
-            <span className={styles.total_num}>{restAnnual}</span>
+            <span className={styles.total_num}>{myData.annualRemain}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 잔여 연차</span>
