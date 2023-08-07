@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./admin.module.scss";
-import Header from "../../Components/Header/Header.tsx";
-import DutyLists from "../../Components/AdminPage/DutyLists.tsx";
-import DayoffLists from "../../Components/AdminPage/DayoffLists.tsx";
-import { AdminListsAll } from "src/@types/adminList.ts";
-import { getListAll } from "../..//Api/apis.ts";
-import { Cookies } from "react-cookie";
+import Header from "@/Components/Header/Header.tsx";
+import SearchBar from "@/Components/AdminPage/SearchBar.tsx";
+import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
+import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
+import { AdminListsAll } from "@/@types/adminList.ts";
+import { getListAll } from "@//Api/apis.ts";
 
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
   const [dutyData, setDutyData] = useState<AdminListsAll[]>([]);
+  const [filteredDayoffData, setFilteredDayoffData] = useState<AdminListsAll[]>(
+    [],
+  );
+  const [filteredDutyData, setFilteredDutyData] = useState<AdminListsAll[]>([]);
+  const [searchOption, setSearchOption] = useState("이름");
 
   useEffect(() => {
+    // 사용자 기안 데이터 불러오기
     async function fetchListData() {
       try {
         const data = await getListAll();
@@ -24,12 +30,38 @@ export default function Admin() {
         );
         setDayoffData(dayoffItems);
         setDutyData(dutyItems);
+        setFilteredDayoffData(dayoffItems);
+        setFilteredDutyData(dutyItems);
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
       }
     }
     fetchListData();
   }, []);
+
+  const handleSearch = (searchTerm: string, option: string) => {
+    setSearchOption(option);
+
+    if (option === "이름") {
+      const filteredDayoff = dayoffData.filter((item) =>
+        item.name.includes(searchTerm),
+      );
+      const filteredDuty = dutyData.filter((item) =>
+        item.name.includes(searchTerm),
+      );
+      setFilteredDayoffData(filteredDayoff);
+      setFilteredDutyData(filteredDuty);
+    } else if (option === "제목") {
+      const filteredDayoff = dayoffData.filter((item) =>
+        item.title.includes(searchTerm),
+      );
+      const filteredDuty = dutyData.filter((item) =>
+        item.title.includes(searchTerm),
+      );
+      setFilteredDayoffData(filteredDayoff);
+      setFilteredDutyData(filteredDuty);
+    }
+  };
 
   return (
     <>
@@ -38,26 +70,11 @@ export default function Admin() {
         <div className={styles.container}>
           <header className={styles.admin_info}>
             <div className={styles.admin_name}>
-              <span className={styles.admin_id}>데이터</span>
+              <span className={styles.admin_id}>team9</span>
               <span>관리자</span>
             </div>
             <div className={styles.search_box}>
-              <span className={styles.search_option}>
-                <button>이름</button>
-                <button className={styles.btn}>제목</button>
-              </span>
-              <div className={styles.search_bar}>
-                <input
-                  className={styles.search_input}
-                  type="text"
-                  placeholder="검색..."
-                />
-                <img
-                  className={styles.search_icon}
-                  src="../../assets/search_icon.png"
-                  alt="search icon"
-                />
-              </div>
+              <SearchBar onSearch={handleSearch} />
             </div>
           </header>
           <div className={styles.list_info}>

@@ -1,6 +1,6 @@
 import styles from "./DayoffLists.module.scss";
-import { useState, useEffect } from "react";
-import { AdminListsAll } from "src/@types/adminList.ts";
+import { useState } from "react";
+import { AdminListsAll } from "@/@types/adminList.ts";
 
 interface Props {
   item: AdminListsAll;
@@ -33,7 +33,7 @@ export default function DayoffLists({ item }: Props) {
         <span className={`${styles.text} ${styles.title}`}>{item.title}</span>
         <span className={`${styles.text} ${styles.reason}`}>{item.reason}</span>
         <span className={`${styles.text} ${styles.period}`}>
-          {item.startDate}-{item.endDate}
+          {item.startDate} - {item.endDate}
         </span>
         <span className={`${styles.text} ${styles.count}`}>
           {calculateUsedDays()}일
@@ -44,9 +44,9 @@ export default function DayoffLists({ item }: Props) {
           status === "결재 완료" ? styles.checked : ""
         }`}
         onClick={handlePermissionClick}
-        disabled={status === "결재 승인"}
+        disabled={status === "결재 완료"}
       >
-        {status}
+        {item.status}
       </button>
     </li>
   );

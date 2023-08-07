@@ -9,20 +9,22 @@
   font-weight: 700;
   cursor: pointer;
 }
-@mixin permission-button {
+@mixin non-permission-button {
   padding: 4px 10px;
   border-radius: 5px;
-  color: $white-color;
   font-weight: 700;
+  color: $white-color;
   background-color: $point-color;
   cursor: pointer;
 }
 
-@mixin non-permission-button {
-  background-color: $white-orange;
-  color: $point-color;
+@mixin permission-button {
+  padding: 4px 10px;
+  border-radius: 5px;
   font-weight: 700;
-  cursor: pointer;
+  color: $sub-color;
+  background-color: $green-BG-color;
+  cursor: auto;
 }
 
 @mixin wide-input {

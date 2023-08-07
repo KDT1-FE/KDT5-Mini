@@ -27,9 +27,21 @@ export async function getMyPage() {
 }
 
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
+// /api/admin/
 export async function getListAll() {
   try {
     const res = await axios.get("src/Api/data/admin.json");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+// 어드민 페이지_연차/당직 승인 처리
+// /api/admin/apply
+export async function permission() {
+  try {
+    const res = await axios.post("src/Api/data/admin.json");
     return res.data;
   } catch (error) {
     console.log(error);
