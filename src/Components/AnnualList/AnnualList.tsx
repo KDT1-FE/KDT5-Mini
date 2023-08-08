@@ -7,6 +7,8 @@ import Modal from '@/Components/Modal/Modal';
 
 export default function AnnualList(props: { myData?: MyDataType}) {
   const [visibility, setVisible] = useState(false)
+  const [editingAnnual, setEditingAnnual] = useState< MyAnnualType | null>(null);
+  const [reason, setReason] = useState("")
   const annuals = props.myData?.annualHistories || [];
 
   function closeModal() {
@@ -14,8 +16,14 @@ export default function AnnualList(props: { myData?: MyDataType}) {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  }
+    const { name, value } = e.target;
+    if (editingAnnual) {
+      setEditingAnnual(prevAnnual => ({
+        ...prevAnnual,
+        [name]: value
+      }));
+    }
+  };
 
   const handleClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
     e.stopPropagation()
@@ -55,7 +63,6 @@ export default function AnnualList(props: { myData?: MyDataType}) {
             <p className={styles.list}>{annual.status}</p>
             <Modal
               visibility={visibility} toggle={setVisible}>
-
               <div className="addEvent-wrap">
                 <h1 className="addEvent-header">일정 등록</h1>
                 <div className="addEvent-title">
@@ -73,7 +80,7 @@ export default function AnnualList(props: { myData?: MyDataType}) {
                     type="date"
                     name="startDate"
                     value={annual.startDate}
-                    // onChange={handleInputChange}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="addEvent-end">
@@ -82,14 +89,14 @@ export default function AnnualList(props: { myData?: MyDataType}) {
                     type="date"
                     name="endDate"
                     value={annual.endDate}
-                    // onChange={handleInputChange}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="addEvent-reason">
                   <label>사유</label>
                   <select
                     name="select-reason" id="reason"
-                    // onChange={handleInputChange}
+                    onChange={handleInputChange}
                   >
                     <option value={""}>========== 선택하세요 ==========</option>
                     <option value="연차유급 휴가">연차유급 휴가</option>
