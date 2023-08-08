@@ -3,18 +3,15 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
-import axios from "axios";
-
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getNewAccessToken, getMyPage } from "@/Api/apis";
+import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
 
-const cookie = new Cookies;
-const accessToken = cookie.get('accessToken')
+// const cookie = new Cookies;
+// const accessToken = cookie.get('accessToken')
 
 const MainCalendar = () => {
-  const [cookies, setCookie] = useCookies(["accessToken"]);
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
@@ -28,16 +25,12 @@ const MainCalendar = () => {
   const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
 
-  const cookie = new Cookies;
-  const coo = cookie.get("accessToken");
-  console.log(coo);
-
-  const ApiHttp = axios.create({
-    baseURL: "/mini",
-    headers: {
-      Authorization: `Bearer ${coo}`
-    }
-  });
+  // const ApiHttp = axios.create({
+  //   baseURL: "/mini",
+  //   headers: {
+  //     Authorization: `Bearer ${token}`
+  //   }
+  // });
 
   //usequery 사용
   // const {getMainData} = useDataQuery()
@@ -63,7 +56,6 @@ const MainCalendar = () => {
       setEvents(res.data);
       setUserName(res.data.name); // 사용자 이름 설정
       console.log(res);
-      console.log(accessToken);
     })
     .catch((error) => {
         if (error.response.status === 401 ) {
@@ -111,7 +103,6 @@ const MainCalendar = () => {
 
 
   // 카테고리 선택 버튼 클릭 시
-
   const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(selectedCategories.filter((c) => c !== category));
@@ -127,11 +118,11 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event) => event.category === "연차",
+    (event:any) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event) => event.category === "당직",
+    (event:any) => event.category === "당직",
   ).length;
   // 유저 이름 표시
 
@@ -150,26 +141,26 @@ const MainCalendar = () => {
     right: "next",
   };
   
-  const handleEventClick = (eventInfo) => {
+  const handleEventClick = (eventInfo:any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
-  function handleAddEvent(newEvent: NewEvent): void {
-  // Send the new event data to the server
-    axios
-      .post("/api/annual", newEvent)
-      .then((response) => {
-        console.log("Event successfully submitted:", response.data);
-        // 서버로부터의 응답을 처리할 수 있음
-        // 새 이벤트가 등록되었다는 알림을 사용자에게 표시하거나
-        // 새로운 이벤트를 state에 추가하는 등의 작업을 수행할 수 있습니다.
-      })
-      .catch((error) => {
-        console.error("Error submitting event:", error);
-        // 에러 처리를 위한 로직 추가
-      });
-    // Close the modal
-    setIsAddModalOpen(false);
-  }
+  // function handleAddEvent(newEvent: NewEvent): void {
+  // // Send the new event data to the server
+  //   axios
+  //     .post("/api/annual", newEvent)
+  //     .then((response) => {
+  //       console.log("Event successfully submitted:", response.data);
+  //       // 서버로부터의 응답을 처리할 수 있음
+  //       // 새 이벤트가 등록되었다는 알림을 사용자에게 표시하거나
+  //       // 새로운 이벤트를 state에 추가하는 등의 작업을 수행할 수 있습니다.
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error submitting event:", error);
+  //       // 에러 처리를 위한 로직 추가
+  //     });
+  //   // Close the modal
+  //   setIsAddModalOpen(false);
+  // }
 
   return (
     <div className='mainWrap'>
