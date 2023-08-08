@@ -43,7 +43,7 @@ export const getNewAccessToken = async () => {
 // ADMIN_PAGE
 export const getListAll = async () => {
   try {
-    const res = await ApiHttp.get("/api/admin/", {
+    const res = await ApiHttp.get("/api/admin", {
       headers: {
         Authorization: `Bearer ${ACCESSTOKEN}`,
       },
