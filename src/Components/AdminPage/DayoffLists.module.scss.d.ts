@@ -4,8 +4,10 @@ declare const classNames: {
   readonly text: "text";
   readonly name: "name";
   readonly title: "title";
+  readonly reason: "reason";
   readonly period: "period";
   readonly count: "count";
   readonly permission: "permission";
+  readonly checked: "checked";
 };
 export = classNames;

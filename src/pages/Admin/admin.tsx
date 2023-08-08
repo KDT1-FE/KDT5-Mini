@@ -1,28 +1,67 @@
-// import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./admin.module.scss";
-import Header from "../../Components/Header/Header.tsx";
-import DutyLists from "../../Components/AdminPage/DutyLists.tsx";
-import DayoffLists from "../../Components/AdminPage/DayoffLists.tsx";
-import { AdminListsAll } from "src/@types/adminList.ts";
-// import { useState, useEffect } from "react";
+import Header from "@/Components/Header/Header.tsx";
+import SearchBar from "@/Components/AdminPage/SearchBar.tsx";
+import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
+import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
+import { AdminListsAll } from "@/@types/adminList.ts";
+import { getListAll } from "@//Api/apis.ts";
 
 export default function Admin() {
-  // const cookie = new Cookies();
-  // const AC_TOKEN = cookie.get("AC_TOKEN");
-  
-  // const [monsters, setMonsters] = useState([]);
-  // useEffect(() => {
-  //   fetch(“작고 소중한 오픈 API 주소 :데스크톱_컴퓨터: “, {
-  //     method: “GET”,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setMonsters(res);
-  //     });
-  // }, []);
-  // const handleChange = (e) => {
-  //   setUserInput(e.target.value);
-  // };
+  const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
+  const [dutyData, setDutyData] = useState<AdminListsAll[]>([]);
+  const [filteredDayoffData, setFilteredDayoffData] = useState<AdminListsAll[]>(
+    [],
+  );
+  const [filteredDutyData, setFilteredDutyData] = useState<AdminListsAll[]>([]);
+  const [searchOption, setSearchOption] = useState("이름");
+
+  useEffect(() => {
+    // 사용자 기안 데이터 불러오기
+    async function fetchListData() {
+      try {
+        const data = await getListAll();
+        const dayoffItems = data.filter(
+          (item: AdminListsAll) => item.category === "연차",
+        );
+        const dutyItems = data.filter(
+          (item: AdminListsAll) => item.category === "당직",
+        );
+        setDayoffData(dayoffItems);
+        setDutyData(dutyItems);
+        setFilteredDayoffData(dayoffItems);
+        setFilteredDutyData(dutyItems);
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      }
+    }
+    fetchListData();
+  }, []);
+
+  const handleSearch = (searchTerm: string, option: string) => {
+    setSearchOption(option);
+
+    if (option === "이름") {
+      const filteredDayoff = dayoffData.filter((item) =>
+        item.name.includes(searchTerm),
+      );
+      const filteredDuty = dutyData.filter((item) =>
+        item.name.includes(searchTerm),
+      );
+      setFilteredDayoffData(filteredDayoff);
+      setFilteredDutyData(filteredDuty);
+    } else if (option === "제목") {
+      const filteredDayoff = dayoffData.filter((item) =>
+        item.title.includes(searchTerm),
+      );
+      const filteredDuty = dutyData.filter((item) =>
+        item.title.includes(searchTerm),
+      );
+      setFilteredDayoffData(filteredDayoff);
+      setFilteredDutyData(filteredDuty);
+    }
+  };
+
   return (
     <>
       <div className={styles.page}>
@@ -30,26 +69,11 @@ export default function Admin() {
         <div className={styles.container}>
           <header className={styles.admin_info}>
             <div className={styles.admin_name}>
-              <span className={styles.admin_id}>데이터</span>
+              <span className={styles.admin_id}>team9</span>
               <span>관리자</span>
             </div>
             <div className={styles.search_box}>
-              <span className={styles.search_option}>
-                <button>이름</button>
-                <button className={styles.btn}>제목</button>
-              </span>
-              <div className={styles.search_bar}>
-                <input
-                  className={styles.search_input}
-                  type="text"
-                  placeholder="검색..."
-                />
-                <img
-                  className={styles.search_icon}
-                  src="../../assets/search_icon.png"
-                  alt="search icon"
-                />
-              </div>
+              <SearchBar onSearch={handleSearch} />
             </div>
           </header>
           <div className={styles.list_info}>
@@ -58,12 +82,16 @@ export default function Admin() {
               <div className={styles.lists_index}>
                 <span className={styles.name}>상신인</span>
                 <span className={styles.title}>제목</span>
-                <span className={styles.period}>사용 날짜</span>
-                <span className={styles.count}>개수</span>
+                <span className={styles.reason}>사유</span>
+                <span className={styles.period}>사용 기간</span>
+                <span className={styles.count}>사용 일수</span>
                 <span className={styles.permission}>상태</span>
               </div>
               <ul className={styles.lists}>
-                {/* <DayoffLists key={index} item={item} /> */}
+                {/* dayoffData 상태는 AdminListsAll 타입의 배열로 정의 */}
+                {filteredDayoffData.map((item) => (
+                  <DayoffLists key={item.id} item={item} />
+                ))}
               </ul>
             </section>
             <section className={`${styles.lists_box} ${styles.duty_box}`}>
@@ -71,11 +99,13 @@ export default function Admin() {
               <div className={styles.lists_index}>
                 <span className={styles.duty_name}>상신인</span>
                 <span className={styles.duty_title}>제목</span>
-                <span className={styles.duty_period}>사용 날짜</span>
+                <span className={styles.duty_period}>사용 기간</span>
                 <span className={styles.duty_permission}>상태</span>
               </div>
               <ul className={styles.lists}>
-                <DutyLists />
+                {filteredDutyData.map((item) => (
+                  <DutyLists key={item.id} item={item} />
+                ))}
               </ul>
             </section>
           </div>

@@ -7,14 +7,12 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getAuth, getNewAccessToken, getMainPage } from "@/API/apis";
+import { getNewAccessToken, getMainPage } from "@/Api/apis";
+
 
 const cookie = new Cookies;
 const accessToken = cookie.get('accessToken')
-export const ApiHttp = axios.create({
-  baseURL: "/mini",
-});
-console.log(accessToken);
+
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -159,7 +157,7 @@ const MainCalendar = () => {
     right: "next",
   };
   
-  const handleEventClick = (eventInfo) => {
+  const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
   function handleAddEvent(newEvent: NewEvent): void {

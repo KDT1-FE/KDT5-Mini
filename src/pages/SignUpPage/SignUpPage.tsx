@@ -18,6 +18,7 @@ export default function SignUpPage() {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string>("");
   const currentYear = new Date().getFullYear();
+  const [showPassword, setShowPassword] = useState(false);
   const months = Array.from({ length: 12 }, (_, index) => index + 1); // index가 0부터 시작이니까 +1
   const days = Array.from({ length: 31 }, (_, index) => index + 1);
   // const navigate = useNavigate();
@@ -97,72 +98,109 @@ export default function SignUpPage() {
       console.log("signUpPageError: ", error);
     }
   };
+
+  // 패스워드 가시화 토글
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
-    <div className="signUpPage">
-      <div className="titleWrap">회원가입</div>
-      <section className="section-form">
-        <form onSubmit={onSignupSubmit}>
-          <div className="input-title">가입 정보</div>
-          <div className="inputWrap">
-            <input
-              name="name" // name 속성 추가
-              value={name}
-              type="text"
-              placeholder="이름"
-              onChange={handleInputChange} // onChange 이벤트 핸들러 연결
-            />
-          </div>{" "}
-          {!isNameValid && name.length > 0 && (
-            <div className="inputErrorMessage" style={{ color: "red" }}>
-              이름은 한글로 작성해주세요.
+    <div className="signup_page">
+      <form className="signup_box" onSubmit={onSignupSubmit}>
+        <div className="signup_title">회원가입</div>
+        <div className="content_wrap">
+          <div className="input_title">계정 정보</div>
+          <div className="content_box">
+            <div className="input_box">
+              <input
+                className="input"
+                name="name" // name 속성 추가
+                value={name}
+                type="text"
+                placeholder="이름"
+                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+              />
             </div>
-          )}
-          <div className="inputWrap">
-            <input
-              name="email" // name 속성 추가
-              value={email}
-              type="text"
-              placeholder="이메일 @email.com"
-              onChange={handleInputChange} // onChange 이벤트 핸들러 연결
-            />
+            {!isNameValid && name.length > 0 && (
+              <div className="error_message">이름은 한글로 작성해주세요.</div>
+            )}
           </div>
-          {!isEmailValid && email.length > 0 && (
-            <div className="inputErrorMessage" style={{ color: "red" }}>
-              이메일 형식이 올바르지 않습니다.
+          <div className="content_box">
+            <div className="input_box">
+              <input
+                className="input"
+                name="email" // name 속성 추가
+                value={email}
+                type="text"
+                placeholder="이메일 @email.com"
+                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+              />
             </div>
-          )}
-          <div className="inputWrap">
-            <input
-              name="password"
-              value={password}
-              type="password"
-              placeholder="비밀번호 입력"
-              onChange={handleInputChange} // onChange 이벤트 핸들러 연결
-            />
+            {!isEmailValid && email.length > 0 && (
+              <div className="error_message">
+                이메일 형식이 올바르지 않습니다.
+              </div>
+            )}
           </div>
-          {!isPasswordValid && password.length > 0 && (
-            <div className="inputErrorMessage" style={{ color: "red" }}>
-              영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
+          <div className="content_box">
+            <div className="input_box">
+              <input
+                className="input"
+                name="password"
+                value={password}
+                type={showPassword ? "text" : "password"} // Toggle 비밀번호 보이기/가리기
+                placeholder="비밀번호 입력"
+                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+              />
+              {showPassword ? (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={handleTogglePassword}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={handleTogglePassword}
+                ></i>
+              )}
             </div>
-          )}
-          <div className="inputWrap">
-            <input
-              name="confirmPassword"
-              value={confirmPassword}
-              type="password"
-              placeholder="비밀번호 재입력"
-              onChange={handleInputChange} // onChange 이벤트 핸들러 연결
-            />
+            {!isPasswordValid && password.length > 0 && (
+              <div className="error_message">
+                영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
+                필요)
+              </div>
+            )}
           </div>
-          {password !== confirmPassword ? (
-            <div className="inputErrorMessage" style={{ color: "red" }}>
-              비밀번호가 일치하지 않습니다.
+          <div className="content_box">
+            <div className="input_box">
+              <input
+                className="input"
+                name="confirmPassword"
+                value={confirmPassword}
+                type={showPassword ? "text" : "password"} // Toggle 비밀번호 보이기/가리기
+                placeholder="비밀번호 재입력"
+                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+              />
+              {showPassword ? (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={handleTogglePassword}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={handleTogglePassword}
+                ></i>
+              )}
             </div>
-          ) : (
-            ""
-          )}
-          <section className="section-date-pick">
-            <div className="input-title">입사일</div>
+            {password !== confirmPassword ? (
+              <div className="error_message">비밀번호가 일치하지 않습니다.</div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="input_title">입사일</div>
+          <div className="select_date">
             <select
               className="select-long"
               name="year"
@@ -206,17 +244,20 @@ export default function SignUpPage() {
                 </option>
               ))}
             </select>
-          </section>
-          <div className="btn_Wrap">
-            <div className="cancel_btn">
-              <button onClick={() => navigate("/")}>취소하기</button>
-            </div>
-            <div className="signup_btn">
-              <button type="submit">가입하기</button>
-            </div>
           </div>
-        </form>
-      </section>
+        </div>
+        <div className="btn_wrap">
+          <button className="signup_btn" type="submit">
+            가입하기
+          </button>
+          <div>
+            이미 회원이신가요?
+            <button className="login_btn" onClick={() => navigate("/")}>
+              로그인하러 가기
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }
