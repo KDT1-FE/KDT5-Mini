@@ -5,7 +5,7 @@ import styles from "./userBanner.module.scss";
 
 
 export default function UserBanner(props:{myData:MyDataType}) {
-  const myData = props.myData;
+  const myData = props.myData || [];
 
   return (
     <div className={styles.container}>
