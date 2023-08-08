@@ -9,16 +9,12 @@ import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import { getAuth, getNewAccessToken, getMyPage } from "@/API/apis";
 
-
 const cookie = new Cookies;
 const accessToken = cookie.get('accessToken')
 export const ApiHttp = axios.create({
   baseURL: "/mini",
 });
-
-
 console.log(accessToken);
-
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -34,6 +30,32 @@ const MainCalendar = () => {
   const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
 
+  const cookie = new Cookies;
+  const coo = cookie.get("accessToken");
+  console.log(coo);
+
+  const ApiHttp = axios.create({
+    baseURL: "/mini",
+    headers: {
+      Authorization: `Bearer ${coo}`
+    }
+  });
+
+  //usequery 사용
+  // const {getMainData} = useDataQuery()
+  // const {isLoading, error, data: mainData} = getMainData;
+
+ // useEffect(()=>{
+ //   if(mainData){
+ //     setEvents(mainData)
+ //   }
+ // },[mainData])
+ //
+ //  if (isLoading) {
+ //    return "Loading...";
+ //  } else if (error instanceof Error) {
+ //    return `An error has occurred: ${error.message}`;
+ //  }
 
   useEffect(() => {
     // API 호출
@@ -76,7 +98,10 @@ const MainCalendar = () => {
     navigate('/mypage');
   };
 
-  const processedEvents = events.map((event) => {
+
+  
+  const processedEvents = events.map((event: any) => {
+
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -90,8 +115,6 @@ const MainCalendar = () => {
     };
   });
 
-  console.log(events);
- 
 
 
   // 카테고리 선택 버튼 클릭 시
@@ -111,11 +134,11 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event) => event.category === "연차",
+    (event:any) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event) => event.category === "당직",
+    (event:any) => event.category === "당직",
   ).length;
   // 유저 이름 표시
 
@@ -139,11 +162,10 @@ const MainCalendar = () => {
   const handleEventClick = (eventInfo) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
-
   function handleAddEvent(newEvent: NewEvent): void {
 
     axios
-      .post("mini/api/annual", newEvent)
+      .post("/api/annual", newEvent)
       .then((response) => {
         console.log("Event successfully submitted:", response.data);
         // 서버로부터의 응답을 처리할 수 있음
@@ -157,6 +179,7 @@ const MainCalendar = () => {
     // Close the modal
     setIsAddModalOpen(false);
   }
+
   return (
     <div className='mainWrap'>
       <div className='selectWrap'>

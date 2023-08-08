@@ -11,7 +11,7 @@ export const ApiHttp = axios.create({
 });
 
 export const ApiLogin = axios.create({
-  baseURL: "/mini",
+  baseURL: "/mini"
 });
 
 // 리프레시 토큰 요청 => 새로운 엑세스 토큰 반환
@@ -48,15 +48,12 @@ export const getMyPage = (token: any) => {
   }
 };
 
-// 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
-// /api/admin/
-export async function getListAll() {
-  try {
-    const res = await axios.get("src/Api/data/admin.json");
-    return res.data;
+export async function getMyPage() {
+  try{
+    const res = await ApiHttp.get('/api/user')
+    return res.data
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.error('마이페이지를 읽어 오지 못햇습니다.',error)
   }
 }
 // 어드민 페이지_연차/당직 승인 처리
@@ -75,6 +72,7 @@ export async function permission() {
 export async function getUser() {
   try {
     const res = await axios.get("src/Api/data/user.json");
+    console.log(res.data);
     console.log(res.data);
     return res.data;
   } catch (error) {
@@ -110,7 +108,7 @@ export const signUp = async (
   email: string,
   password: string,
   name: string,
-  join: string,
+  join: string
 ) => {
   try {
     const response = await ApiLogin.post("/api/register", {
@@ -137,10 +135,11 @@ export async function getMain() {
 
 export async function postMain(data: NewEvent) {
   try {
-    await ApiHttp.post("/api/annual", { data }).then((res) => {
-      console.log("새로운 등록 완료", res.data);
-      return res.data;
-    });
+    await ApiHttp.post("/api/annual", {data})
+      .then((res) => {
+        console.log("새로운 등록 완료", res.data);
+        return res.data;
+      });
   } catch (error) {
     console.error("Error submitting event:", error);
   }
