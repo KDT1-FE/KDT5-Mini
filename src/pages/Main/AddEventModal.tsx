@@ -1,39 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./AddEventModal.scss";
-import Modal from 'react-modal';
-import axios from 'axios';
-import { Cookies } from 'react-cookie';
+import Modal from "react-modal";
+import { ApiHttp } from "@/Api/apis.ts";
 
-interface AddEventModalProps {
-  isOpen: boolean;
-  closeModal: () => void;
-  handleAddEvent: (newEvent: NewEvent) => void; // NewEvent 타입으로 수정
-}
-
-interface NewEvent {
-  title: string;
-  startDate: string;
-  endDate: string;
-  category: string;
-
-  reason: string;
-
-}
 
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
   const [newEvent, setNewEvent] = useState({
-    title: '',
-    startDate: '',
-    endDate: '',
-    category: '',
-    reason: '',
+    title: "",
+    startDate: "",
+    endDate: "",
+    category: "",
+    reason: ""
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
     // name이 'select-reason'인 경우, reason 값을 설정
-    if (name === 'select-reason') {
+    if (name === "select-reason") {
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
@@ -44,34 +28,26 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     const value = event.target.value; // 클릭한 체크박스의 value 값을 가져옴
     setNewEvent((prevEvent) => ({
       ...prevEvent,
-      category: value, // 클릭한 체크박스의 값으로 카테고리 값을 변경
+      category: value // 클릭한 체크박스의 값으로 카테고리 값을 변경
     }));
   };
 
-
-  const cookie = new Cookies();
-  const AC_TOKEN = cookie.get('AC_TOKEN');
 
   const handleSubmit = () => {
     handleAddEvent(newEvent);
 
     const eventDataToSend = {
       ...newEvent,
-      reason: newEvent.reason,
+      reason: newEvent.reason
     };
 
 
-axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
-  headers: {
-    Authorization: `Bearer ${AC_TOKEN}`
-  }
-})
-
+    ApiHttp.post("/api/annual", eventDataToSend)
       .then(response => {
-        console.log('Event successfully submitted:', response.data);
+        console.log("Event successfully submitted:", response.data);
       })
       .catch(error => {
-        console.error('Error submitting event:', error);
+        console.error("Error submitting event:", error);
       });
 
     // Close the modal
@@ -87,9 +63,9 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
       overlayClassName="custom-overlay"
       className="custom-modal-content"
     >
-      <div className='addEvent-wrap'>
-        <h1 className='addEvent-header'>일정 등록</h1>
-        <div className='addEvent-title'>
+      <div className="addEvent-wrap">
+        <h1 className="addEvent-header">일정 등록</h1>
+        <div className="addEvent-title">
           <label>제목</label>
           <input
             type="text"
@@ -98,7 +74,7 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-start'>
+        <div className="addEvent-start">
           <label>시작일</label>
           <input
             type="date"
@@ -107,7 +83,7 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-end'>
+        <div className="addEvent-end">
           <label>종료일</label>
           <input
             type="date"
@@ -116,37 +92,37 @@ axios.post('http://52.78.200.157/api/annual', eventDataToSend, {
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-category'>
+        <div className="addEvent-category">
           <label>종류</label>
 
-          <div className='addCategory-wrap'>
+          <div className="addCategory-wrap">
 
             <label
-            className='addRest'>
-            <input
-              type="checkbox"
-              name="category"
-              value="연차"
-              checked={newEvent.category === '연차'}
-              onChange={handleCategoryChange}
-            />
-            연차
-          </label>
-          <label
-            className='addDuty'>
-            <input
-              type="checkbox"
-              name="category"
-              value="당직"
-              checked={newEvent.category === '당직'}
-              onChange={handleCategoryChange}
-            />
-            당직
-          </label>
+              className="addRest">
+              <input
+                type="checkbox"
+                name="category"
+                value="연차"
+                checked={newEvent.category === "연차"}
+                onChange={handleCategoryChange}
+              />
+              연차
+            </label>
+            <label
+              className="addDuty">
+              <input
+                type="checkbox"
+                name="category"
+                value="당직"
+                checked={newEvent.category === "당직"}
+                onChange={handleCategoryChange}
+              />
+              당직
+            </label>
           </div>
 
         </div>
-        <div className='addEvent-reason'>
+        <div className="addEvent-reason">
           <label>사유</label>
           <select name="select-reason" id="reason" onChange={handleInputChange}>
             <option value="">========== 선택하세요 ==========</option>

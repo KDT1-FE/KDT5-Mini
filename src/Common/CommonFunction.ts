@@ -34,16 +34,7 @@ import dayjs from "dayjs";
     return jick
   }
 
-// export function Ipsail({ name, today }:{ name:string,today:string }) {
-//   const userData = useUserStore(state => state)
-//   const user = userData.users.find((user) => user.name === name)
-//   if (user) {
-//     const dayCount = DateCount({startDate: user.joinDate, endDate: today})
-//     const anw =  JickCounter(dayCount as string)
-//     return anw.annualBalance
-//   }
-//   return null;  // user가 찾아지지 않았을 때의 반환 값
-// }
+
 
 
 

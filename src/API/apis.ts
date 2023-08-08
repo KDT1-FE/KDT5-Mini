@@ -9,12 +9,9 @@ export const ApiHttp = axios.create({
     Authorization: `Bearer ${token}`
   }
 });
-
 export const ApiLogin = axios.create({
   baseURL: "/mini"
 });
-
-
 export async function getMyPage() {
   try{
     const res = await ApiHttp.get('/api/user')
@@ -35,18 +32,6 @@ export async function getListAll() {
   }
 }
 
-// 기존 api에서 가져온 코드
-export async function getUser() {
-  try {
-    const res = await axios.get("src/Api/data/user.json");
-    console.log(res.data);
-    return res.data;
-  } catch (error) {
-    console.error("유저 data를 받아 오는데 실패 하였습니다.");
-    throw error;
-  }
-}
-
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
@@ -60,7 +45,6 @@ export const login = async (email: string, password: string) => {
     console.error("로그인 에러 : ", error);
   }
 };
-
 export async function logOut () {
   try{
     const res =  await ApiHttp.post('/api/logout')
