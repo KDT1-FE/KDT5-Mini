@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
 import App from "./App.tsx";
 import "./index.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
