@@ -77,28 +77,7 @@ export const permission = async () => {
   }
 };
 
-<<<<<<< HEAD
-  // 로그인 요청
-  export const login = async (email: string, password: string) => {
-    try {
-      return await ApiLogin.post("/api/login", { email, password }).then(
-        (res) => {
-          return res;
-        },
-      );
-    } catch (error) {
-      console.error("로그인 에러 : ", error);
-    }
-  };
 
-  export async function logOut() {
-    try {
-      const res = await ApiHttp.post('/api/logout')
-      return res
-    } catch (error) {
-      console.error("로그아웃이 실패 하였습니다.", error);
-    }
-=======
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
@@ -121,7 +100,7 @@ export async function logOut() {
     return res;
   } catch (error) {
     console.error("로그아웃이 실패 하였습니다.", error);
->>>>>>> 68d48c8aae0eb382646d10a65c7caf9e8533c4c9
+
   }
 }
 
@@ -145,13 +124,7 @@ export const signUp = async (
   }
 };
 
-<<<<<<< HEAD
-  // 메인페이지 캘린더
 
-
-
-=======
->>>>>>> 68d48c8aae0eb382646d10a65c7caf9e8533c4c9
 // 메인페이지 캘린더
 export async function getMain() {
   try {
@@ -161,7 +134,6 @@ export async function getMain() {
     console.error("메인 캘린더 로드에 실패하였습니다.");
   }
 }
-<<<<<<< HEAD
 export const getMainPage = (token) => {
   try {
     const response = ApiHttp.get("/api/main", {
@@ -187,17 +159,3 @@ export async function postMain(data: NewEvent) {
       console.error("Error submitting event:", error);
     }
   }
-
-=======
-
-export async function postMain(data: NewEvent) {
-  try {
-    await ApiHttp.post("/api/annual", { data }).then((res) => {
-      console.log("새로운 등록 완료", res.data);
-      return res.data;
-    });
-  } catch (error) {
-    console.error("Error submitting event:", error);
-  }
-}
->>>>>>> 68d48c8aae0eb382646d10a65c7caf9e8533c4c9
