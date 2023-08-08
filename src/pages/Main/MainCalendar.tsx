@@ -5,9 +5,16 @@ import "./MainCalendar.scss";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
+import { getNewAccessToken, getMainPage } from "@/Api/apis";
+import axios from "axios";
 import AddEventModal from "./AddEventModal";
 
+
+const cookie = new Cookies;
+const coo = cookie.get('accessToken')
+export const ApiHttp = axios.create({
+  baseURL: "/mini",
+});
 
 
 const MainCalendar = () => {
@@ -23,54 +30,48 @@ const MainCalendar = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
+
+
+
+
   useEffect(() => {
     // API 호출
-    const getMainInfo = getMyPage();
-    getMainInfo
-      .then((res) => {
-        console.log("getMainInfo.then(res): ", res);
-        const processedEvents = res.annualHistories.map((event: any) => {
-          const { startDate, endDate, ...rest } = event;
-          return {
-            ...rest,
-            start: startDate,
-            end: endDate,
-            color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-            textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-            title: `• ${event.name}`,
-            category: event.category,
-            reason: event.reason,
-          };
-        });
-        
-        setEvents(processedEvents);
-        setUserName(res.name);
-        console.log(res.name); // 사용자 이름 설정
-      })
-      .catch((error) => {
-    if (error.response && error.response.status === 401) {
-      const newAccessToken = getNewAccessToken();
-      new Cookies().set("accessToken", newAccessToken, { path: "/" });
-      // 새로운 accessToken으로 재시도
-      const config = error.config;
-      config.headers.Authorization = newAccessToken;
-      ApiHttp.get(config.url, config)
-        .then((res) => {
-          if (res.data) { // API 응답 데이터가 있는지 확인
-            const processedEvents = res.data.map((event: any) => {
-              // ...
-            });
-            setEvents(processedEvents);
-          }
-        })
-        .catch((error) => {
-          console.error("Error while retrying API call:", error);
-        });
-    } else {
-      console.error("API call error:", error);
-    }
-  });
+    ApiHttp
+    .get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${coo}`
+      }
+    })
+    .then((response) => {
+      // API에서 받아온 데이터를 state에 설정
+      console.log(response);
+      setEvents(response.data.annuals);
+      setUserName(response.data.username);
+      console.log("Fetched events:", response.data);
+      console.log(response.data.annuals);
+    })
+    .catch((error) => {
+      console.error("Error fetching events:", error);
+    });
+  
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+  
+  // 이후에 processedEvents를 생성하도록 위치를 변경
+  const processedEvents = events.map((event) => {
+    const { startDate, endDate, ...rest } = event;
+    return {
+      ...rest,
+      start: startDate,
+      end: endDate,
+      color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+      textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
+      title: `• ${event.name}`,
+    };
+  });
+  console.log(events);
+
+
+
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
@@ -81,19 +82,6 @@ const MainCalendar = () => {
     navigate("/mypage");
   };
 
-  // const processedEvents = events.map((event: any) => {
-  //   const { startDate, endDate, ...rest } = event;
-  //   return {
-  //     ...rest,
-  //     start: startDate,
-  //     end: endDate,
-  //     color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-  //     textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-  //     title: `• ${event.name}`,
-  //     category: event.category,
-  //     reason: event.reason,
-  //   };
-  // });
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -226,7 +214,7 @@ const MainCalendar = () => {
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           height={760}
-          events={filteredEvents}
+          events={processedEvents}
           headerToolbar={headerToolbarOptions}
           eventClick={handleEventClick}
         />

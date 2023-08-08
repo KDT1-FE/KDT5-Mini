@@ -4,7 +4,7 @@ import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
 import { useEffect, useState } from "react";
-import { getMyPage } from "@/API/apis"; // apis.ts에서 필요한 함수 가져오기
+import { getMyPage } from "@/Api/apis"; // apis.ts에서 필요한 함수 가져오기
 
 export default function Mypage() {
   const [myData, setMyData] = useState(null);

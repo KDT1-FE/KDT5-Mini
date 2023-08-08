@@ -126,17 +126,10 @@ export const signUp = async (
 
 
 // 메인페이지 캘린더
-export async function getMain() {
+
+export const getMainPage = async (token) => {
   try {
-    const res = await ApiHttp.get("/api/main");
-    return res.data;
-  } catch (error) {
-    console.error("메인 캘린더 로드에 실패하였습니다.");
-  }
-}
-export const getMainPage = (token) => {
-  try {
-    const response = ApiHttp.get("/api/main", {
+    const response = await ApiHttp.get("/api/main", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -159,3 +152,4 @@ export async function postMain(data: NewEvent) {
       console.error("Error submitting event:", error);
     }
   }
+
