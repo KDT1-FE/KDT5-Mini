@@ -48,7 +48,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const accessToken = response?.data;
+      const accessToken = response?.data.accessToken;
       if (response) {
         setCookie("accessToken", accessToken);
         alert("로그인 성공");

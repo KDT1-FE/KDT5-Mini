@@ -3,26 +3,28 @@ import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
 import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
-import useDataQuery from "@/Hooks/useData-Query.tsx";
-import { useEffect } from "react";
-import { QueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { getMyPage } from "@/API/apis"; // apis.ts에서 필요한 함수 가져오기
 
 export default function Mypage() {
-
-  const queryClient = new QueryClient()
-  const {getMyPageData} = useDataQuery()
-  const {isLoading, error, data:myData} = getMyPageData
+  const [myData, setMyData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    queryClient.invalidateQueries(['myData']); // 쿼리를 재요청하여 데이터 갱신
-  }, [myData]);
+    async function fetchMyData() {
+      try {
+        const data = await getMyPage(); // 사용자 데이터 가져오기
+        setMyData(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    }
 
-
-  if (isLoading) {
-    return "Loading...";
-  } else if (error instanceof Error) {
-    return `An error has occurred: ${error.message}`;
-  }
+    fetchMyData();
+  }, []);
 
   if (isLoading) {
     return "Loading...";
@@ -46,8 +48,6 @@ export default function Mypage() {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }

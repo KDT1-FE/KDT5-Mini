@@ -25,8 +25,10 @@ export default function SignUpPage() {
   const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ]*$/; // 자음, 모음, 한글
   const emailRegex = // @ . 포함
     /^(([^<>()\\[\].,;:\s@"]+(\.[^<>()\\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
   const passwordRegex = // 영문, 숫자, 특수문자 포함 8자 이상
     /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
@@ -49,6 +51,7 @@ export default function SignUpPage() {
         break;
     }
   };
+
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     switch (name) {
@@ -65,6 +68,7 @@ export default function SignUpPage() {
         break;
     }
   };
+
   const checkEmptyForm = () => {
     return (
       email.trim() !== "" &&
@@ -76,6 +80,7 @@ export default function SignUpPage() {
       selectedDay !== ""
     );
   };
+
   const onSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!checkEmptyForm()) {
@@ -87,12 +92,12 @@ export default function SignUpPage() {
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
     try {
       const response = await signUp(email, password, name, join);
-      console.log(response.data);
+      console.log("response", response);
       if (response) {
-        // navigate("/main");
-        alert("로그인 성공");
+        navigate("/main");
+        // alert("회원가입 성공");
       } else {
-        alert("로그인 실패");
+        alert("해당 이메일은 이미 가입된 정보입니다.");
       }
     } catch (error) {
       console.log("signUpPageError: ", error);
