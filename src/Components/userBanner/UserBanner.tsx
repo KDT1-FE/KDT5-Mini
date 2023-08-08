@@ -4,8 +4,9 @@
 import styles from "./userBanner.module.scss";
 
 
-export default function UserBanner(props:{myData:MyDataType}) {
+export default function UserBanner(props:{myData:MyDataType|undefined}) {
   const myData = props.myData;
+  console.log(myData);
 
   return (
     <div className={styles.container}>
@@ -18,7 +19,7 @@ export default function UserBanner(props:{myData:MyDataType}) {
         <div className={`${styles.banner_box} ${styles.annual_info}`}>
           <p className={styles.user_info}>
             <span className={styles.user_name}>{myData?.name} </span>
-            {/*<span className={styles.user_position}>{jik.answer}</span>*/}
+            <span className={styles.user_position}>{myData?.position}</span>
           </p>
           <span className={styles.user_text}>KDT-5 회원정보</span>
         </div>

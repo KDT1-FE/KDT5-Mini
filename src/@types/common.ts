@@ -30,6 +30,7 @@ declare interface LoginType {
 declare type MyDataType = {
   name: string,
   annualBalance: number,
+  position:string,
   annualUsed:string,
   annualRemain: number,
   annualHistories: Array<{
