@@ -5,5 +5,18 @@ declare const classNames: {
   readonly lists_content: "lists_content";
   readonly lists: "lists";
   readonly list: "list";
+  readonly ReactModal__Overlay: "ReactModal__Overlay";
+  readonly "custom-modal-content": "custom-modal-content";
+  readonly "addEvent-wrap": "addEvent-wrap";
+  readonly "addEvent-header": "addEvent-header";
+  readonly "addEvent-title": "addEvent-title";
+  readonly "addEvent-start": "addEvent-start";
+  readonly "addEvent-end": "addEvent-end";
+  readonly "addEvent-category": "addEvent-category";
+  readonly "addCategory-wrap": "addCategory-wrap";
+  readonly addRest: "addRest";
+  readonly addDuty: "addDuty";
+  readonly "addEvent-reason": "addEvent-reason";
+  readonly "btn-group": "btn-group";
 };
 export = classNames;

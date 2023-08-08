@@ -122,3 +122,17 @@ declare interface NewEvent {
 }
 
 declare type HandleClickType = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+
+declare interface AddEventModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  handleAddEvent: (newEvent: NewEvent) => void; // NewEvent 타입으로 수정
+}
+
+declare interface NewEvent {
+  title: string;
+  startDate: string;
+  endDate: string;
+  category: string;
+  reason: string;
+}
