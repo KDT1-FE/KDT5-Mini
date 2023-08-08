@@ -4,19 +4,17 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
 import axios from "axios";
+
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getAuth, getNewAccessToken, getMyPage } from "@/API/apis";
+import { getNewAccessToken, getMyPage } from "@/Api/apis";
 
 const cookie = new Cookies;
 const accessToken = cookie.get('accessToken')
-export const ApiHttp = axios.create({
-  baseURL: "/mini",
-});
-console.log(accessToken);
 
 const MainCalendar = () => {
+  const [cookies, setCookie] = useCookies(["accessToken"]);
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
@@ -59,7 +57,7 @@ const MainCalendar = () => {
 
   useEffect(() => {
     // API 호출
-    const getMainInfo = getMyPage(accessToken);
+    const getMainInfo = getMyPage();
     getMainInfo
     ?.then((res) => {
       setEvents(res.data);
@@ -87,8 +85,6 @@ const MainCalendar = () => {
       });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
-
-
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
     setUserInfoVisible(!userInfoVisible);
@@ -98,10 +94,7 @@ const MainCalendar = () => {
     navigate('/mypage');
   };
 
-
-  
   const processedEvents = events.map((event: any) => {
-
     const { startDate, endDate, ...rest } = event;
     return {
       ...rest,
@@ -134,16 +127,15 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event:any) => event.category === "연차",
+    (event) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event:any) => event.category === "당직",
+    (event) => event.category === "당직",
   ).length;
   // 유저 이름 표시
 
   // 오늘 날짜
-
   const today = new Date();
   const year = today.getFullYear(); // 년도 (예: 2023)
   const month = today.getMonth() + 1; // 월 (0 ~ 11, 1을 더해서 1 ~ 12로변환)
@@ -151,7 +143,6 @@ const MainCalendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayOfWeek = daysOfWeek[today.getDay()]; // 요일 (0 ~ 6)
   const formattedDate = `${year}. ${month}. ${day}. ${dayOfWeek}`;
-  
   // headerToolbar 커스터마이즈
   const headerToolbarOptions = {
     left: "prev",
@@ -163,7 +154,7 @@ const MainCalendar = () => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
   function handleAddEvent(newEvent: NewEvent): void {
-
+  // Send the new event data to the server
     axios
       .post("/api/annual", newEvent)
       .then((response) => {
@@ -185,7 +176,7 @@ const MainCalendar = () => {
       <div className='selectWrap'>
       <ul className={`UserInfo ${userInfoVisible ? 'active' : ''}`}
         onClick={toggleUserInfo}>
-         반가워요, <span className='UserNameInfo'>{userName}</span>님!
+        반가워요, <span className='UserNameInfo'>{userName}</span>님!
         <div className={`HideInfo ${userInfoVisible ? 'visible' : ''}`}>
           <li onClick={handleMyPageClick}>마이 페이지</li>
           <li>로그아웃</li>
@@ -226,7 +217,6 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-
           <div>
             <label>
               {" "}
@@ -242,19 +232,7 @@ const MainCalendar = () => {
             </label>
           </div>
         </div>
-        <button
-          className="addScheduleBtn"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          <span>일정 등록하기</span>
-        </button>
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          closeModal={() => setIsAddModalOpen(false)}
-          handleAddEvent={handleAddEvent}
-        />
       </div>
-
       </div>
       <div className='calendarWrap'>
       <FullCalendar

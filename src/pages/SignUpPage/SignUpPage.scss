@@ -1,125 +1,91 @@
 @import "src/_variables.scss";
+@import "src/_mixin.scss";
 
-.section {
-  width: 100%;
-  height: 100%;
-  background-color: $light-Green-BG-color;
-}
-.signUpPage {
+.signup_page {
   position: relative;
-  margin: auto;
-  margin-top: 10vh;
-  padding: 60px;
-  max-width: 600px;
-  height: 800px;
-  display: flex-box;
-  flex-direction: column;
+  height: 120vh;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  border-radius: 30px;
-  background-color: $white-color;
-  box-shadow: 5px 5px 20px $main-color-30;
   font-family: "Montserrat", "Noto Sans KR", sans-serif;
+  font-family:
+    “Montserrat”,
+    “Noto Sans KR”,
+    sans-serif;
   color: $black-color;
   font-size: 14px;
   font-weight: 600;
-  .titleWrap {
-    text-align: center;
+  .signup_box {
+    width: 600px;
+    height: 780px;
     margin: auto;
-    font-size: 24px;
-    font-weight: 800;
-  }
-  .inputWrap {
+    padding: 70px 80px;
+    border-radius: 30px;
+    background-color: $white-color;
+    box-shadow: 5px 5px 20px $main-color-30;
     display: flex;
-    border-radius: 10px;
-    padding: 12px;
-    // margin-top: 25px;
-    margin-bottom: 30px;
-    background-color: $light-Grey-color;
-    border: none;
-    &:focus-within {
-      border: 1px solid $main-color;
-    }
-    input {
-      width: 100%;
-      outline: none;
-      border: none;
-      font-weight: 500;
-      font-size: 14px;
-      background-color: $light-Grey-color;
-      color: $main-color;
-
-      &::placeholder {
-        font-weight: 500;
-        font-size: 14px;
-        color: $sub-color;
-      }
-    }
-  }
-  .inputErrorMessage {
-    // margin-top: 10px;
-    line-height: 1;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    color: $point-color;
-  }
-  .section-date-pick {
-    margin-top: 30px;
-  }
-
-  .select-long {
-    width: 240px;
-    border: none;
-    border-radius: 5px;
-    padding: 12px;
-    margin-top: 7px;
-    background-color: $light-Grey-color;
-  }
-  .select-short {
-    margin-left: 10px;
-    width: 110px;
-    border: none;
-    border-radius: 5px;
-    padding: 12px;
-    margin-top: 7px;
-    background-color: $light-Grey-color;
-  }
-  .btn_Wrap {
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-
-    .signup_btn,
-    .cancel_btn {
-      margin: 40px auto 20px;
-      width: 224px;
-      height: 54px;
-      border-radius: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    justify-content: space-between;
+    .signup_title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
     }
-
-    .signup_btn {
-      background-color: $main-color;
-      border: none;
-      button {
-        color: $white-color;
+    .content_wrap {
+      position: relative;
+      margin-top: 20px;
+      width: 100%;
+      .input_title {
+        color: $black-color;
+        font-weight: 800;
+        margin-left: 10px;
+        margin-top: 20px;
+      }
+      .content_box {
+        height: 70px;
+        color: $main-color;
+        .input_box {
+          display: flex;
+          border-radius: 10px;
+          padding: 12px;
+          margin-top: 7px;
+          background-color: $light-Grey-color;
+          &:focus-within {
+            border: 1.5px solid $sub-color;
+          }
+          .input {
+            @include wide-input;
+          }
+          i {
+            margin: auto;
+          }
+        }
+        .error_message {
+          @include error-message;
+        }
+      }
+      .select_date {
+        display: flex;
+        justify-content: space-between;
+        .select-long {
+          @include select-wide-input;
+        }
+        .select-short {
+          @include select-middle-input;
+        }
       }
     }
-
-    .cancel_btn {
-      background-color: $white-color;
-      border: 3px solid $main-color;
-      button {
+    .btn_wrap {
+      width: 100%;
+      text-align: center;
+      .signup_btn {
+        @include wide-button;
+      }
+      .login_btn {
         color: $main-color;
+        font-weight: 700;
+        cursor: pointer;
       }
     }
   }

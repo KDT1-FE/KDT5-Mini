@@ -16,6 +16,7 @@ declare const classNames: {
   readonly lists_index: "lists_index";
   readonly name: "name";
   readonly title: "title";
+  readonly reason: "reason";
   readonly period: "period";
   readonly count: "count";
   readonly permission: "permission";

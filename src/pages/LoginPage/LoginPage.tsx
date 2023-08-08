@@ -12,10 +12,8 @@ const LoginPage = () => {
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -40,6 +38,11 @@ const LoginPage = () => {
     }
   };
 
+  // 패스워드 가시화 토글
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   // 로그인 처리 api
   const onClickLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -47,7 +50,7 @@ const LoginPage = () => {
       const response = await login(email, password);
       const accessToken = response?.data;
       if (response) {
-        setCookie("accessToken", accessToken );
+        setCookie("accessToken", accessToken);
         alert("로그인 성공");
         navigate("/main");
       }
@@ -61,37 +64,49 @@ const LoginPage = () => {
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
-        <div className="title_Wrap">로그인</div>
-        <div className="content_Wrap">
+        <div className="login_title">로그인</div>
+        <div className="content_wrap">
           <div className="content_box">
-            <div className="inputWrap">
+            <div className="input_box">
               <input
                 className="input"
-                placeholder="이메일"
+                placeholder="이메일 @email.com"
                 value={email}
                 onChange={handleEmail}
               />
             </div>
             <div className="inputErrorMessage">
               {!emailValid && email.length > 0 && (
-                <div>올바른 이메일 형식을 입력해주세요.</div>
+                <div className="error_message">
+                  올바른 이메일 형식을 입력해주세요.
+                </div>
               )}
             </div>
           </div>
           <div className="content_box">
-            {/* <div className="inputTitle">비밀번호</div> */}
-            <div className="inputWrap">
+            <div className="input_box">
               <input
                 className="input"
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle 비밀번호 보이기/가리기
                 placeholder="비밀번호"
                 value={password}
                 onChange={handlePassword}
               />
+              {showPassword ? (
+                <i
+                  className="fa-solid fa-eye"
+                  onClick={handleTogglePassword}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-eye-slash"
+                  onClick={handleTogglePassword}
+                ></i>
+              )}
             </div>
-            <div className="inputErrorMessage">
+            <div>
               {!passwordValid && password.length > 0 && (
-                <div>
+                <div className="error_message">
                   영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
                   필요)
                 </div>
@@ -99,7 +114,7 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
-        <div className="btn_Wrap">
+        <div className="btn_wrap">
           <button className="login_btn" onClick={onClickLogin}>
             로그인
           </button>
