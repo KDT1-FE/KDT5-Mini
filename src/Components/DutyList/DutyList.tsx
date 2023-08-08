@@ -1,8 +1,8 @@
 // import { useMyStore } from "@/Store/store.ts";
 import styles from "@/Components/DutyList/dutyList.module.scss";
 
-export default function DutyList(props:{myData:MyDataType}) {
-  const dutyData = props.myData.dutyHistories || [];
+export default function DutyList(props:{myData:MyDataType|undefined}) {
+  const dutyData = props.myData?.dutyHistories || [];
   return (
     <div className={styles.container}>
       <div className={styles.index}>

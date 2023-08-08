@@ -17,28 +17,28 @@ export default function UserBanner(props:{myData:MyDataType}) {
       <div className={styles.banner}>
         <div className={`${styles.banner_box} ${styles.annual_info}`}>
           <p className={styles.user_info}>
-            <span className={styles.user_name}>{myData.name} </span>
+            <span className={styles.user_name}>{myData?.name} </span>
             {/*<span className={styles.user_position}>{jik.answer}</span>*/}
           </p>
           <span className={styles.user_text}>KDT-5 회원정보</span>
         </div>
         <div className={`${styles.banner_box} `}>
           <p>
-            <span className={styles.total_num}>{myData.annualBalance}</span>
+            <span className={styles.total_num}>{myData?.annualBalance}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 발생 연차</span>
         </div>
         <div className={`${styles.banner_box}`}>
           <p>
-            <span className={styles.total_num}>{myData.annualUsed}</span>
+            <span className={styles.total_num}>{myData?.annualUsed}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 사용 연차</span>
         </div>
         <div className={`${styles.banner_box} `}>
           <p>
-            <span className={styles.total_num}>{myData.annualRemain}</span>
+            <span className={styles.total_num}>{myData?.annualRemain}</span>
             <span>개</span>
           </p>
           <span className={styles.total_text}>총 잔여 연차</span>

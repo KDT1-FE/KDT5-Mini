@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./AddEventModal.scss";
-import Modal from 'react-modal';
-import axios from 'axios';
-import { Cookies } from 'react-cookie';
+import Modal from "react-modal";
+import { ApiHttp } from "@/Api/apis.ts";
+
 
 const cookie = new Cookies();
 const accessToken = cookie.get('accessToken');
@@ -36,12 +36,16 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     name: "",
     reason: "",
     startDate: "",
+
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
-    if (name === 'select-reason') {
+
+    // name이 'select-reason'인 경우, reason 값을 설정
+    if (name === "select-reason") {
+
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
@@ -52,6 +56,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     const value = event.target.value;
     setNewEvent((prevEvent) => ({
       ...prevEvent,
+
       category: value,
     }));
   };
@@ -60,6 +65,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     const eventDataToSend = {
       ...newEvent, // 이벤트 등록 폼에서 입력한 값
       id: events.length + 1, // 새 이벤트의 ID (기존 이벤트 개수 + 1)
+
     };
 
     try {
@@ -81,6 +87,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       // 이벤트 등록에 실패한 경우, 에러 처리 로직을 수행하거나 사용자에게 알림을 표시할 수 있음
     }
 
+
     closeModal();
   };
 
@@ -93,9 +100,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       overlayClassName="custom-overlay"
       className="custom-modal-content"
     >
-      <div className='addEvent-wrap'>
-        <h1 className='addEvent-header'>일정 등록</h1>
-        <div className='addEvent-title'>
+      <div className="addEvent-wrap">
+        <h1 className="addEvent-header">일정 등록</h1>
+        <div className="addEvent-title">
           <label>제목</label>
           <input
             type="text"
@@ -104,7 +111,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-start'>
+        <div className="addEvent-start">
           <label>시작일</label>
           <input
             type="date"
@@ -113,7 +120,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-end'>
+        <div className="addEvent-end">
           <label>종료일</label>
           <input
             type="date"
@@ -122,37 +129,37 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className='addEvent-category'>
+        <div className="addEvent-category">
           <label>종류</label>
 
-          <div className='addCategory-wrap'>
+          <div className="addCategory-wrap">
 
             <label
-            className='addRest'>
-            <input
-              type="checkbox"
-              name="category"
-              value="연차"
-              checked={newEvent.category === '연차'}
-              onChange={handleCategoryChange}
-            />
-            연차
-          </label>
-          <label
-            className='addDuty'>
-            <input
-              type="checkbox"
-              name="category"
-              value="당직"
-              checked={newEvent.category === '당직'}
-              onChange={handleCategoryChange}
-            />
-            당직
-          </label>
+              className="addRest">
+              <input
+                type="checkbox"
+                name="category"
+                value="연차"
+                checked={newEvent.category === "연차"}
+                onChange={handleCategoryChange}
+              />
+              연차
+            </label>
+            <label
+              className="addDuty">
+              <input
+                type="checkbox"
+                name="category"
+                value="당직"
+                checked={newEvent.category === "당직"}
+                onChange={handleCategoryChange}
+              />
+              당직
+            </label>
           </div>
 
         </div>
-        <div className='addEvent-reason'>
+        <div className="addEvent-reason">
           <label>사유</label>
           <select name="select-reason" id="reason" onChange={handleInputChange}>
             <option value="">========== 선택하세요 ==========</option>
