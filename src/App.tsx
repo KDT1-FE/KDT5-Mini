@@ -4,8 +4,12 @@ import Main from "./pages/Main/main.tsx";
 import Mypage from "./pages/Mypage/mypage.tsx";
 import Admin from "./pages/Admin/admin.tsx";
 import { Route, Routes } from "react-router-dom";
+import Modal from 'react-modal';
 import { CookiesProvider } from "react-cookie";
 // import ProtectedRouter from "@/pages/routes/ProtectedRoute.tsx";
+
+Modal.setAppElement('#root');
+
 
 function App() {
   return (

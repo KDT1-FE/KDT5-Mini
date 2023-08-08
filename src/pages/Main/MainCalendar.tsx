@@ -5,48 +5,76 @@ import "./MainCalendar.scss";
 import AddEventModal from "./AddEventModal";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import EventModal from "./EventModal";
+import { getAuth, getNewAccessToken, getMyPage } from "@/API/apis";
 
 
 const cookie = new Cookies;
-const coo = cookie.get('accessToken')
+const accessToken = cookie.get('accessToken')
 export const ApiHttp = axios.create({
   baseURL: "/mini",
 });
 
 
-console.log(coo);
+console.log(accessToken);
+
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
   ]);
-  const [view, setView] = useState(false);
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
+  const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
 
 
   useEffect(() => {
     // API 호출
-    ApiHttp
-      .get("/api/main",{
-        headers:{
-          Authorization: `Bearer ${coo}`
+    const getMainInfo = getMyPage(accessToken);
+    getMainInfo
+    ?.then((res) => {
+      setEvents(res.data);
+      setUserName(res.data.name); // 사용자 이름 설정
+      console.log(res);
+      console.log(accessToken);
+    })
+    .catch((error) => {
+        if (error.response.status === 401 ) {
+          const newAccessToken = getNewAccessToken();
+          new Cookies().set("accessToken", newAccessToken, { path: "/" });
+          // 새로운 accessToken으로 재시도
+          const config = error.config;
+          config.headers.Authorization = newAccessToken;
+          ApiHttp.get(config.url, config)
+            .then((res) => {
+              setEvents(res.data);
+            })
+            .catch((error) => {
+              console.error("Error while retrying API call:", error);
+            });
+        } else {
+          console.error("API call error:", error);
         }
-      })
-      .then((response) => {
-        // API에서 받아온 데이터를 state에 설정
-        console.log(response);
-        setEvents(response.data);
-        console.log("Fetched events:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching events:", error);
       });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-  // 당직, 연차 값을 조건에 따라 색상 변경
 
+
+
+  // 당직, 연차 값을 조건에 따라 색상 변경
+  const toggleUserInfo = () => {
+    setUserInfoVisible(!userInfoVisible);
+  };
+  const handleMyPageClick = () => {
+    // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
+    navigate('/mypage');
+  };
 
   const processedEvents = events.map((event) => {
     const { startDate, endDate, ...rest } = event;
@@ -57,9 +85,13 @@ const MainCalendar = () => {
       color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
       textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
       title: `• ${event.name}`,
+      category: event.category,
+      reason: event.reason,
     };
   });
 
+  console.log(events);
+ 
 
 
   // 카테고리 선택 버튼 클릭 시
@@ -86,8 +118,9 @@ const MainCalendar = () => {
     (event) => event.category === "당직",
   ).length;
   // 유저 이름 표시
-  const userName = events.map((event) => event.name);
+
   // 오늘 날짜
+
   const today = new Date();
   const year = today.getFullYear(); // 년도 (예: 2023)
   const month = today.getMonth() + 1; // 월 (0 ~ 11, 1을 더해서 1 ~ 12로변환)
@@ -95,24 +128,22 @@ const MainCalendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayOfWeek = daysOfWeek[today.getDay()]; // 요일 (0 ~ 6)
   const formattedDate = `${year}. ${month}. ${day}. ${dayOfWeek}`;
+  
   // headerToolbar 커스터마이즈
   const headerToolbarOptions = {
     left: "prev",
     center: "title",
     right: "next",
   };
+  
   const handleEventClick = (eventInfo) => {
-    const { reason, title, start, end, category } = eventInfo.event;
-    console.log("Clicked event - Reason:", reason);
-    console.log("Clicked event - Title:", title);
-    console.log("Clicked event - Start:", start);
-    console.log("Clicked event - End:", end);
-    console.log("Clicked event - Category:", category);
+    setSelectedEvent(eventInfo.event); // 수정된 부분
   };
+
   function handleAddEvent(newEvent: NewEvent): void {
-    // Send the new event data to the server
+
     axios
-      .post("http://52.78.200.157/api/annual", newEvent)
+      .post("mini/api/annual", newEvent)
       .then((response) => {
         console.log("Event successfully submitted:", response.data);
         // 서버로부터의 응답을 처리할 수 있음
@@ -127,37 +158,36 @@ const MainCalendar = () => {
     setIsAddModalOpen(false);
   }
   return (
-    <div className="mainWrap">
-      <div className="selectWrap">
-        <ul
-          className="UserInfo"
-          onClick={() => {
-            setView(!view);
-          }}
-        >
-          반가워요, {userName} 님!
-          {/* 추후에 {loggedInUser.name} 로 변환할 것  */}
-          <li>마이페이지</li>
+    <div className='mainWrap'>
+      <div className='selectWrap'>
+      <ul className={`UserInfo ${userInfoVisible ? 'active' : ''}`}
+        onClick={toggleUserInfo}>
+         반가워요, <span className='UserNameInfo'>{userName}</span>님!
+        <div className={`HideInfo ${userInfoVisible ? 'visible' : ''}`}>
+          <li onClick={handleMyPageClick}>마이 페이지</li>
           <li>로그아웃</li>
-        </ul>
-        <div className="Today">
-          {" "}
-          {/* 오늘 날짜 렌더링 */}
-          <h1>Today</h1>
-          <span>{formattedDate}</span>
         </div>
-        <div className="SelectCanlendar">
-          {" "}
-          {/* 일정 선택 박스 */}
-          <h1>Calendar</h1>
+      </ul>
+      <div className='Today'>     {/* 오늘 날짜 렌더링 */}
+        <h1>Today</h1>
+        <span>{formattedDate}</span>
+      </div>
+
+      <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
+        <h1>Calendar</h1>
+        <div className='SelectSchedule'>
           <label>
-            <input type="checkbox" />
-            전체 일정
+            <input 
+              type='checkbox'
+            />전체 일정
           </label>
           <label>
-            <input type="checkbox" />내 일정
+            <input 
+              type='checkbox'
+            />내 일정
           </label>
         </div>
+      </div>
         <div className="SelectCategories">
           <h1>Categories</h1>
           <div>
@@ -173,7 +203,7 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-          </div>
+
           <div>
             <label>
               {" "}
@@ -201,16 +231,24 @@ const MainCalendar = () => {
           handleAddEvent={handleAddEvent}
         />
       </div>
-      <div className="calendarWrap">
-        <FullCalendar
+
+      </div>
+      <div className='calendarWrap'>
+      <FullCalendar
           plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          height={636}
+          initialView='dayGridMonth'
+          height={760}
           events={filteredEvents}
           headerToolbar={headerToolbarOptions}
           eventClick={handleEventClick}
-        />{" "}
-        {/* 캘린더 렌더링 */}
+        />
+        {selectedEvent && (
+          <EventModal
+            isOpen={true} // 여기서 모달을 열려면 true로 설정하거나, 필요한 조건에 따라서 설정해주어야 합니다.
+            closeModal={() => setSelectedEvent(null)} // 모달 닫기 함수
+            event={selectedEvent} // 이벤트 정보 전달
+          />
+        )}
       </div>
     </div>
   );

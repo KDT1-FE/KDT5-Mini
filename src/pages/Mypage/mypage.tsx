@@ -6,6 +6,7 @@ import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
 import { useCookies } from "react-cookie";
 
+
 export default function Mypage() {
   const { getPageData } = useDataQuery();
   const { isLoading, error, data: myData } = getPageData;

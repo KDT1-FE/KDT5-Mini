@@ -9,7 +9,7 @@
   inset: 0px;
 }
 
-.custom-modal-content{
+.detail-custom-modal-content{
   width: 660px;
   height: 322px;
   margin: auto;
@@ -43,6 +43,7 @@
 .detail-name {
   font-size: 16px;
   font-weight: bold;
+  font-family: "Noto-Sans";
   padding: 10px 0px 6px 0px;
   border-top: 1px solid $green-BG-color;
   border-bottom: 1px solid $green-BG-color;
