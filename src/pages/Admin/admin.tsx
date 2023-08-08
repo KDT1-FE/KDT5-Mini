@@ -21,7 +21,6 @@ export default function Admin() {
     async function fetchListData() {
       try {
         const data = await getListAll();
-        // 연차와 당직으로 분리
         const dayoffItems = data.filter(
           (item: AdminListsAll) => item.category === "연차",
         );

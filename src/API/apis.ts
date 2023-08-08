@@ -50,26 +50,34 @@ export const getMyPage = (token: any) => {
 
 // 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
 // /api/admin/
-export async function getListAll() {
+export const getListAll = async () => {
   try {
-    const res = await axios.get("src/Api/data/admin.json");
+    const res = await ApiHttp.get("/api/admin/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
-}
+};
 // 어드민 페이지_연차/당직 승인 처리
 // /api/admin/apply
-export async function permission() {
+export const permission = async () => {
   try {
-    const res = await axios.post("src/Api/data/admin.json");
+    const res = await ApiHttp.post("/api/admin/apply", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
-}
+};
 
 // 기존 api에서 가져온 코드
 export async function getUser() {
