@@ -92,12 +92,12 @@ export default function SignUpPage() {
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
     try {
       const response = await signUp(email, password, name, join);
-      console.log(response.data);
+      console.log("response", response);
       if (response) {
-        // navigate("/main");
-        alert("로그인 성공");
+        navigate("/main");
+        // alert("회원가입 성공");
       } else {
-        alert("로그인 실패");
+        alert("해당 이메일은 이미 가입된 정보입니다.");
       }
     } catch (error) {
       console.log("signUpPageError: ", error);
