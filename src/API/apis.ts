@@ -101,7 +101,6 @@ export const getMyPage = async () => {
     }
   }
 };
-
 // LOG_IN
 export const login = async (email: string, password: string) => {
   try {
@@ -117,7 +116,6 @@ export const login = async (email: string, password: string) => {
     console.log("loginApi호출 : ", error);
   }
 };
-
 // LOG_OUT
 export async function logOut() {
   try {
@@ -149,7 +147,7 @@ export const signUp = async (
 };
 
 // GET_MAIN_PAGE
-export const getMainPage = (token) => {
+export const getMainPage = (token:string) => {
   try {
     const response = ApiHttp.get("/api/main", {
       headers: {
