@@ -7,7 +7,6 @@ import useDataQuery from "@/Hooks/useData-Query.tsx";
 import { useEffect } from "react";
 import { QueryClient } from "@tanstack/react-query";
 
-
 export default function Mypage() {
 
   const queryClient = new QueryClient()
@@ -18,6 +17,12 @@ export default function Mypage() {
     queryClient.invalidateQueries(['myData']); // 쿼리를 재요청하여 데이터 갱신
   }, [myData]);
 
+
+  if (isLoading) {
+    return "Loading...";
+  } else if (error instanceof Error) {
+    return `An error has occurred: ${error.message}`;
+  }
 
   if (isLoading) {
     return "Loading...";

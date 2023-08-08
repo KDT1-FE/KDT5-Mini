@@ -7,7 +7,7 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getAuth, getNewAccessToken, getMyPage } from "@/API/apis";
+import { getAuth, getNewAccessToken, getMainPage } from "@/API/apis";
 
 const cookie = new Cookies;
 const accessToken = cookie.get('accessToken')
@@ -59,7 +59,7 @@ const MainCalendar = () => {
 
   useEffect(() => {
     // API 호출
-    const getMainInfo = getMyPage(accessToken);
+    const getMainInfo = getMainPage(accessToken);
     getMainInfo
     ?.then((res) => {
       setEvents(res.data);

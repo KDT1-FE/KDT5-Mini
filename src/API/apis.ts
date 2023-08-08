@@ -16,7 +16,6 @@ export const ApiLogin = axios.create({
 
 // 리프레시 토큰 요청 => 새로운 엑세스 토큰 반환
 export const getNewAccessToken = async () => {
-  const cookie = new Cookies();
   const accessToken = cookie.get("accessToken");
   const refreshToken = cookie.get("refreshToken");
 
@@ -113,6 +112,18 @@ export async function getMain() {
     console.error("메인 캘린더 로드에 실패하였습니다.");
   }
 }
+export const getMainPage = (token) => {
+  try {
+    const response = ApiHttp.get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export async function postMain(data: NewEvent) {
   try {

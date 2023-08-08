@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import "./AddEventModal.scss";
 import Modal from "react-modal";
 import { ApiHttp } from "@/Api/apis.ts";
+import { Cookies } from "react-cookie";
 
 
-const cookie = new Cookies();
+const cookie = new Cookies;
 const accessToken = cookie.get('accessToken');
 
-export const ApiHttp = axios.create({
-  baseURL: "/mini",
-});
+
 
 interface AddEventModalProps {
   isOpen: boolean;
