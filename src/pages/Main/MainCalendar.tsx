@@ -6,9 +6,7 @@ import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
-import AddEventModal from "./AddEventModal";
-
-
+// import AddEventModal from "./AddEventModal";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -16,7 +14,7 @@ const MainCalendar = () => {
     "당직",
   ]);
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -42,7 +40,6 @@ const MainCalendar = () => {
             reason: event.reason,
           };
         });
-        
         setEvents(processedEvents);
         setUserName(res.name);
         console.log(res.name); // 사용자 이름 설정

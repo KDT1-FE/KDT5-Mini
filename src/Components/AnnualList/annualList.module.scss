@@ -1,62 +1,5 @@
 @import "src/_variables.scss";
 
-.Container {
-  width: 100%;
-  height: 100%;
-  // background-color: blue;
-  .index {
-    width: 100%;
-    height: 46px;
-    margin-top: 10px;
-    padding: 0px 40px;
-    border-radius: 13px;
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1.4fr 0.5fr 0.6fr;
-    align-items: center;
-    text-align: center;
-    background-color: $light-Green-BG-color;
-    color: $main-color;
-    .index_title {
-      font-size: 14px;
-    }
-  }
-  .lists_content {
-    height: 100%;
-    width: 100%;
-    margin-top: 10px;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
-      width: 10px; /* 스크롤바의 너비 */
-    }
-    &::-webkit-scrollbar-thumb {
-      height: 5px; /* 스크롤바의 길이 */
-      background: $light-Green-BG-color; /* 스크롤바의 색상 */
-      border-radius: 10px;
-    }
-    .lists {
-      width: 100%;
-      height: 38px;
-      padding: 5px 40px;
-      display: grid;
-      grid-template-columns: 0.5fr 2fr 1.5fr 0.5fr 0.5fr;
-      align-items: center;
-      text-align: center;
-      font-weight: 300;
-      color: $black-color;
-      &:hover {
-        cursor: pointer;
-      }
-      .list {
-        padding: 5px 0px;
-        &::before {
-          content: "|";
-          float: left;
-          color: $sub-color;
-        }
-      }
-    }
-  }
-}
 
 .ReactModal__Overlay{
   z-index: 9999;
@@ -66,7 +9,10 @@
 }
 
 
-.custom-modal-content{
+.ReactModal__Content {
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
   width: 660px;
   height: 600px;
   margin: auto;
@@ -232,7 +178,6 @@
     border: 2px solid $main-color;
     color: $main-color;
     border-radius: 10px;
-    margin-right: 10px;
   }
 
   button:hover{
@@ -240,3 +185,61 @@
     color: white;
   }
 }
+.Container {
+  width: 100%;
+  height: 100%;
+  // background-color: blue;
+  .index {
+    width: 100%;
+    height: 46px;
+    margin-top: 10px;
+    padding: 0px 40px;
+    border-radius: 13px;
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1.4fr 0.5fr 0.6fr;
+    align-items: center;
+    text-align: center;
+    background-color: $light-Green-BG-color;
+    color: $main-color;
+    .index_title {
+      font-size: 14px;
+    }
+  }
+  .lists_content {
+    height: 100%;
+    width: 100%;
+    margin-top: 10px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 10px; /* 스크롤바의 너비 */
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 5px; /* 스크롤바의 길이 */
+      background: $light-Green-BG-color; /* 스크롤바의 색상 */
+      border-radius: 10px;
+    }
+    .lists {
+      width: 100%;
+      height: 38px;
+      padding: 5px 40px;
+      display: grid;
+      grid-template-columns: 0.5fr 2fr 1.5fr 0.5fr 0.5fr;
+      align-items: center;
+      text-align: center;
+      font-weight: 300;
+      color: $black-color;
+      &:hover {
+        cursor: pointer;
+      }
+      .list {
+        padding: 5px 0px;
+        &::before {
+          content: "|";
+          float: left;
+          color: $sub-color;
+        }
+      }
+    }
+  }
+}
+
