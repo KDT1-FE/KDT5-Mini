@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
-import AddEventModal from "./AddEventModal";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
+import AddEventModal from "./AddEventModal";
 
-// const cookie = new Cookies;
-// const accessToken = cookie.get('accessToken')
+
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -24,56 +23,53 @@ const MainCalendar = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
-  // const ApiHttp = axios.create({
-  //   baseURL: "/mini",
-  //   headers: {
-  //     Authorization: `Bearer ${token}`
-  //   }
-  // });
-
-  //usequery 사용
-  // const {getMainData} = useDataQuery()
-  // const {isLoading, error, data: mainData} = getMainData;
-
-  // useEffect(()=>{
-  //   if(mainData){
-  //     setEvents(mainData)
-  //   }
-  // },[mainData])
-  //
-  //  if (isLoading) {
-  //    return "Loading...";
-  //  } else if (error instanceof Error) {
-  //    return `An error has occurred: ${error.message}`;
-  //  }
-
   useEffect(() => {
     // API 호출
     const getMainInfo = getMyPage();
     getMainInfo
-      ?.then((res) => {
-        setEvents(res.data);
-        setUserName(res.data.name); // 사용자 이름 설정
-        console.log(res);
+      .then((res) => {
+        console.log("getMainInfo.then(res): ", res);
+        const processedEvents = res.annualHistories.map((event: any) => {
+          const { startDate, endDate, ...rest } = event;
+          return {
+            ...rest,
+            start: startDate,
+            end: endDate,
+            color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+            textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
+            title: `• ${event.name}`,
+            category: event.category,
+            reason: event.reason,
+          };
+        });
+        
+        setEvents(processedEvents);
+        setUserName(res.name);
+        console.log(res.name); // 사용자 이름 설정
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          const newAccessToken = getNewAccessToken();
-          new Cookies().set("accessToken", newAccessToken, { path: "/" });
-          // 새로운 accessToken으로 재시도
-          const config = error.config;
-          config.headers.Authorization = newAccessToken;
-          ApiHttp.get(config.url, config)
-            .then((res) => {
-              setEvents(res.data);
-            })
-            .catch((error) => {
-              console.error("Error while retrying API call:", error);
+    if (error.response && error.response.status === 401) {
+      const newAccessToken = getNewAccessToken();
+      new Cookies().set("accessToken", newAccessToken, { path: "/" });
+      // 새로운 accessToken으로 재시도
+      const config = error.config;
+      config.headers.Authorization = newAccessToken;
+      ApiHttp.get(config.url, config)
+        .then((res) => {
+          if (res.data) { // API 응답 데이터가 있는지 확인
+            const processedEvents = res.data.map((event: any) => {
+              // ...
             });
-        } else {
-          console.error("API call error:", error);
-        }
-      });
+            setEvents(processedEvents);
+          }
+        })
+        .catch((error) => {
+          console.error("Error while retrying API call:", error);
+        });
+    } else {
+      console.error("API call error:", error);
+    }
+  });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   // 당직, 연차 값을 조건에 따라 색상 변경
@@ -85,19 +81,19 @@ const MainCalendar = () => {
     navigate("/mypage");
   };
 
-  const processedEvents = events.map((event: any) => {
-    const { startDate, endDate, ...rest } = event;
-    return {
-      ...rest,
-      start: startDate,
-      end: endDate,
-      color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-      textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-      title: `• ${event.name}`,
-      category: event.category,
-      reason: event.reason,
-    };
-  });
+  // const processedEvents = events.map((event: any) => {
+  //   const { startDate, endDate, ...rest } = event;
+  //   return {
+  //     ...rest,
+  //     start: startDate,
+  //     end: endDate,
+  //     color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+  //     textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
+  //     title: `• ${event.name}`,
+  //     category: event.category,
+  //     reason: event.reason,
+  //   };
+  // });
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -109,8 +105,8 @@ const MainCalendar = () => {
   };
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-    ? processedEvents
-    : processedEvents.filter((event: { category: string }) =>
+    ? events
+    : events.filter((event: { category: string }) =>
         selectedCategories.includes(event.category),
       );
   // 연차 리스트 개수

@@ -14,6 +14,7 @@ export const ApiLogin = axios.create({
   baseURL: "/mini",
 });
 
+
 // 리프레시 토큰 요청 => 새로운 엑세스 토큰 반환
 export const getNewAccessToken = async () => {
   const cookie = new Cookies();
@@ -76,6 +77,7 @@ export const permission = async () => {
   }
 };
 
+
 // 로그인 요청
 export const login = async (email: string, password: string) => {
   try {
@@ -98,6 +100,7 @@ export async function logOut() {
     return res;
   } catch (error) {
     console.error("로그아웃이 실패 하였습니다.", error);
+
   }
 }
 
@@ -121,6 +124,7 @@ export const signUp = async (
   }
 };
 
+
 // 메인페이지 캘린더
 export async function getMain() {
   try {
@@ -130,14 +134,28 @@ export async function getMain() {
     console.error("메인 캘린더 로드에 실패하였습니다.");
   }
 }
+export const getMainPage = (token) => {
+  try {
+    const response = ApiHttp.get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export async function postMain(data: NewEvent) {
   try {
-    await ApiHttp.post("/api/annual", { data }).then((res) => {
-      console.log("새로운 등록 완료", res.data);
-      return res.data;
-    });
-  } catch (error) {
-    console.error("Error submitting event:", error);
+    await ApiHttp.post("/api/annual", {data})
+      .then((res) => {
+
+        console.log("새로운 등록 완료", res.data);
+        return res.data;
+      });
+    } catch (error) {
+      console.error("Error submitting event:", error);
+    }
   }
-}
