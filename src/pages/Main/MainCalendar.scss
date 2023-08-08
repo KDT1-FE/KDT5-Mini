@@ -123,6 +123,15 @@
       margin: 24px 0;
     }
   }
+  .calendar_wrap {
+    position: absolute;
+    width: 761px;
+    height: 824px;
+    background-color: $white-color;
+    border-radius: 20px;
+    bottom: 0;
+    right: 2%;
+  }
 }
 
 .fc-daygrid-block-event .fc-event-title {
@@ -196,7 +205,6 @@
 .fc-theme-standard td,
 .fc-theme-standard th {
   border: none;
-
   tr {
     border-top: 1px solid $sub-color;
   }
@@ -231,14 +239,4 @@
 }
 .fc-day-sun {
   color: $point-color;
-}
-
-.calendar_wrap {
-  position: absolute;
-  width: 761px;
-  height: 824px;
-  background-color: $white-color;
-  border-radius: 20px;
-  bottom: 0;
-  right: 2%;
 }

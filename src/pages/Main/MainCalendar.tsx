@@ -8,8 +8,6 @@ import EventModal from "./EventModal";
 import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
 import AddEventModal from "./AddEventModal";
 
-// const cookie = new Cookies;
-// const accessToken = cookie.get('accessToken')
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -30,7 +28,7 @@ const MainCalendar = () => {
     getMainInfo
       .then((res) => {
         console.log("getMainInfo.then(res): ", res);
-        const processedEvents = res.data.map((event: any) => {
+        const processedEvents = res.annualHistories.map((event: any) => {
           const { startDate, endDate, ...rest } = event;
           return {
             ...rest,
@@ -44,26 +42,32 @@ const MainCalendar = () => {
           };
         });
         setEvents(processedEvents);
-        setUserName(res.data.name); // 사용자 이름 설정
+        setUserName(res.name);
+        console.log(res.name); // 사용자 이름 설정
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          const newAccessToken = getNewAccessToken();
-          new Cookies().set("accessToken", newAccessToken, { path: "/" });
-          // 새로운 accessToken으로 재시도
-          const config = error.config;
-          config.headers.Authorization = newAccessToken;
-          ApiHttp.get(config.url, config)
-            .then((res) => {
-              setEvents(res.data);
-            })
-            .catch((error) => {
-              console.error("Error while retrying API call:", error);
+    if (error.response && error.response.status === 401) {
+      const newAccessToken = getNewAccessToken();
+      new Cookies().set("accessToken", newAccessToken, { path: "/" });
+      // 새로운 accessToken으로 재시도
+      const config = error.config;
+      config.headers.Authorization = newAccessToken;
+      ApiHttp.get(config.url, config)
+        .then((res) => {
+          if (res.data) { // API 응답 데이터가 있는지 확인
+            const processedEvents = res.data.map((event: any) => {
+              // ...
             });
-        } else {
-          console.error("API call error:", error);
-        }
-      });
+            setEvents(processedEvents);
+          }
+        })
+        .catch((error) => {
+          console.error("Error while retrying API call:", error);
+        });
+    } else {
+      console.error("API call error:", error);
+    }
+  });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   // 당직, 연차 값을 조건에 따라 색상 변경
@@ -74,6 +78,19 @@ const MainCalendar = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
     navigate("/mypage");
   };
+  // const processedEvents = events.map((event: any) => {
+  //   const { startDate, endDate, ...rest } = event;
+  //   return {
+  //     ...rest,
+  //     start: startDate,
+  //     end: endDate,
+  //     color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+  //     textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
+  //     title: `• ${event.name}`,
+  //     category: event.category,
+  //     reason: event.reason,
+  //   };
+  // });
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
