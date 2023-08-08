@@ -50,9 +50,12 @@ export const getListAll = async () => {
 
 export const getMyPage = async () => {
   try {
-    const res = await ApiHttp.get("/api/user");
-    console.log(res);
-    return res.data;
+    const response = await ApiHttp.get("/api/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
   }
