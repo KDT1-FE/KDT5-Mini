@@ -24,7 +24,6 @@ const MainCalendar = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(""); // 사용자 이름 상태
 
-
   // const ApiHttp = axios.create({
   //   baseURL: "/mini",
   //   headers: {
@@ -36,29 +35,29 @@ const MainCalendar = () => {
   // const {getMainData} = useDataQuery()
   // const {isLoading, error, data: mainData} = getMainData;
 
- // useEffect(()=>{
- //   if(mainData){
- //     setEvents(mainData)
- //   }
- // },[mainData])
- //
- //  if (isLoading) {
- //    return "Loading...";
- //  } else if (error instanceof Error) {
- //    return `An error has occurred: ${error.message}`;
- //  }
+  // useEffect(()=>{
+  //   if(mainData){
+  //     setEvents(mainData)
+  //   }
+  // },[mainData])
+  //
+  //  if (isLoading) {
+  //    return "Loading...";
+  //  } else if (error instanceof Error) {
+  //    return `An error has occurred: ${error.message}`;
+  //  }
 
   useEffect(() => {
     // API 호출
     const getMainInfo = getMyPage();
     getMainInfo
-    ?.then((res) => {
-      setEvents(res.data);
-      setUserName(res.data.name); // 사용자 이름 설정
-      console.log(res);
-    })
-    .catch((error) => {
-        if (error.response.status === 401 ) {
+      ?.then((res) => {
+        setEvents(res.data);
+        setUserName(res.data.name); // 사용자 이름 설정
+        console.log(res);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
           const newAccessToken = getNewAccessToken();
           new Cookies().set("accessToken", newAccessToken, { path: "/" });
           // 새로운 accessToken으로 재시도
@@ -83,7 +82,7 @@ const MainCalendar = () => {
   };
   const handleMyPageClick = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
-    navigate('/mypage');
+    navigate("/mypage");
   };
 
   const processedEvents = events.map((event: any) => {
@@ -99,8 +98,6 @@ const MainCalendar = () => {
       reason: event.reason,
     };
   });
-
-
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -118,11 +115,11 @@ const MainCalendar = () => {
       );
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
-    (event:any) => event.category === "연차",
+    (event: any) => event.category === "연차",
   ).length;
   // 당직 리스트 개수
   const selectedDuty = events.filter(
-    (event:any) => event.category === "당직",
+    (event: any) => event.category === "당직",
   ).length;
   // 유저 이름 표시
 
@@ -140,8 +137,8 @@ const MainCalendar = () => {
     center: "title",
     right: "next",
   };
-  
-  const handleEventClick = (eventInfo:any) => {
+
+  const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
   // function handleAddEvent(newEvent: NewEvent): void {
@@ -163,36 +160,39 @@ const MainCalendar = () => {
   // }
 
   return (
-    <div className='mainWrap'>
-      <div className='selectWrap'>
-      <ul className={`UserInfo ${userInfoVisible ? 'active' : ''}`}
-        onClick={toggleUserInfo}>
-        반가워요, <span className='UserNameInfo'>{userName}</span>님!
-        <div className={`HideInfo ${userInfoVisible ? 'visible' : ''}`}>
-          <li onClick={handleMyPageClick}>마이 페이지</li>
-          <li>로그아웃</li>
+    <div className="mainWrap">
+      <div className="selectWrap">
+        <ul
+          className={`UserInfo ${userInfoVisible ? "active" : ""}`}
+          onClick={toggleUserInfo}
+        >
+          반가워요, <span className="UserNameInfo">{userName}</span>님!
+          <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
+            <li onClick={handleMyPageClick}>마이 페이지</li>
+            <li>로그아웃</li>
+          </div>
+        </ul>
+        <div className="Today">
+          {" "}
+          {/* 오늘 날짜 렌더링 */}
+          <h1>Today</h1>
+          <span>{formattedDate}</span>
         </div>
-      </ul>
-      <div className='Today'>     {/* 오늘 날짜 렌더링 */}
-        <h1>Today</h1>
-        <span>{formattedDate}</span>
-      </div>
 
-      <div className='SelectCanlendar'>      {/* 일정 선택 박스 */}
-        <h1>Calendar</h1>
-        <div className='SelectSchedule'>
-          <label>
-            <input 
-              type='checkbox'
-            />전체 일정
-          </label>
-          <label>
-            <input 
-              type='checkbox'
-            />내 일정
-          </label>
+        <div className="SelectCanlendar">
+          {" "}
+          {/* 일정 선택 박스 */}
+          <h1>Calendar</h1>
+          <div className="SelectSchedule">
+            <label>
+              <input type="checkbox" />
+              전체 일정
+            </label>
+            <label>
+              <input type="checkbox" />내 일정
+            </label>
+          </div>
         </div>
-      </div>
         <div className="SelectCategories">
           <h1>Categories</h1>
           <div>
@@ -208,27 +208,27 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-          <div>
-            <label>
-              {" "}
-              {/* 당직 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes("당직")}
-                onChange={() => handleCategoryChange("당직")}
-              />
-              당직
-              <span className="dutyBox">{selectedDuty}</span>
-              {/* 당직 리스트 카운트 */}
-            </label>
+            <div>
+              <label>
+                {" "}
+                {/* 당직 카테고리 선택 박스   */}
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes("당직")}
+                  onChange={() => handleCategoryChange("당직")}
+                />
+                당직
+                <span className="dutyBox">{selectedDuty}</span>
+                {/* 당직 리스트 카운트 */}
+              </label>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      <div className='calendarWrap'>
-      <FullCalendar
+      <div className="calendarWrap">
+        <FullCalendar
           plugins={[dayGridPlugin]}
-          initialView='dayGridMonth'
+          initialView="dayGridMonth"
           height={760}
           events={filteredEvents}
           headerToolbar={headerToolbarOptions}

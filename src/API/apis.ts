@@ -51,7 +51,7 @@ export const getMyPage = async () => {
   try {
     const response = await ApiHttp.get("/api/user", {
       headers: {
-        Authorization: `Bearer ${"token"}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
