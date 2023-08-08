@@ -1,12 +1,17 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
-const cookie = new Cookies();
-const token = cookie.get("accessToken");
+
+export const getAccessToken = () => {
+  const cookie = new Cookies();
+  return cookie.get("accessToken");
+};
+
+const ACCESSTOKEN = getAccessToken();
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${ACCESSTOKEN}`,
   },
 });
 
@@ -14,32 +19,33 @@ export const ApiLogin = axios.create({
   baseURL: "/mini",
 });
 
-
-// 리프레시 토큰 요청 => 새로운 엑세스 토큰 반환
+// NEW_ACCESSTOKEN (리프레시 토큰 요청 => 새로운 엑세스 토큰 반환)
 export const getNewAccessToken = async () => {
-  const cookie = new Cookies();
-  const accessToken = cookie.get("accessToken");
-  const response = ApiHttp.post(
-    "/api/token",
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  try {
+    const response = await ApiHttp.post(
+      "/api/token",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESSTOKEN}`,
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    },
-  );
-  const newAccessToken = await response;
-  return newAccessToken.data;
+    );
+    const newAccessToken = response.data;
+    return newAccessToken;
+  } catch (error) {
+    console.error("getNewAccessTokenAPI에러: ", error);
+    throw error;
+  }
 };
 
-// 어드민 페이지_연차/당직 리스트업 => adminApi에서 가져온 코드
-// /api/admin/
+// ADMIN_PAGE
 export const getListAll = async () => {
   try {
     const res = await ApiHttp.get("/api/admin/", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return res.data;
@@ -48,26 +54,12 @@ export const getListAll = async () => {
   }
 };
 
-export const getMyPage = async () => {
-  try {
-    const response = await ApiHttp.get("/api/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// 어드민 페이지_연차/당직 승인 처리
-// /api/admin/apply
+// ADMIN_연차/당직 승인 처리
 export const permission = async () => {
   try {
     const res = await ApiHttp.post("/api/admin/apply", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return res.data;
@@ -77,8 +69,40 @@ export const permission = async () => {
   }
 };
 
+// GETMYPAGE
+export const getMyPage = async () => {
+  try {
+    const response = await ApiHttp.get("/api/user", {
+      headers: {
+        Authorization: `Bearer ${ACCESSTOKEN}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("getMyPageAPI에러: ", error);
 
-// 로그인 요청
+    if (error.response.status === 403 || error.response.status === 401) {
+      console.log("새 토큰 보내고 정보 받아오는 중");
+
+      getNewAccessToken().then((NEW_ACCESSTOKEN) => {
+        const config = error.config;
+        config.headers.Authorization = NEW_ACCESSTOKEN;
+
+        document.cookie = `accessToken=${NEW_ACCESSTOKEN}; path=/; `;
+
+        ApiHttp.get(config.url, config)
+          .then((res) => {
+            return res.data;
+          })
+          .catch((error) => {
+            console.log("재요청에러: ", error);
+          });
+      });
+    }
+  }
+};
+
+// LOG_IN
 export const login = async (email: string, password: string) => {
   try {
     return await ApiLogin.post(
@@ -94,17 +118,17 @@ export const login = async (email: string, password: string) => {
   }
 };
 
+// LOG_OUT
 export async function logOut() {
   try {
     const res = await ApiHttp.post("/api/logout");
     return res;
   } catch (error) {
     console.error("로그아웃이 실패 하였습니다.", error);
-
   }
 }
 
-// 회원가입 요청
+// SIGN_UP
 export const signUp = async (
   email: string,
   password: string,
@@ -124,16 +148,7 @@ export const signUp = async (
   }
 };
 
-
-// 메인페이지 캘린더
-export async function getMain() {
-  try {
-    const res = await ApiHttp.get("/api/main");
-    return res.data;
-  } catch (error) {
-    console.error("메인 캘린더 로드에 실패하였습니다.");
-  }
-}
+// GET_MAIN_PAGE
 export const getMainPage = (token) => {
   try {
     const response = ApiHttp.get("/api/main", {
@@ -149,13 +164,11 @@ export const getMainPage = (token) => {
 
 export async function postMain(data: NewEvent) {
   try {
-    await ApiHttp.post("/api/annual", {data})
-      .then((res) => {
-
-        console.log("새로운 등록 완료", res.data);
-        return res.data;
-      });
-    } catch (error) {
-      console.error("Error submitting event:", error);
-    }
+    await ApiHttp.post("/api/annual", { data }).then((res) => {
+      console.log("새로운 등록 완료", res.data);
+      return res.data;
+    });
+  } catch (error) {
+    console.error("Error submitting event:", error);
   }
+}
