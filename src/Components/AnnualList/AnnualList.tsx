@@ -2,32 +2,29 @@ import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { useState } from "react";
-import Modal from '@/Components/Modal/Modal.tsx'
+import Modal from '@/Components/Modal/Modal';
 
-export default function AnnualList(props: { myData: MyDataType|undefined }) {
+
+export default function AnnualList(props: { myData?: MyDataType}) {
   const [visibility, setVisible] = useState(false)
   const annuals = props.myData?.annualHistories || [];
 
-
   function closeModal() {
-    setVisible(false)
+    setVisible(!visibility)
   }
-  // function openModal() {
-  //   setVisible(true)
-  // }
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(e.target.value);
-  // }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  }
 
   const handleClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
     e.stopPropagation()
     setVisible(true)
   }
 
-  // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
-  //   console.log(e.target);
-  // }
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+    console.log(e.target);
+  }
 
   return (
     <div className={styles.Container}>
@@ -40,7 +37,7 @@ export default function AnnualList(props: { myData: MyDataType|undefined }) {
       </div>
       <div
         className={styles.lists_content}>
-        {annuals.map((annual, index) => (
+        {annuals?.map((annual, index) => (
           <div
             onClick={handleClick}
             key={index}
@@ -57,9 +54,9 @@ export default function AnnualList(props: { myData: MyDataType|undefined }) {
             })} 개</div>
             <p className={styles.list}>{annual.status}</p>
             <Modal
-              visibility={visibility} toggle={setVisible}
-            >
-              {/*<div className="addEvent-wrap">
+              visibility={visibility} toggle={setVisible}>
+
+              <div className="addEvent-wrap">
                 <h1 className="addEvent-header">일정 등록</h1>
                 <div className="addEvent-title">
                   <label>제목</label>
@@ -76,7 +73,7 @@ export default function AnnualList(props: { myData: MyDataType|undefined }) {
                     type="date"
                     name="startDate"
                     value={annual.startDate}
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                   />
                 </div>
                 <div className="addEvent-end">
@@ -85,7 +82,7 @@ export default function AnnualList(props: { myData: MyDataType|undefined }) {
                     type="date"
                     name="endDate"
                     value={annual.endDate}
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                   />
                 </div>
                 <div className="addEvent-reason">
@@ -107,8 +104,7 @@ export default function AnnualList(props: { myData: MyDataType|undefined }) {
                   <button onClick={closeModal}>수 정</button>
                   <button onClick={handleSubmit}>삭 제</button>
                 </div>
-              </div>*/}
-              <button onClick={closeModal}>close</button>
+              </div>
             </Modal>
           </div>
         ))}
