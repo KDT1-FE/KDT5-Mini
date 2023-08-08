@@ -4,53 +4,90 @@ import Modal from "react-modal";
 import { ApiHttp } from "@/Api/apis.ts";
 
 
+const cookie = new Cookies();
+const accessToken = cookie.get('accessToken');
+
+export const ApiHttp = axios.create({
+  baseURL: "/mini",
+});
+
+interface AddEventModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  handleAddEvent: (newEvent: NewEvent) => void;
+}
+
+interface NewEvent {
+  title: string;
+  startDate: string;
+  endDate: string;
+  category: string;
+  reason: string;
+  name: string;
+}
+
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
-  const [newEvent, setNewEvent] = useState({
-    title: "",
-    startDate: "",
-    endDate: "",
+  const [events, setEvents] = useState<NewEvent[]>([]); // events 상태 변수 추가
+
+  const [newEvent, setNewEvent] = useState<NewEvent>({
     category: "",
-    reason: ""
+    email: "",
+    endDate: "",
+    name: "",
+    reason: "",
+    startDate: "",
+
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
 
+
     // name이 'select-reason'인 경우, reason 값을 설정
     if (name === "select-reason") {
+
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
     }
-
   };
+
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value; // 클릭한 체크박스의 value 값을 가져옴
+    const value = event.target.value;
     setNewEvent((prevEvent) => ({
       ...prevEvent,
-      category: value // 클릭한 체크박스의 값으로 카테고리 값을 변경
+
+      category: value,
     }));
   };
 
-
-  const handleSubmit = () => {
-    handleAddEvent(newEvent);
-
+  const handleSubmit = async () => {
     const eventDataToSend = {
-      ...newEvent,
-      reason: newEvent.reason
+      ...newEvent, // 이벤트 등록 폼에서 입력한 값
+      id: events.length + 1, // 새 이벤트의 ID (기존 이벤트 개수 + 1)
+
     };
 
-
-    ApiHttp.post("/api/annual", eventDataToSend)
-      .then(response => {
-        console.log("Event successfully submitted:", response.data);
-      })
-      .catch(error => {
-        console.error("Error submitting event:", error);
+    try {
+      // 서버에 새 이벤트 등록 요청 보내기
+      const response = await ApiHttp.post('/api/annual', eventDataToSend, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
-    // Close the modal
+      console.log('Event successfully submitted:', response.data);
+
+      // 새 이벤트를 현재 이벤트 목록에 추가하기
+      setEvents([...events, eventDataToSend]);
+
+      // 이벤트 등록에 성공한 경우, 추가 작업을 수행하거나 사용자에게 알림을 표시할 수 있음
+    } catch (error) {
+      console.error('Error submitting event:', error);
+      // 이벤트 등록에 실패한 경우, 에러 처리 로직을 수행하거나 사용자에게 알림을 표시할 수 있음
+    }
+
+
     closeModal();
   };
 

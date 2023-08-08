@@ -7,6 +7,7 @@ import useDataQuery from "@/Hooks/useData-Query.tsx";
 import { useEffect } from "react";
 import { QueryClient } from "@tanstack/react-query";
 
+
 export default function Mypage() {
 
   const queryClient = new QueryClient()

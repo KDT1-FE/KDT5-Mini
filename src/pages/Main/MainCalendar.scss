@@ -31,7 +31,7 @@
 
 .UserInfo {
   position: relative;
-  width: 170px;
+  width: 215px;
   font-family: 'noto-sans';
   font-size: 18px;
   margin-bottom: 100px;
@@ -108,6 +108,7 @@
 .fc-view-harness-active{
   margin-left: 40px;
   margin-right: 40px;
+  margin-top: 20px;
 }
 
 .fc-event-main-frame:hover{
@@ -256,3 +257,65 @@
   font-size: 36px;
   font-weight: bold;
 }
+
+
+.fc-col-header-cell-cushion{
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Montserrat";
+  color: $sub-color;
+}
+
+.fc .fc-daygrid-day-top{
+  flex-direction: row;
+}
+
+
+.fc-scrollgrid-sync-inner {
+  padding-bottom: 10px;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+  border: none;
+
+  tr {
+    border-top: 1px solid $sub-color;
+  }
+}
+
+.fc-scrollgrid.fc-scrollgrid-liquid{
+  border: none;
+  border-bottom: 3px solid $sub-color;
+}
+
+
+.fc-col-header-cell.fc-day{
+ border-bottom: 3px solid $sub-color;
+}
+
+
+.fc .fc-daygrid-day-number{
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Montserrat";
+  padding: 10px;
+}
+
+
+.fc .fc-day-other .fc-daygrid-day-top{
+  color: $green-BG-color;
+  opacity: 1;
+}
+
+
+.fc-daygrid-day-frame {
+  border-left: 1px solid $green-BG-color;
+}
+
+.fc-scroller-harness-liquid{
+  border-right: 1px solid $green-BG-color;
+}
+
+.fc-day-sat { color:#466FFF; }     
+.fc-day-sun { color:$point-color; } 
