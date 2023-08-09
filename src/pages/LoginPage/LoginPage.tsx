@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
@@ -17,6 +17,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { state } = useLocation();
+
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -51,7 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const accessToken = response?.data.accessToken;
+      const accessToken = response?.data;
       if (response) {
         await setCookie("accessToken", accessToken);
         alert("로그인 성공");
@@ -62,10 +64,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     } catch (error) {
       alert("로그인 실패");
       console.log("LoginPageError: ", error);
-      // console.log(email, password);
+      console.log(email, password);
     }
   };
-
+  
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
