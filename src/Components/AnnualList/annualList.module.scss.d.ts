@@ -1,12 +1,6 @@
 declare const classNames: {
-  readonly Container: "Container";
-  readonly index: "index";
-  readonly index_title: "index_title";
-  readonly lists_content: "lists_content";
-  readonly lists: "lists";
-  readonly list: "list";
   readonly ReactModal__Overlay: "ReactModal__Overlay";
-  readonly "custom-modal-content": "custom-modal-content";
+  readonly ReactModal__Content: "ReactModal__Content";
   readonly "addEvent-wrap": "addEvent-wrap";
   readonly "addEvent-header": "addEvent-header";
   readonly "addEvent-title": "addEvent-title";
@@ -18,5 +12,11 @@ declare const classNames: {
   readonly addDuty: "addDuty";
   readonly "addEvent-reason": "addEvent-reason";
   readonly "btn-group": "btn-group";
+  readonly Container: "Container";
+  readonly index: "index";
+  readonly index_title: "index_title";
+  readonly lists_content: "lists_content";
+  readonly lists: "lists";
+  readonly list: "list";
 };
 export = classNames;

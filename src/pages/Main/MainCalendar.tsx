@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -5,8 +6,10 @@ import "./MainCalendar.scss";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
-import AddEventModal from "./AddEventModal";
+
+import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
+
+
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -14,35 +17,52 @@ const MainCalendar = () => {
     "당직",
   ]);
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
-  const [userName, setUserName] = useState(""); // 사용자 이름 상태
+  const [userName, setUserName] = useState("");
+  const [processedEvents, setProcessedEvents] = useState([]);
 
   useEffect(() => {
-    const getMainInfo = getMyPage();
-    getMainInfo.then((res) => {
-      console.log("getMainInfo.then(res): ", res);
-      const processedEvents = res.annualHistories.map((event: any) => {
-        const { startDate, endDate, ...rest } = event;
-        return {
-          ...rest,
-          start: startDate,
-          end: endDate,
-          color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-          textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-          title: `• ${event.name}`,
-          category: event.category,
-          reason: event.reason,
-        };
-      });
+    const fetchMainInfo = async () => {
+      try {
+        const mainInfo = await getMainPage();
+  
+        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+          const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
+            const { startDate, endDate, ...rest } = annuals;
+            return {
+              ...rest,
+              start: startDate,
+              end: endDate,
+              color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+              textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
+              title: `• ${annuals.name}`,
+            };
+          });
+  
+          setEvents(mainInfo.data.annuals);
+          setProcessedEvents(processedEvents);
+          setUserName(mainInfo.data.username);
+          console.log(mainInfo);
+          console.log(mainInfo.data.annuals);
+        } else {
+          console.error("Invalid event data in API response.");
+          console.log(mainInfo.data.annuals);
+        }
+      } catch (error) {
+        console.error("Error fetching main info:", error);
+      }
+    };
+  
+    fetchMainInfo();
+  }, []);
 
-      setEvents(processedEvents);
-      setUserName(res.name);
-    });
-  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+
+
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
@@ -53,19 +73,10 @@ const MainCalendar = () => {
     navigate("/mypage");
   };
 
-  // const processedEvents = events.map((event: any) => {
-  //   const { startDate, endDate, ...rest } = event;
-  //   return {
-  //     ...rest,
-  //     start: startDate,
-  //     end: endDate,
-  //     color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-  //     textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-  //     title: `• ${event.name}`,
-  //     category: event.category,
-  //     reason: event.reason,
-  //   };
-  // });
+
+
+
+  
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -75,12 +86,15 @@ const MainCalendar = () => {
       setSelectedCategories([...selectedCategories, category]);
     }
   };
+
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-    ? events
-    : events.filter((event: { category: string }) =>
-        selectedCategories.includes(event.category),
-      );
+  ? processedEvents // 모든 이벤트를 표시
+  : processedEvents.filter((event: { category: string }) =>
+      selectedCategories.includes(event.category)
+    );
+
+
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
     (event: any) => event.category === "연차",
@@ -109,6 +123,7 @@ const MainCalendar = () => {
   const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
+
   // function handleAddEvent(newEvent: NewEvent): void {
   // // Send the new event data to the server
   //   axios
@@ -128,47 +143,48 @@ const MainCalendar = () => {
   // }
 
   return (
-    <div className="mainWrap">
-      <div className="selectWrap">
+    <div className="main_wrap">
+      <div className="select_wrap">
         <ul
           className={`UserInfo ${userInfoVisible ? "active" : ""}`}
           onClick={toggleUserInfo}
         >
-          반가워요, <span className="UserNameInfo">{userName}</span>님!
+          반가워요,
+          <span className="UserNameInfo">{userName}</span>님!
           <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
             <li onClick={handleMyPageClick}>마이 페이지</li>
             <li>로그아웃</li>
           </div>
         </ul>
-        <div className="Today">
+        <div className="select_today">
           {" "}
           {/* 오늘 날짜 렌더링 */}
-          <h1>Today</h1>
-          <span>{formattedDate}</span>
+          <h1 className="sub_title">Today</h1>
+          <span className="today_weather">{formattedDate}</span>
         </div>
-
-        <div className="SelectCanlendar">
+        <div className="select_calendar">
           {" "}
           {/* 일정 선택 박스 */}
-          <h1>Calendar</h1>
-          <div className="SelectSchedule">
-            <label>
-              <input type="checkbox" />
+          <h1 className="sub_title">Calendar</h1>
+          <div className="select_calendar_options">
+            <label className="select_calendar_option">
+              <input type="checkbox" className="input_checkbox" />
               전체 일정
             </label>
-            <label>
-              <input type="checkbox" />내 일정
+            <label className="select_calendar_option">
+              <input type="checkbox" className="input_checkbox" />내 일정
             </label>
           </div>
         </div>
-        <div className="SelectCategories">
-          <h1>Categories</h1>
-          <div>
-            <label>
+        <div className="select_categories">
+          <h1 className="sub_title">Categories</h1>
+          <div className="select_category_options">
+            <label className="select_category_option">
               {" "}
               {/* 연차 카테고리 선택 박스   */}
               <input
                 type="checkbox"
+                className="input_checkbox"
                 checked={selectedCategories.includes("연차")}
                 onChange={() => handleCategoryChange("연차")}
               />
@@ -176,24 +192,23 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-            <div>
-              <label>
-                {" "}
-                {/* 당직 카테고리 선택 박스   */}
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes("당직")}
-                  onChange={() => handleCategoryChange("당직")}
-                />
-                당직
-                <span className="dutyBox">{selectedDuty}</span>
-                {/* 당직 리스트 카운트 */}
-              </label>
-            </div>
+            <label className="select_category_option">
+              {" "}
+              {/* 당직 카테고리 선택 박스   */}
+              <input
+                type="checkbox"
+                className="input_checkbox"
+                checked={selectedCategories.includes("당직")}
+                onChange={() => handleCategoryChange("당직")}
+              />
+              당직
+              <span className="dutyBox">{selectedDuty}</span>
+              {/* 당직 리스트 카운트 */}
+            </label>
           </div>
         </div>
       </div>
-      <div className="calendarWrap">
+      <div className="calendar_wrap">
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
@@ -210,6 +225,7 @@ const MainCalendar = () => {
           />
         )}
       </div>
+      
     </div>
   );
 };

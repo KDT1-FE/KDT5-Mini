@@ -1,15 +1,15 @@
+// Mypage.tsx
 import UserBanner from "@/Components/userBanner/UserBanner.tsx";
 import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
 import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
 import { useEffect, useState } from "react";
-import { getMyPage } from "@/API/apis"; // apis.ts에서 필요한 함수 가져오기
+import { getMyPage } from "@/Api/apis"; // apis.ts에서 필요한 함수 가져오기
 
 export default function Mypage() {
-  const [myData, setMyData] = useState(null);
+  const [myData, setMyData] = useState<MyDataType>();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchMyData() {
@@ -18,19 +18,21 @@ export default function Mypage() {
         setMyData(data);
         setIsLoading(false);
       } catch (error) {
-        setError(error);
         setIsLoading(false);
       }
     }
-
     fetchMyData();
   }, []);
 
   if (isLoading) {
-    return "Loading...";
-  } else if (error instanceof Error) {
-    return `An error has occurred: ${error.message}`;
+    return <div>Loading...</div>;
   }
+
+
+
+
+
+
 
   return (
     <div className={styles.page}>

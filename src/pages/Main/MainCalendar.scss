@@ -1,227 +1,165 @@
-@import '/src/variables';
+@import "/src/variables";
 
-.calendarWrap{
-  position: absolute;
-  width: 761px;
-  height: 824px;
-  background-color: $white-color;
-  border-radius: 20px;
-  bottom: 0;
-  right: 2%;
-}
-
-
-.mainWrap {
-  display: flex;
-  border-radius: 20px;
-  margin: auto;
-  box-shadow: 4px 4px 30px rgba($color: #497174, $alpha: 0.3);
-
-  h1{
-    font-size: 24px;
-    font-weight: bold;
-    font-family: "montserrat";
-    color: $black-color;
-    margin-bottom: 24px;
-  }
-}
-
-
-
-
-.UserInfo {
+.main_wrap {
   position: relative;
-  width: 215px;
-  font-family: 'noto-sans';
-  font-size: 18px;
-  margin-bottom: 100px;
-  text-align: center;
-  
-
-  
-  &.active {
-    bottom: 10%;
-  }
-
-  .UserNameInfo{
-    color: $point-color;
-    font-weight: bold;
-  }
-  
-  .HideInfo{
-    position: absolute;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    margin-top: 20px;
-    width: 170px;
-    height: 124px;
-    box-shadow: 4px 4px 30px rgba(73, 113, 116, 0.3);
-    background-color: white;
-    border-radius: 10px;
-    cursor: pointer;
-
-    &.visible{
-      display: flex;
-    }
-
-    li:nth-child(1){
-      border-bottom: 1px solid rgba(73, 113, 116, 0.3);
-    }
-
-    li{
-      margin: 0 auto;
-      width: 150px;
-      padding: 15px;
-      font-size: 18px;
-      font-family: 'noto-sans';
-    }
-
-    li:hover {
-      background-color: #f0f0f0;
-    }
-  }
-}
-
-.mainWrap {
-  position: relative;
-  width: 1080px; 
+  width: 1080px;
   height: 850px;
-  background-color: $light-Green-BG-color;
   margin: auto;
   margin-top: 50px;
-  
+  display: flex;
+  border-radius: 20px;
+  background-color: $light-Green-BG-color;
+  box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
+  .select_wrap {
+    margin-left: 50px;
+    padding-top: 100px;
+    width: 260px;
+    .UserInfo {
+      position: relative;
+      width: 215px;
+      font-family: "noto-sans";
+      font-size: 18px;
+      margin-bottom: 100px;
+
+      &.active {
+        bottom: 10%;
+      }
+      .UserNameInfo {
+        color: $point-color;
+        font-weight: bold;
+      }
+      .HideInfo {
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        margin-top: 20px;
+        width: 170px;
+        height: 124px;
+        box-shadow: 5px 5px 20px $main-color-30;
+        background-color: $white-color;
+        border-radius: 10px;
+        cursor: pointer;
+        &.visible {
+          display: flex;
+        }
+        li:nth-child(1) {
+          border-bottom: 1px solid $main-color-30;
+        }
+        li {
+          margin: 0 auto;
+          width: 150px;
+          padding: 15px;
+          font-size: 18px;
+          font-family: "noto-sans";
+        }
+        li:hover {
+          background-color: $white-color;
+        }
+      }
+    }
+    .select_today {
+      margin-bottom: 35px;
+      width: 220px;
+      .today_weather {
+        font-size: 18px;
+        font-family: "montserrat";
+      }
+    }
+    .select_calendar {
+      border-top: 1px solid $green-BG-color;
+      padding-top: 22px;
+      width: 220px;
+      .select_calendar_option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "noto-sans";
+        .input_checkbox {
+          width: 22px;
+          height: 22px;
+          margin-right: 10px;
+        }
+      }
+    }
+    .select_categories {
+      border-top: 1px solid $green-BG-color;
+      width: 220px;
+      margin-top: 30px;
+      margin-bottom: 100px;
+      .select_category_option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "noto-sans";
+        .input_checkbox {
+          width: 22px;
+          height: 22px;
+          margin-right: 10px;
+        }
+      }
+      .LeaveBox,
+      .dutyBox {
+        margin-left: 100px;
+        padding: 3px 15px;
+        border: none;
+        background-color: $green-BG-color;
+        color: $main-color;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .sub_title {
+      font-size: 24px;
+      font-weight: bold;
+      font-family: "montserrat";
+      color: $black-color;
+      margin: 24px 0;
+    }
+  }
+  .calendar_wrap {
+    position: absolute;
+    width: 761px;
+    height: 824px;
+    background-color: $white-color;
+    border-radius: 20px;
+    bottom: 0;
+    right: 2%;
+  }
 }
 
-
-
-.fc .fc-toolbar{
+.fc-daygrid-block-event .fc-event-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+.fc .fc-toolbar {
   margin: 0 auto;
   margin-top: 50px;
 }
 
-.fc-toolbar-title{
+.fc-toolbar-title {
   padding: 0 20px;
 }
 
-.fc-view-harness-active{
+.fc-view-harness-active {
   margin-left: 40px;
   margin-right: 40px;
   margin-top: 20px;
 }
 
-.fc-event-main-frame:hover{
-  background-color: black;
+.fc-event-main-frame:hover {
+  background-color: $black-color;
   cursor: pointer;
   border-radius: 2px;
 }
 
-.Today{
-  margin-bottom: 35px;
-  width: 220px;
-  h1{
-    margin-bottom: 10px;
-  }
-}
-
-
-
-.Today span{
-  font-size: 18px;
-  font-family: "montserrat";
-}
-
-
-.selectWrap {
-  margin-left: 50px;
-  padding-top: 100px;
-  width: 260px;
-}
-
-.SelectCanlendar {
-  border-top: 1px solid $green-BG-color;
-  padding-top: 22px;
-  width: 220px;
-}
-
-
-.SelectSchedule{
-  label{
-    display: flex;
-    align-items: center;
-    margin-bottom: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: "noto-sans";
-  }
-}
-
-
-.SelectSchedule input{
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
-}
-
-.fc-daygrid-block-event .fc-event-title{
-  font-size: 14px;
-  font-weight: bold;
-}
-
-
-.SelectCanlendar label {
-    font-size: 16px;
-    font-weight: bold;
-    font-family: "noto-sans";
-}
-
-.SelectCategories{
-  border-top: 1px solid $green-BG-color;
-  width: 220px;
-  margin-top: 30px;
-  margin-bottom: 100px;
-}
-
-.SelectCategories h1{
-  margin-top: 24px;
-}
-
-
-.SelectCategories{
-  label{
-    display: flex;
-    align-items: center;
-    margin-bottom: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: "noto-sans";
-  }
-}
-
-
-.SelectCategories {
-  .LeaveBox,
-  .dutyBox{
-    margin-left: 100px;
-    padding: 3px 15px;
-    border: none;
-    background-color: $green-BG-color;
-    color: $main-color;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-}
-
-.SelectCategories input{
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
-}
-
-
-.addScheduleBtn{
+.addScheduleBtn {
   width: 220px;
   height: 54px;
   background-color: $point-color;
@@ -230,92 +168,75 @@
   font-size: 18px;
   font-weight: bold;
   color: $white-color;
-  box-shadow: 4px 4px 30px rgba($color: #497174, $alpha: 0.3);
+  box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
   cursor: pointer;
-
   &:hover {
-    background-color: #ff8a5c;
+    background-color: $point-color;
   }
 }
-
-
-
-.fc-dayGridMonth-view .fc-view .fc-daygrid{
+.fc-dayGridMonth-view .fc-view .fc-daygrid {
   z-index: 10;
 }
-.fc-view-harness .fc-view-harness-active{
+.fc-view-harness .fc-view-harness-active {
   z-index: 10;
 }
-
 .fc .fc-button-primary {
   background-color: $white-green;
   border: none;
   color: $sub-color;
 }
-
-.fc .fc-toolbar-title{
+.fc .fc-toolbar-title {
   font-size: 36px;
   font-weight: bold;
 }
-
-
-.fc-col-header-cell-cushion{
+.fc-col-header-cell-cushion {
   text-transform: uppercase;
   font-size: 16px;
   font-weight: bold;
   font-family: "Montserrat";
   color: $sub-color;
 }
-
-.fc .fc-daygrid-day-top{
+.fc .fc-daygrid-day-top {
   flex-direction: row;
 }
-
-
 .fc-scrollgrid-sync-inner {
   padding-bottom: 10px;
 }
-
-.fc-theme-standard td, .fc-theme-standard th {
+.fc-theme-standard td,
+.fc-theme-standard th {
   border: none;
-
   tr {
     border-top: 1px solid $sub-color;
   }
 }
-
-.fc-scrollgrid.fc-scrollgrid-liquid{
+.fc-scrollgrid.fc-scrollgrid-liquid {
   border: none;
   border-bottom: 3px solid $sub-color;
 }
-
-
-.fc-col-header-cell.fc-day{
- border-bottom: 3px solid $sub-color;
+.fc-col-header-cell.fc-day {
+  border-bottom: 3px solid $sub-color;
 }
-
-
-.fc .fc-daygrid-day-number{
+.fc .fc-daygrid-day-number {
   font-size: 16px;
   font-weight: bold;
   font-family: "Montserrat";
   padding: 10px;
 }
-
-
-.fc .fc-day-other .fc-daygrid-day-top{
+.fc .fc-day-other .fc-daygrid-day-top {
   color: $green-BG-color;
   opacity: 1;
 }
-
-
 .fc-daygrid-day-frame {
   border-left: 1px solid $green-BG-color;
 }
 
-.fc-scroller-harness-liquid{
+.fc-scroller-harness-liquid {
   border-right: 1px solid $green-BG-color;
 }
 
-.fc-day-sat { color:#466FFF; }     
-.fc-day-sun { color:$point-color; } 
+.fc-day-sat {
+  color: $date-color-blue;
+}
+.fc-day-sun {
+  color: $point-color;
+}
