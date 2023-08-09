@@ -277,14 +277,3 @@ export async function postDelete(id: number) {
     console.error("Error submitting event:", error);
   }
 }
-
-export async function postPassword(data: { newPassword: string }) {
-  try {
-    const response = await ApiHttp.post("/api/user", data);
-    console.log("비밀번호 변경 완료", response);
-    return response.data; // 변경된 정보 등 필요한 데이터 반환
-  } catch (error) {
-    console.error("패스워드 변경 실패:", error);
-    throw error;
-  }
-}
