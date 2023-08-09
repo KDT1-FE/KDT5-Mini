@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getMainPage } from "@/Api/apis.ts";
+import Logout from "@/Components/Logout/Logout";
+
+import { getMainPage, getSilentAxios, getAccessToken } from "@/Api/apis";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -18,12 +21,14 @@ const MainCalendar = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const fetchMainInfo = async () => {
       try {
         const mainInfo = await getMainPage();
-        if (mainInfo?.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+
+        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
             return {
@@ -39,35 +44,36 @@ const MainCalendar = () => {
           setEvents(mainInfo.data.annuals);
           setProcessedEvents(processedEvents);
           setUserName(mainInfo.data.username);
+          setRole(localStorage.getItem("role"));
+
           console.log(mainInfo);
           console.log(mainInfo.data.annuals);
-        } else {
-          console.error("Invalid event data in API response.");
-          console.log(mainInfo?.data.annuals);
         }
       } catch (error) {
-        console.error("Error fetching main info:", error);
+        console.error("메인페이지 컴포넌트 에러: ", error);
+        // 밥먹고 이거 켜서 다시 불러오기 되는지 확인하기 안되면 api로 가서 return.data 확인하기
+        const silentAxios = getSilentAxios(getAccessToken());
+        const result = await silentAxios.get("/main");
+        return result.data;
       }
     };
+
     fetchMainInfo();
-  }, []);
-
-
-
+  }, [userName, role]);
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
     setUserInfoVisible(!userInfoVisible);
   };
+
   const handleMyPageClick = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
-    navigate("/mypage");
+    if (role == "관리자") {
+      navigate("/admin");
+    } else {
+      navigate("/mypage");
+    }
   };
-
-
-
-
-  
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -80,11 +86,10 @@ const MainCalendar = () => {
 
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-  ? processedEvents // 모든 이벤트를 표시
-  : processedEvents.filter((event: { category: string }) =>
-      selectedCategories.includes(event.category)
-    );
-
+    ? processedEvents // 모든 이벤트를 표시
+    : processedEvents.filter((event: { category: string }) =>
+        selectedCategories.includes(event.category),
+      );
 
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
@@ -143,8 +148,12 @@ const MainCalendar = () => {
           반가워요,
           <span className="UserNameInfo">{userName}</span>님!
           <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
-            <li onClick={handleMyPageClick}>마이 페이지</li>
-            <li>로그아웃</li>
+            {role === "관리자" ? (
+              <li onClick={handleMyPageClick}>회원 관리 페이지</li>
+            ) : (
+              <li onClick={handleMyPageClick}>마이 페이지</li>
+            )}
+            <Logout />
           </div>
         </ul>
         <div className="select_today">
@@ -216,7 +225,6 @@ const MainCalendar = () => {
           />
         )}
       </div>
-      
     </div>
   );
 };

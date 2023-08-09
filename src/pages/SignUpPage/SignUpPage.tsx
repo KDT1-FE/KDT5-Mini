@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import "./SignUpPage.scss";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "@/Api/apis.ts";
+import Modal from "@/Components/Modal/Modal";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const months = Array.from({ length: 12 }, (_, index) => index + 1); // index가 0부터 시작이니까 +1
   const days = Array.from({ length: 31 }, (_, index) => index + 1);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   // const navigate = useNavigate();
   const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ]*$/; // 자음, 모음, 한글
   const emailRegex = // @ . 포함
@@ -94,8 +96,8 @@ export default function SignUpPage() {
       const response = await signUp(email, password, name, join);
       console.log("response", response);
       if (response) {
-        alert("회원가입에 성공하셨습니다.");
-        navigate("/");
+        setShowWelcomeModal(true);
+        // navigate("/");
       } else {
         alert("해당 이메일은 이미 가입된 정보입니다.");
       }
@@ -263,6 +265,12 @@ export default function SignUpPage() {
           </div>
         </div>
       </form>
+      <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
+        <div className="modal-content">
+          <h2 className="modal-title">환영합니다!</h2>
+          <p className="modal-text">회원가입에 성공하셨습니다.</p>
+        </div>
+      </Modal>
     </div>
   );
 }

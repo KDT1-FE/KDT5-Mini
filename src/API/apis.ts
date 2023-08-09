@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Cookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 
 export const getAccessToken = () => {
   const cookie = new Cookies();
@@ -7,17 +7,77 @@ export const getAccessToken = () => {
 };
 
 const ACCESSTOKEN = getAccessToken();
+console.log(ACCESSTOKEN);
+
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${ACCESSTOKEN}`
-  }
+    Authorization: `Bearer ${ACCESSTOKEN}`,
+  },
 });
 
 export const ApiLogin = axios.create({
   baseURL: "/mini"
 });
+
+// 재요청 인스턴스
+// export const getSilentAxios = (token) => {
+//   const silentAxios = axios.create({
+//     baseURL: "/mini",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   silentAxios.interceptors.response.use(
+//     (res) => res,
+//     (error) => {
+//       if (error.response.status === 403 || error.response.status === 401) {
+//         getNewAccessToken().then((NEW_ACCESSTOKEN) => {
+//           const config = error.config;
+//           config.headers.Authorization = NEW_ACCESSTOKEN;
+//           document.cookie = `accessToken=${NEW_ACCESSTOKEN}; path=/; `;
+//           axios
+//             .get(config.url, config)
+//             .then((res) => {
+//               return res.data;
+//             })
+//             .catch((error) => {
+//               console.log("재요청에러: ", error);
+//             });
+//         });
+//       }
+//     },
+//   );
+//   return silentAxios;
+// };
+export const getSilentAxios = (token) => {
+  const silentAxios = axios.create({
+    baseURL: "/mini",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  silentAxios.interceptors.response.use(
+    async (res) => res,
+    async (error) => {
+      if (error.response.status === 403 || error.response.status === 401) {
+        try {
+          const NEW_ACCESSTOKEN = await getNewAccessToken();
+          const config = error.config;
+          config.headers.Authorization = `Bearer ${NEW_ACCESSTOKEN}`;
+          document.cookie = `accessToken=${NEW_ACCESSTOKEN}; path=/; `;
+          const response = await axios.get(config.url, config);
+          return response.data;
+        } catch (error) {
+          console.log("재요청에러: ", error);
+        }
+      }
+      throw error;
+    },
+  );
+  return silentAxios;
+};
 
 // NEW_ACCESSTOKEN (리프레시 토큰 요청 => 새로운 엑세스 토큰 반환)
 export const getNewAccessToken = async () => {
@@ -45,8 +105,8 @@ export const getListAll = async () => {
   try {
     const res = await ApiHttp.get("/api/admin", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`
-      }
+        Authorization: `Bearer ${ACCESSTOKEN}`,
+      },
     });
     return res.data;
   } catch (error) {
@@ -91,6 +151,10 @@ export const getMyPage = async () => {
       }
     } else {
       throw error;
+      const ACCESSTOKEN = getAccessToken();
+      const silentAxios = getSilentAxios(ACCESSTOKEN);
+      const result = await silentAxios.get("/mypage");
+      return result.data;
     }
   }
 };
