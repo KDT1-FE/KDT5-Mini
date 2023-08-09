@@ -1,0 +1,84 @@
+@import '@/_variables.scss';
+
+.container {
+  max-width: 768px;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $bg-lightblue;
+  position: relative;
+  .img {
+    width: 200px;
+    margin-bottom: 30px;
+    position: absolute;
+    top: 100px;
+    left: 290px;
+    margin: 0 auto;
+  }
+}
+
+.box {
+  background-color: $bg-secondary;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px $bg-sub-grey;
+}
+.title {
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem 0.75rem;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 4px;
+  border-bottom: 1px solid $point_bg_secondary-4;
+  transition: border 0.2s ease-in-out;
+  &:focus-visible {
+    outline: none;
+    border: 1px solid $point_bg_secondary-4;
+  }
+}
+
+.loginLinkContainer {
+  margin-top: 20px;
+  .des {
+    font-size: 11px;
+    color: $description_secondary;
+    margin-bottom: 10px;
+  }
+  .loginLink {
+    margin-left: 10px;
+    font-size: 12px;
+    color: $description_secondary;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.signupButton {
+  outline: none;
+  border: none;
+  height: 40px;
+  background-color: $point-blue;
+  color: $bg-secondary;
+  border-radius: 4px;
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $point_bg_secondary-4;
+  }
+}
