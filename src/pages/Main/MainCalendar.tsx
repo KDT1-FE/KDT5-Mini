@@ -6,7 +6,7 @@ import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import { getNewAccessToken, getMyPage, ApiHttp } from "@/Api/apis";
-import AddEventModal from "./AddEventModal";
+// import AddEventModal from "./AddEventModal";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -14,7 +14,7 @@ const MainCalendar = () => {
     "당직",
   ]);
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -38,7 +38,6 @@ const MainCalendar = () => {
           reason: event.reason,
         };
       });
-
       setEvents(processedEvents);
       setUserName(res.name);
     });
@@ -52,7 +51,6 @@ const MainCalendar = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
     navigate("/mypage");
   };
-
   // const processedEvents = events.map((event: any) => {
   //   const { startDate, endDate, ...rest } = event;
   //   return {
@@ -109,6 +107,7 @@ const MainCalendar = () => {
   const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
+  
   // function handleAddEvent(newEvent: NewEvent): void {
   // // Send the new event data to the server
   //   axios
@@ -128,47 +127,48 @@ const MainCalendar = () => {
   // }
 
   return (
-    <div className="mainWrap">
-      <div className="selectWrap">
+    <div className="main_wrap">
+      <div className="select_wrap">
         <ul
           className={`UserInfo ${userInfoVisible ? "active" : ""}`}
           onClick={toggleUserInfo}
         >
-          반가워요, <span className="UserNameInfo">{userName}</span>님!
+          반가워요,
+          <span className="UserNameInfo">{userName}</span>님!
           <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
             <li onClick={handleMyPageClick}>마이 페이지</li>
             <li>로그아웃</li>
           </div>
         </ul>
-        <div className="Today">
+        <div className="select_today">
           {" "}
           {/* 오늘 날짜 렌더링 */}
-          <h1>Today</h1>
-          <span>{formattedDate}</span>
+          <h1 className="sub_title">Today</h1>
+          <span className="today_weather">{formattedDate}</span>
         </div>
-
-        <div className="SelectCanlendar">
+        <div className="select_calendar">
           {" "}
           {/* 일정 선택 박스 */}
-          <h1>Calendar</h1>
-          <div className="SelectSchedule">
-            <label>
-              <input type="checkbox" />
+          <h1 className="sub_title">Calendar</h1>
+          <div className="select_calendar_options">
+            <label className="select_calendar_option">
+              <input type="checkbox" className="input_checkbox" />
               전체 일정
             </label>
-            <label>
-              <input type="checkbox" />내 일정
+            <label className="select_calendar_option">
+              <input type="checkbox" className="input_checkbox" />내 일정
             </label>
           </div>
         </div>
-        <div className="SelectCategories">
-          <h1>Categories</h1>
-          <div>
-            <label>
+        <div className="select_categories">
+          <h1 className="sub_title">Categories</h1>
+          <div className="select_category_options">
+            <label className="select_category_option">
               {" "}
               {/* 연차 카테고리 선택 박스   */}
               <input
                 type="checkbox"
+                className="input_checkbox"
                 checked={selectedCategories.includes("연차")}
                 onChange={() => handleCategoryChange("연차")}
               />
@@ -176,24 +176,23 @@ const MainCalendar = () => {
               <span className="LeaveBox">{selectedAnnualLeave}</span>
               {/* 연차 리스트 카운트 */}
             </label>
-            <div>
-              <label>
-                {" "}
-                {/* 당직 카테고리 선택 박스   */}
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes("당직")}
-                  onChange={() => handleCategoryChange("당직")}
-                />
-                당직
-                <span className="dutyBox">{selectedDuty}</span>
-                {/* 당직 리스트 카운트 */}
-              </label>
-            </div>
+            <label className="select_category_option">
+              {" "}
+              {/* 당직 카테고리 선택 박스   */}
+              <input
+                type="checkbox"
+                className="input_checkbox"
+                checked={selectedCategories.includes("당직")}
+                onChange={() => handleCategoryChange("당직")}
+              />
+              당직
+              <span className="dutyBox">{selectedDuty}</span>
+              {/* 당직 리스트 카운트 */}
+            </label>
           </div>
         </div>
       </div>
-      <div className="calendarWrap">
+      <div className="calendar_wrap">
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
