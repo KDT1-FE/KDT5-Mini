@@ -8,6 +8,7 @@ export const getAccessToken = () => {
 
 const ACCESSTOKEN = getAccessToken();
 
+
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
@@ -72,24 +73,16 @@ export const permission = async () => {
 // GET_MY_PAGE
 export const getMyPage = async () => {
   try {
-    const response = await ApiHttp.get("/api/user", {
-      headers: {
-        Authorization: `Bearer ${ACCESSTOKEN}`,
-      },
-    });
+    const response = await ApiHttp.get("/api/user");
     return response.data;
   } catch (error) {
-    console.log("getMyPageAPI에러: ", error);
-
+    console.error("getMyPage API에러: ", error);
     if (error.response.status === 403 || error.response.status === 401) {
       console.log("새 토큰 보내고 정보 받아오는 중");
-
       getNewAccessToken().then((NEW_ACCESSTOKEN) => {
         const config = error.config;
         config.headers.Authorization = NEW_ACCESSTOKEN;
-
         document.cookie = `accessToken=${NEW_ACCESSTOKEN}; path=/; `;
-
         ApiHttp.get(config.url, config)
           .then((res) => {
             return res.data;
@@ -101,7 +94,6 @@ export const getMyPage = async () => {
     }
   }
 };
-
 // LOG_IN
 export const login = async (email: string, password: string) => {
   try {
@@ -117,7 +109,6 @@ export const login = async (email: string, password: string) => {
     console.log("loginApi호출 : ", error);
   }
 };
-
 // LOG_OUT
 export async function logOut() {
   try {
@@ -149,14 +140,11 @@ export const signUp = async (
 };
 
 // GET_MAIN_PAGE
-export const getMainPage = (token) => {
+export const getMainPage = () => {
   try {
-    const response = ApiHttp.get("/api/main", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response;
+    const res = ApiHttp.get("/api/main");
+    console.log(res);
+    return res;
   } catch (error) {
     console.log(error);
   }
