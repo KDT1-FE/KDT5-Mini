@@ -16,7 +16,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import styles from "./DutyLists.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminListsAll } from "@/@types/adminList.ts";
+import { permission } from "@/Api/apis.ts";
 
 interface Props {
   item: AdminListsAll;
@@ -8,12 +9,22 @@ interface Props {
 
 export default function DutyLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
-  // const listData = item;
 
-  const handlePermissionClick = () => {
+  useEffect(() => {
+    setStatus(item.status);
+    console.log("동작을 하는가:", '당직');
+  }, [item.status]);
+
+  const handlePermissionClick = async () => {
     if (status === "결재 대기") {
-      setStatus("결재 완료");
-      // 여기에 상태 업데이트를 위한 API 호출 추가
+      try {
+        const response = await permission(item);
+        if (response && response.data) {
+          setStatus("결재 완료");
+        }
+      } catch (error) {
+        console.error("결재 승인 중 오류 발생:", error);
+      }
     }
   };
 
