@@ -3,28 +3,59 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage.tsx";
 import Main from "./pages/Main/main.tsx";
 import Mypage from "./pages/Mypage/mypage.tsx";
 import Admin from "./pages/Admin/admin.tsx";
-import { Route, Routes } from "react-router-dom";
-import Modal from 'react-modal';
-import { CookiesProvider } from "react-cookie";
-// import ProtectedRouter from "@/pages/routes/ProtectedRoute.tsx";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Modal from "react-modal";
+import { CookiesProvider, useCookies } from "react-cookie";
+import React, { useEffect, useState } from "react";
+import PrivateRoute from "./utils/PrivateRoute.tsx";
+import AccessRestrictionPage from "./pages/AccessRestrictionPage/AccessRestrictionPage.tsx";
 
-Modal.setAppElement('#root');
-
+Modal.setAppElement("#root");
 
 function App() {
+  const [cookies, setCookie] = useCookies(["accessToken"]);
+  const [isLogined, setIsLogined] = useState(!!cookies.accessToken);
+
+  useEffect(() => {
+    setIsLogined(!!cookies.accessToken);
+  }, [cookies.accessToken]);
+
   return (
     <CookiesProvider>
       <Routes>
-        {/* 로그인 */}
-        <Route path="/" element={<LoginPage />} />
-        {/* 회원가입 */}
-          <Route path="/signup" element={<SignUpPage />} />
-          {/* 스케쥴 캘린더  */}
-          <Route path={"/main"} element={<Main />} />
-          {/* 마이 페이지 */}
-          <Route path={"/mypage"} element={<Mypage />} />
-          {/* 어드민 페이지 */}
-          <Route path="/admin" element={<Admin />} />
+        <Route path="/" element={<LoginPage setIsLogined={setIsLogined} />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/forbidden" element={<AccessRestrictionPage />} />
+        <Route
+          path="/main"
+          element={
+            <PrivateRoute
+              isLogined={isLogined}
+              element={<Main />}
+              fallbackPath="/forbidden"
+            />
+          }
+        />
+        <Route
+          path="/mypage"
+          element={
+            <PrivateRoute
+              isLogined={isLogined}
+              element={<Mypage />}
+              fallbackPath="/forbidden"
+            />
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute
+              isLogined={isLogined}
+              element={<Admin />}
+              fallbackPath="/forbidden"
+            />
+          }
+        />
       </Routes>
     </CookiesProvider>
   );

@@ -71,7 +71,7 @@ export const permission = async () => {
   }
 };
 
-// GETMYPAGE
+// GET_MY_PAGE
 export const getMyPage = async () => {
   try {
     const response = await ApiHttp.get("/api/user", {
