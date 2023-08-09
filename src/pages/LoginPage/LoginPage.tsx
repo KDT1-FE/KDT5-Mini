@@ -16,8 +16,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    const isLogined = !!role;
+    if (isLogined) {
+      navigate("/main");
+    }
+  }, [navigate]);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -29,8 +37,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       setEmailValid(false);
     }
   };
-
-  
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -54,13 +60,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const accessToken = response?.data;
+      const accessToken = response?.data.accessToken;
+      localStorage.setItem("role", response?.data.role);
+      console.log(response);
       if (response) {
-        await setCookie("accessToken", accessToken);
-        alert("로그인 성공");
+        setCookie("accessToken", accessToken);
         setIsLogined(true);
         navigate("/main");
-        console.log(response);
       }
     } catch (error) {
       alert("로그인 실패");
@@ -68,7 +74,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       console.log(email, password);
     }
   };
-  
+
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>

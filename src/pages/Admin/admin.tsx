@@ -5,7 +5,8 @@ import SearchBar from "@/Components/AdminPage/SearchBar.tsx";
 import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
 import { AdminListsAll } from "@/@types/adminList.ts";
-import { getListAll } from "@//Api/apis.ts";
+import { getListAll, getSilentAxios } from "@//Api/apis.ts";
+import { getAccessToken } from "@/API/mainApi";
 
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
@@ -33,6 +34,9 @@ export default function Admin() {
         setFilteredDutyData(dutyItems);
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
+        const silentAxios = getSilentAxios(getAccessToken());
+        const result = await silentAxios.get("/admin");
+        return result.data;
       }
     }
     fetchListData();
