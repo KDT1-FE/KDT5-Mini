@@ -4,7 +4,10 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/Api/apis.ts";
 
-const LoginPage = () => {
+interface LoginPageProps {
+  setIsLogined: (value: boolean) => void;
+}
+const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["accessToken"]);
@@ -50,9 +53,11 @@ const LoginPage = () => {
       const response = await login(email, password);
       const accessToken = response?.data.accessToken;
       if (response) {
-        setCookie("accessToken", accessToken);
+        await setCookie("accessToken", accessToken);
         alert("로그인 성공");
+        setIsLogined(true);
         navigate("/main");
+        console.log(response);
       }
     } catch (error) {
       alert("로그인 실패");
@@ -115,7 +120,7 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="btn_wrap">
-          <button className="login_btn" onClick={onClickLogin}>
+          <button className="login_btn" onClick={(e) => onClickLogin(e)}>
             로그인
           </button>
           <div className="signup_btn" onClick={() => navigate("/signup")}>

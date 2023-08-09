@@ -94,8 +94,8 @@ export default function SignUpPage() {
       const response = await signUp(email, password, name, join);
       console.log("response", response);
       if (response) {
-        navigate("/main");
-        // alert("회원가입 성공");
+        alert("회원가입에 성공하셨습니다.");
+        navigate("/");
       } else {
         alert("해당 이메일은 이미 가입된 정보입니다.");
       }
