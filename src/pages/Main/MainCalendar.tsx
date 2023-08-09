@@ -30,8 +30,7 @@ const MainCalendar = () => {
     const fetchMainInfo = async () => {
       try {
         const mainInfo = await getMainPage();
-    
-        // mainInfo.annuals 존재하고 배열인 경우에만 처리
+  
         if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
@@ -44,38 +43,21 @@ const MainCalendar = () => {
               title: `• ${annuals.name}`,
             };
           });
-    
-          setEvents(mainInfo.data.annuals); // mainInfo.annuals 업데이트
+  
+          setEvents(mainInfo.data.annuals);
           setProcessedEvents(processedEvents);
-          setUserName(mainInfo.data.annuals.username);
+          setUserName(mainInfo.data.username);
           console.log(mainInfo);
+          console.log(mainInfo.data.annuals);
         } else {
           console.error("Invalid event data in API response.");
           console.log(mainInfo.data.annuals);
         }
-
-      } catch (error: any) {
-        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-          try {
-            const newAccessToken = await getNewAccessToken();
-            new Cookies().set("accessToken", newAccessToken, { path: "/" });
-
-            const response = await ApiHttp.get("/api/main", {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`,
-              },
-            });
-            console.log(response);
-            
-          } catch (error) {
-            console.error("Error while retrying API call:", error);
-          }
-        } else {
-          console.error("API call error:", error);
-          
-        }
+      } catch (error) {
+        console.error("Error fetching main info:", error);
       }
     };
+  
     fetchMainInfo();
   }, []);
 
