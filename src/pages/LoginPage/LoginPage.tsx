@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
@@ -11,13 +11,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["accessToken"]);
-
+  console.log(cookies);
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { state } = useLocation();
+  // const { state } = useLocation();
 
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const accessToken = response?.data;
+      const accessToken = response?.data.accessToken;
       if (response) {
         await setCookie("accessToken", accessToken);
         alert("로그인 성공");

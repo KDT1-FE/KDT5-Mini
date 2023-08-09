@@ -1,19 +1,15 @@
-// import { DateCount, JickCounter } from "@/Common/CommonFunction.ts";
-// import { useAnnualStore, useUserStore } from "@/Store/store.ts";
-// import dayjs from "dayjs";
 import styles from "./userBanner.module.scss";
-
-
-export default function UserBanner(props:{myData:MyDataType|undefined}) {
+export default function UserBanner(props:{myData:MyDataType|undefined; setCategory:(value:boolean)=>void}) {
   const myData = props.myData;
-  console.log(myData);
 
   return (
     <div className={styles.container}>
       <div className={styles.my_menu}>
-        <span >상신 내역</span>
+        <span onClick={()=> props.setCategory(false)}>상신 내역</span>
         <span className={styles.bar}>|</span>
-        <span className={styles.my_profile}>개인정보 수정</span>
+        <span
+          onClick={()=> props.setCategory(true)}
+          className={styles.my_profile}>개인정보 수정</span>
       </div>
       <div className={styles.banner}>
         <div className={`${styles.banner_box} ${styles.annual_info}`}>

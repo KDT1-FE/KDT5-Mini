@@ -1,23 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
-import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-
-import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
-
-
+import { getMainPage } from "@/Api/apis.ts";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
   ]);
-
-
 
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
@@ -31,7 +24,7 @@ const MainCalendar = () => {
       try {
         const mainInfo = await getMainPage();
 
-        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+        if (mainInfo?.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
             return {
@@ -51,13 +44,12 @@ const MainCalendar = () => {
           console.log(mainInfo.data.annuals);
         } else {
           console.error("Invalid event data in API response.");
-          console.log(mainInfo.data.annuals);
+          console.log(mainInfo?.data.annuals);
         }
       } catch (error) {
         console.error("Error fetching main info:", error);
       }
     };
-
     fetchMainInfo();
   }, []);
 
