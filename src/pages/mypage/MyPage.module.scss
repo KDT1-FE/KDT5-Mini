@@ -1,0 +1,15 @@
+@import '@/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 1240px;
+  height: 100vh;
+  overflow-y: hidden;
+  background-color: $bg_primary;
+
+  section {
+    margin: 0 auto;
+  }
+}

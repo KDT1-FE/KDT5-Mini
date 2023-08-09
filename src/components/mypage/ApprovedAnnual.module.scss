@@ -1,0 +1,98 @@
+@import '@/variables';
+
+.list__container {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  height: 350px;
+  max-height: 350px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 8px $description_primary-2;
+  background-color: $bg_primary;
+
+  h2 {
+    padding: 20px;
+    border-bottom: 3px solid $point_bg_primary;
+    font-weight: 600;
+    font-size: 28px;
+    color: $text_primary;
+  }
+
+  .list__body {
+    padding-right: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 270px;
+    max-height: 400px;
+
+    .list__headline {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px 0;
+      font-size: 22px;
+      color: $text_secondary;
+    }
+
+    .list__none {
+      position: relative;
+      top: 60px;
+      padding: 20px 0;
+      margin: 0 20px;
+      width: 940px;
+      height: 66px;
+      border: 2px solid $point_bg_primary;
+      border-radius: 10px;
+      background-color: $bg_secondary;
+      text-align: center;
+      font-size: 23px;
+    }
+
+    .list__item {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      margin: 0 20px 10px;
+      width: 940px;
+      height: 66px;
+      border: 2px solid $point_bg_primary;
+      border-radius: 10px;
+      background-color: $bg_secondary;
+      font-size: 20px;
+
+      span {
+        &:first-child {
+          position: relative;
+          left: -23px;
+          width: 130px;
+        }
+        &:nth-child(2) {
+          position: relative;
+          left: -33px;
+        }
+      }
+
+      button {
+        position: relative;
+        left: -10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: $point_bg_secondary-4;
+        font-size: 18px;
+        color: $point_bg_primary;
+        transition: all 200ms;
+        &:hover {
+          background-color: $point_bg_primary;
+          color: $bg_secondary;
+        }
+        &:disabled {
+          cursor: default;
+          background-color: $description_primary-4;
+          color: $description_primary-3;
+        }
+      }
+    }
+  }
+}

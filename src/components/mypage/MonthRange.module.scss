@@ -1,0 +1,35 @@
+@import '@/variables';
+
+.range__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: -18px;
+  padding: 15px 0;
+
+  .button__left {
+    font-size: 45px;
+    color: $text_secondary;
+    transition: 300ms;
+    &:hover {
+      color: $point_bg_secondary-3;
+    }
+  }
+
+  p {
+    margin: 0 25px;
+    font-weight: 600;
+    font-size: 27px;
+    color: $text_secondary;
+  }
+
+  .button__right {
+    font-size: 45px;
+    color: $text_secondary;
+    transition: 300ms;
+    &:hover {
+      color: $point_bg_secondary-3;
+    }
+  }
+}

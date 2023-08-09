@@ -1,0 +1,63 @@
+@import '@/_variables.scss';
+
+.container {
+  max-width: 768px;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $bg-lightblue;
+  position: relative;
+  .img {
+    width: 200px;
+    margin-bottom: 30px;
+    position: absolute;
+    top: 100px;
+    left: 290px;
+    margin: 0 auto;
+  }
+}
+
+.box {
+  background-color: $bg-secondary;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px $bg-sub-grey;
+}
+
+.title {
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+.signupLink {
+  font-size: 12px;
+  color: $description_secondary;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.loginButton {
+  outline: none;
+  border: none;
+  height: 40px;
+  background-color: $point-blue;
+  color: $bg-secondary;
+  border-radius: 4px;
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $point_bg_secondary-4;
+  }
+}
