@@ -22,17 +22,15 @@ interface NewEvent {
   endDate: string;
   category: string;
   reason: string;
-  name: string;
 }
 
 const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
   const [events, setEvents] = useState<NewEvent[]>([]); // events 상태 변수 추가
 
   const [newEvent, setNewEvent] = useState<NewEvent>({
+    title: "",
     category: "",
-    email: "",
     endDate: "",
-    name: "",
     reason: "",
     startDate: "",
 
@@ -71,7 +69,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       // 서버에 새 이벤트 등록 요청 보내기
       const response = await ApiHttp.post('/api/annual', eventDataToSend, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken.accessToken}`,
         },
       });
 
