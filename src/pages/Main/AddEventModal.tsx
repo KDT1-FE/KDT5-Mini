@@ -33,7 +33,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     endDate: "",
     reason: "",
     startDate: "",
-
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

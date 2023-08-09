@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
@@ -17,6 +17,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { state } = useLocation();
+
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

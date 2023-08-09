@@ -140,7 +140,7 @@ const MainCalendar = () => {
   const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
-  
+
   // function handleAddEvent(newEvent: NewEvent): void {
   // // Send the new event data to the server
   //   axios
