@@ -28,8 +28,6 @@ export default function Mypage() {
     return <div>Loading...</div>;
   }
 
-
-
   return (
     <div className={styles.page}>
       <Header />

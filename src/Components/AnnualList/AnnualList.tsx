@@ -3,7 +3,6 @@ import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { ChangeEvent, useState } from "react";
 import Modal from "@/Components/Modal/Modal";
-import { postUpdate } from "@/Api/apis.ts";
 
 
 export default function AnnualList(props: { myData?: MyDataType }) {
