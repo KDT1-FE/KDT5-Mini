@@ -45,28 +45,29 @@ const MainCalendar = () => {
         console.log(res.name); // 사용자 이름 설정
       })
       .catch((error) => {
-    if (error.response && error.response.status === 401) {
-      const newAccessToken = getNewAccessToken();
-      new Cookies().set("accessToken", newAccessToken, { path: "/" });
-      // 새로운 accessToken으로 재시도
-      const config = error.config;
-      config.headers.Authorization = newAccessToken;
-      ApiHttp.get(config.url, config)
-        .then((res) => {
-          if (res.data) { // API 응답 데이터가 있는지 확인
-            const processedEvents = res.data.map((event: any) => {
-              // ...
+        if (error.response && error.response.status === 401) {
+          const newAccessToken = getNewAccessToken();
+          new Cookies().set("accessToken", newAccessToken, { path: "/" });
+          // 새로운 accessToken으로 재시도
+          const config = error.config;
+          config.headers.Authorization = newAccessToken;
+          ApiHttp.get(config.url, config)
+            .then((res) => {
+              if (res.data) {
+                // API 응답 데이터가 있는지 확인
+                const processedEvents = res.data.map((event: any) => {
+                  // ...
+                });
+                setEvents(processedEvents);
+              }
+            })
+            .catch((error) => {
+              console.error("Error while retrying API call:", error);
             });
-            setEvents(processedEvents);
-          }
-        })
-        .catch((error) => {
-          console.error("Error while retrying API call:", error);
-        });
-    } else {
-      console.error("API call error:", error);
-    }
-  });
+        } else {
+          console.error("API call error:", error);
+        }
+      });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   // 당직, 연차 값을 조건에 따라 색상 변경
