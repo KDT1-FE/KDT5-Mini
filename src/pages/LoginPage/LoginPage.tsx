@@ -1,8 +1,8 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/Api/apis.ts";
+import { getMainPage, login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
   setIsLogined: (value: boolean) => void;
@@ -28,6 +28,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       setEmailValid(false);
     }
   };
+
+  
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
