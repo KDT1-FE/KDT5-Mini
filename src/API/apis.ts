@@ -6,15 +6,12 @@ export const getAccessToken = () => {
   return cookie.get("accessToken");
 };
 
-
 const ACCESSTOKEN = getAccessToken();
-console.log(ACCESSTOKEN);
-
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+    Authorization: `Bearer ${ACCESSTOKEN}`,
   },
 });
 
@@ -35,7 +32,7 @@ export const getNewAccessToken = async () => {
         withCredentials: true,
       },
     );
-    const newAccessToken = response.data.accessToken;
+    const newAccessToken = response.data;
     return newAccessToken;
   } catch (error) {
     console.error("getNewAccessTokenAPI에러: ", error);
@@ -48,7 +45,7 @@ export const getListAll = async () => {
   try {
     const res = await ApiHttp.get("/api/admin", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return res.data;
@@ -58,16 +55,21 @@ export const getListAll = async () => {
 };
 
 // ADMIN_연차/당직 승인 처리
-export const permission = async () => {
+export const permission = async (item) => {
   try {
-    const res = await ApiHttp.post("/api/admin/apply", {
-      headers: {
-        Authorization: `Bearer ${ACCESSTOKEN}`,
+    const res = await ApiHttp.post(
+      "/api/admin/apply",
+      { id: item.id },
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESSTOKEN}`,
+        },
+        withCredentials: true, // 이 부분을 추가하여 withCredentials 옵션 설정
       },
-    });
+    );
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("permission 에러: ", error);
     throw error;
   }
 };
@@ -146,7 +148,7 @@ export const getMainPage = () => {
   try {
     const response = ApiHttp.get("/api/main", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return response;

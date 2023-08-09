@@ -16,8 +16,9 @@ export default function Admin() {
   const [filteredDutyData, setFilteredDutyData] = useState<AdminListsAll[]>([]);
   const [searchOption, setSearchOption] = useState("이름");
 
+  // 사용자 기안 데이터 불러오기
+  // cj
   useEffect(() => {
-    // 사용자 기안 데이터 불러오기
     async function fetchListData() {
       try {
         const data = await getListAll();
@@ -27,6 +28,7 @@ export default function Admin() {
         const dutyItems = data.filter(
           (item: AdminListsAll) => item.category === "당직",
         );
+        console.log(data);
         setDayoffData(dayoffItems);
         setDutyData(dutyItems);
         setFilteredDayoffData(dayoffItems);
@@ -37,10 +39,9 @@ export default function Admin() {
     }
     fetchListData();
   }, []);
-
+  // 검색 기능 추가 (옵션 선택)
   const handleSearch = (searchTerm: string, option: string) => {
     setSearchOption(option);
-
     if (option === "이름") {
       const filteredDayoff = dayoffData.filter((item) =>
         item.name.includes(searchTerm),

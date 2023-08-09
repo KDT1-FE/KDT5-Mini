@@ -1,6 +1,7 @@
 import styles from "./DayoffLists.module.scss";
 import { useState } from "react";
 import { AdminListsAll } from "@/@types/adminList.ts";
+import { permission } from "@/Api/apis.ts";
 
 interface Props {
   item: AdminListsAll;
@@ -15,14 +16,19 @@ export default function DayoffLists({ item }: Props) {
     const endDate = new Date(item.endDate);
     const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
     const usedDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // 1을 더하여 마지막 날을 포함
-
     return usedDays;
   };
 
-  const handlePermissionClick = () => {
+  const handlePermissionClick = async () => {
     if (status === "결재 대기") {
-      setStatus("결재 완료");
-      // 여기에 상태 업데이트를 위한 API 호출 추가
+      try {
+        const response = await permission(item);
+        if (response && response.data) {
+          setStatus("결재 완료");
+        }
+      } catch (error) {
+        console.error("결재 승인 중 오류 발생:", error);
+      }
     }
   };
 

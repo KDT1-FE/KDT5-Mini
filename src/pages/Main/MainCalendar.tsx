@@ -9,15 +9,11 @@ import EventModal from "./EventModal";
 
 import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
 
-
-
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
     "당직",
   ]);
-
-
 
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
@@ -25,12 +21,13 @@ const MainCalendar = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const fetchMainInfo = async () => {
       try {
         const mainInfo = await getMainPage();
-  
+
         if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
@@ -43,10 +40,12 @@ const MainCalendar = () => {
               title: `• ${annuals.name}`,
             };
           });
-  
+
           setEvents(mainInfo.data.annuals);
           setProcessedEvents(processedEvents);
           setUserName(mainInfo.data.username);
+          setRole(localStorage.getItem("role"));
+
           console.log(mainInfo);
           console.log(mainInfo.data.annuals);
         } else {
@@ -57,26 +56,23 @@ const MainCalendar = () => {
         console.error("Error fetching main info:", error);
       }
     };
-  
+
     fetchMainInfo();
   }, []);
-
-
-
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
     setUserInfoVisible(!userInfoVisible);
   };
+
   const handleMyPageClick = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
-    navigate("/mypage");
+    if (role == "관리자") {
+      navigate("/admin");
+    } else {
+      navigate("/mypage");
+    }
   };
-
-
-
-
-  
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -89,11 +85,10 @@ const MainCalendar = () => {
 
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-  ? processedEvents // 모든 이벤트를 표시
-  : processedEvents.filter((event: { category: string }) =>
-      selectedCategories.includes(event.category)
-    );
-
+    ? processedEvents // 모든 이벤트를 표시
+    : processedEvents.filter((event: { category: string }) =>
+        selectedCategories.includes(event.category),
+      );
 
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
@@ -152,7 +147,11 @@ const MainCalendar = () => {
           반가워요,
           <span className="UserNameInfo">{userName}</span>님!
           <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
-            <li onClick={handleMyPageClick}>마이 페이지</li>
+            {role === "관리자" ? (
+              <li onClick={handleMyPageClick}>회원 관리 페이지</li>
+            ) : (
+              <li onClick={handleMyPageClick}>마이 페이지</li>
+            )}
             <li>로그아웃</li>
           </div>
         </ul>
@@ -225,7 +224,6 @@ const MainCalendar = () => {
           />
         )}
       </div>
-      
     </div>
   );
 };
