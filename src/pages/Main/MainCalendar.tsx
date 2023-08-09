@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
-import { Cookies } from "react-cookie";
+import AddEventModal from "./AddEventModal";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 
-import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
-
-
+import {  getMainPage } from "@/Api/apis";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -17,20 +15,21 @@ const MainCalendar = () => {
     "당직",
   ]);
 
-
-
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const [isAllEventsChecked, setIsAllEventsChecked] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const fetchMainInfo = async () => {
       try {
         const mainInfo = await getMainPage();
-  
+     
         if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
@@ -41,12 +40,15 @@ const MainCalendar = () => {
               color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
               textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
               title: `• ${annuals.name}`,
+              detail: annuals.title
             };
           });
-  
+
           setEvents(mainInfo.data.annuals);
           setProcessedEvents(processedEvents);
           setUserName(mainInfo.data.username);
+          setRole(localStorage.getItem("role"));
+
           console.log(mainInfo);
           console.log(mainInfo.data.annuals);
         } else {
@@ -57,26 +59,35 @@ const MainCalendar = () => {
         console.error("Error fetching main info:", error);
       }
     };
-  
+
     fetchMainInfo();
   }, []);
-
-
-
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
     setUserInfoVisible(!userInfoVisible);
   };
+
   const handleMyPageClick = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
-    navigate("/mypage");
+    if (role == "관리자") {
+      navigate("/admin");
+    } else {
+      navigate("/mypage");
+    }
   };
 
-
-
-
-  
+ const handleAllEventsToggle = () => {
+    setIsAllEventsChecked(!isAllEventsChecked);
+    setSelectedCategories(isAllEventsChecked ? [] : ["all"]);
+  };
+  useEffect(() => {
+    if (isAllEventsChecked) {
+      setSelectedCategories(["all", "연차", "당직"]);
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [isAllEventsChecked]);
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -89,11 +100,10 @@ const MainCalendar = () => {
 
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-  ? processedEvents // 모든 이벤트를 표시
-  : processedEvents.filter((event: { category: string }) =>
-      selectedCategories.includes(event.category)
-    );
-
+    ? processedEvents // 모든 이벤트를 표시
+    : processedEvents.filter((event: { category: string }) =>
+        selectedCategories.includes(event.category),
+      );
 
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
@@ -124,23 +134,7 @@ const MainCalendar = () => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
 
-  // function handleAddEvent(newEvent: NewEvent): void {
-  // // Send the new event data to the server
-  //   axios
-  //     .post("/api/annual", newEvent)
-  //     .then((response) => {
-  //       console.log("Event successfully submitted:", response.data);
-  //       // 서버로부터의 응답을 처리할 수 있음
-  //       // 새 이벤트가 등록되었다는 알림을 사용자에게 표시하거나
-  //       // 새로운 이벤트를 state에 추가하는 등의 작업을 수행할 수 있습니다.
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error submitting event:", error);
-  //       // 에러 처리를 위한 로직 추가
-  //     });
-  //   // Close the modal
-  //   setIsAddModalOpen(false);
-  // }
+
 
   return (
     <div className="main_wrap">
@@ -152,7 +146,11 @@ const MainCalendar = () => {
           반가워요,
           <span className="UserNameInfo">{userName}</span>님!
           <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
-            <li onClick={handleMyPageClick}>마이 페이지</li>
+            {role === "관리자" ? (
+              <li onClick={handleMyPageClick}>회원 관리 페이지</li>
+            ) : (
+              <li onClick={handleMyPageClick}>마이 페이지</li>
+            )}
             <li>로그아웃</li>
           </div>
         </ul>
@@ -168,8 +166,17 @@ const MainCalendar = () => {
           <h1 className="sub_title">Calendar</h1>
           <div className="select_calendar_options">
             <label className="select_calendar_option">
-              <input type="checkbox" className="input_checkbox" />
-              전체 일정
+              <div className="select_calendar_options">
+            <label className="select_calendar_option">
+              <input
+                type="checkbox"
+                className="input_checkbox"
+                checked={isAllEventsChecked}
+                onChange={handleAllEventsToggle}
+                  />
+                전체 일정
+              </label>
+            </div>
             </label>
             <label className="select_calendar_option">
               <input type="checkbox" className="input_checkbox" />내 일정
@@ -206,7 +213,18 @@ const MainCalendar = () => {
               {/* 당직 리스트 카운트 */}
             </label>
           </div>
+          <button
+          className="addScheduleBtn"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          <span>일정 등록하기</span>
+        </button>
+        <AddEventModal
+          isOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+        />
         </div>
+        
       </div>
       <div className="calendar_wrap">
         <FullCalendar
@@ -225,7 +243,6 @@ const MainCalendar = () => {
           />
         )}
       </div>
-      
     </div>
   );
 };

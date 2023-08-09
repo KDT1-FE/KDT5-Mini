@@ -14,7 +14,7 @@ console.log(ACCESSTOKEN);
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+    Authorization: `Bearer ${ACCESSTOKEN}`,
   },
 });
 
@@ -48,7 +48,7 @@ export const getListAll = async () => {
   try {
     const res = await ApiHttp.get("/api/admin", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return res.data;
@@ -146,7 +146,7 @@ export const getMainPage = () => {
   try {
     const response = ApiHttp.get("/api/main", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+        Authorization: `Bearer ${ACCESSTOKEN}`,
       },
     });
     return response;
@@ -155,13 +155,23 @@ export const getMainPage = () => {
   }
 };
 
-export async function postMain(data: NewEvent) {
+export const postMain = async (
+  title: string,
+  category: string,
+  endDate: string,
+  reason: string,
+  startDate: string,
+) => {
   try {
-    await ApiHttp.post("/api/annual", { data }).then((res) => {
-      console.log("새로운 등록 완료", res.data);
-      return res.data;
+    const response = await ApiHttp.post("/api/annual", {
+      title,
+      category,
+      endDate,
+      reason,
+      startDate,
     });
+    return response.data;
   } catch (error) {
-    console.error("Error submitting event:", error);
+    console.log("signupAPI호출 :", error);
   }
-}
+};
