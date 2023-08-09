@@ -32,7 +32,7 @@ export const getNewAccessToken = async () => {
         withCredentials: true,
       },
     );
-    const newAccessToken = response.data;
+    const newAccessToken = response.data.accessToken;
     return newAccessToken;
   } catch (error) {
     console.error("getNewAccessTokenAPI에러: ", error);
@@ -43,7 +43,7 @@ export const getNewAccessToken = async () => {
 // ADMIN_PAGE
 export const getListAll = async () => {
   try {
-    const res = await ApiHttp.get("/api/admin/", {
+    const res = await ApiHttp.get("/api/admin", {
       headers: {
         Authorization: `Bearer ${ACCESSTOKEN}`,
       },
@@ -69,7 +69,7 @@ export const permission = async () => {
   }
 };
 
-// GETMYPAGE
+// GET_MY_PAGE
 export const getMyPage = async () => {
   try {
     const response = await ApiHttp.get("/api/user", {
