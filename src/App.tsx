@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     setIsLogined(!!cookies.accessToken);
   }, [cookies.accessToken]);
-
+  
   return (
     <CookiesProvider>
       <Routes>
@@ -60,5 +60,4 @@ function App() {
     </CookiesProvider>
   );
 }
-
 export default App;

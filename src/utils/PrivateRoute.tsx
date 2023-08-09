@@ -14,7 +14,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 }) => {
   return isLogined ? (
     // 로그인 시에만
-
     <React.Fragment>{element}</React.Fragment>
   ) : (
     <Navigate to={fallbackPath} replace />
