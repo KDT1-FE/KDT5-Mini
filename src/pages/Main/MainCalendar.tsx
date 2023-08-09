@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
+import AddEventModal from "./AddEventModal";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import Logout from "@/Components/Logout/Logout";
@@ -17,8 +18,10 @@ const MainCalendar = () => {
 
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
+  const [isAllEventsChecked, setIsAllEventsChecked] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
   const [role, setRole] = useState(null);
@@ -38,6 +41,7 @@ const MainCalendar = () => {
               color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
               textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
               title: `• ${annuals.name}`,
+              detail: annuals.title
             };
           });
 
@@ -73,6 +77,18 @@ const MainCalendar = () => {
       navigate("/mypage");
     }
   };
+
+ const handleAllEventsToggle = () => {
+    setIsAllEventsChecked(!isAllEventsChecked);
+    setSelectedCategories(isAllEventsChecked ? [] : ["all"]);
+  };
+  useEffect(() => {
+    if (isAllEventsChecked) {
+      setSelectedCategories(["all", "연차", "당직"]);
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [isAllEventsChecked]);
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
@@ -119,23 +135,7 @@ const MainCalendar = () => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
 
-  // function handleAddEvent(newEvent: NewEvent): void {
-  // // Send the new event data to the server
-  //   axios
-  //     .post("/api/annual", newEvent)
-  //     .then((response) => {
-  //       console.log("Event successfully submitted:", response.data);
-  //       // 서버로부터의 응답을 처리할 수 있음
-  //       // 새 이벤트가 등록되었다는 알림을 사용자에게 표시하거나
-  //       // 새로운 이벤트를 state에 추가하는 등의 작업을 수행할 수 있습니다.
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error submitting event:", error);
-  //       // 에러 처리를 위한 로직 추가
-  //     });
-  //   // Close the modal
-  //   setIsAddModalOpen(false);
-  // }
+
 
   return (
     <div className="main_wrap">
@@ -167,8 +167,17 @@ const MainCalendar = () => {
           <h1 className="sub_title">Calendar</h1>
           <div className="select_calendar_options">
             <label className="select_calendar_option">
-              <input type="checkbox" className="input_checkbox" />
-              전체 일정
+              <div className="select_calendar_options">
+            <label className="select_calendar_option">
+              <input
+                type="checkbox"
+                className="input_checkbox"
+                checked={isAllEventsChecked}
+                onChange={handleAllEventsToggle}
+                  />
+                전체 일정
+              </label>
+            </div>
             </label>
             <label className="select_calendar_option">
               <input type="checkbox" className="input_checkbox" />내 일정
@@ -205,7 +214,18 @@ const MainCalendar = () => {
               {/* 당직 리스트 카운트 */}
             </label>
           </div>
+          <button
+          className="addScheduleBtn"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          <span>일정 등록하기</span>
+        </button>
+        <AddEventModal
+          isOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+        />
         </div>
+        
       </div>
       <div className="calendar_wrap">
         <FullCalendar

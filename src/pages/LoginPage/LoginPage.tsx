@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { getMainPage, login } from "@/Api/apis.ts";
+import {  login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
   setIsLogined: (value: boolean) => void;

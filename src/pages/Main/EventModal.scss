@@ -56,14 +56,15 @@
 }
 
 .detail-title {
-  font-size: 16px;
+  font-size: 15.5px;
   padding-top: 17px;
+  font-weight: 600;
+  span{
+    font-weight: bold;
+    padding: 0 20px 0 30px;
+  }
 }
 
-.detail-title span {
-  font-weight: bold;
-  padding: 0 20px 0 30px;
-}
 
 
 

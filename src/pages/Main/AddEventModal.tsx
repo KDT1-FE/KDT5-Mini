@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./AddEventModal.scss";
 import Modal from "react-modal";
-import { ApiHttp } from "@/Api/apis.ts";
-import { Cookies } from "react-cookie";
+import { postMain } from "@/Api/apis.ts";
 
 
-const cookie = new Cookies;
-const accessToken = cookie.get('accessToken');
+
 
 
 
@@ -52,40 +50,39 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     const value = event.target.value;
     setNewEvent((prevEvent) => ({
       ...prevEvent,
-
       category: value,
+      // 당직을 선택한 경우, 사유를 "기타 휴가"로 변경하고 select 요소를 해당 옵션으로 고정
+      reason: value === "당직" ? "기타휴가" : prevEvent.reason,
     }));
   };
 
+
   const handleSubmit = async () => {
-    const eventDataToSend = {
-      ...newEvent, // 이벤트 등록 폼에서 입력한 값
-      id: events.length + 1, // 새 이벤트의 ID (기존 이벤트 개수 + 1)
-
-    };
-
     try {
-      // 서버에 새 이벤트 등록 요청 보내기
-      const response = await ApiHttp.post('/api/annual', eventDataToSend, {
-        headers: {
-          Authorization: `Bearer ${accessToken.accessToken}`,
-        },
-      });
-
-      console.log('Event successfully submitted:', response.data);
-
+      const response = await postMain(
+        newEvent.title,
+        newEvent.category,
+        newEvent.endDate,
+        newEvent.reason,
+        newEvent.startDate
+      );
+  
+      console.log("Event successfully submitted:", response);
+  
       // 새 이벤트를 현재 이벤트 목록에 추가하기
-      setEvents([...events, eventDataToSend]);
-
+      setEvents([...events, newEvent]);
+  
       // 이벤트 등록에 성공한 경우, 추가 작업을 수행하거나 사용자에게 알림을 표시할 수 있음
     } catch (error) {
-      console.error('Error submitting event:', error);
+      console.error("Error submitting event:", error);
       // 이벤트 등록에 실패한 경우, 에러 처리 로직을 수행하거나 사용자에게 알림을 표시할 수 있음
     }
-
-
+    
+  
     closeModal();
   };
+
+  
 
 
   return (
@@ -157,13 +154,19 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
         </div>
         <div className="addEvent-reason">
           <label>사유</label>
-          <select name="select-reason" id="reason" onChange={handleInputChange}>
-            <option value="">========== 선택하세요 ==========</option>
-            <option value="연차유급 휴가">연차유급 휴가</option>
-            <option value="병가 휴가">병가 휴가</option>
-            <option value="경조사 휴가">경조사 휴가</option>
-            <option value="출산 전휴 휴가">출산 전휴 휴가</option>
-            <option value="기타 휴가">기타 휴가</option>
+            <select name="select-reason" id="reason" onChange={handleInputChange}>
+              {newEvent.category === "당직" && (
+                <option value="기타휴가">========== 당직 ==========</option>
+              )}
+
+              {newEvent.category === "연차" && (
+                <><option value="">========== 선택하세요 ==========</option>
+                <option value="연차유급휴가">연차 유급 휴가</option>
+                <option value="병가휴가">병가 휴가</option>
+                <option value="경조사휴가">경조사 휴가</option>
+                <option value="출산전휴휴가">출산 전휴 휴가</option>
+                <option value="기타휴가">기타 휴가</option></>
+                  )}
           </select>
         </div>
         <div className="btn-group">

@@ -224,16 +224,38 @@ export const getMainPage = () => {
   }
 };
 
-export async function postMain(data: NewEvent) {
+export const postMain = async (
+  title: string,
+  category: string,
+  endDate: string,
+  reason: string,
+  startDate: string,
+) => {
   try {
-    await ApiHttp.post("/api/annual", { data }).then((res) => {
-      console.log("새로운 등록 완료", res.data);
-      return res.data;
+    const response = await ApiHttp.post("/api/annual", {
+      title,
+      category,
+      endDate,
+      reason,
+      startDate,
     });
+    return response.data;
   } catch (error) {
-    console.error("Error submitting event:", error);
+    console.log("signupAPI호출 :", error);
   }
 }
+
+export async function postPassword(data:{newPassword:string}) {
+  try {
+    const response = await ApiHttp.post("/api/user", data);
+    console.log("비밀번호 변경 완료", response);
+    return response.data; // 변경된 정보 등 필요한 데이터 반환
+  } catch (error) {
+    console.error("패스워드 변경 실패:", error);
+    throw error;
+  }
+};
+
 
 export async function postUpdate(data: UpdateType) {
   try {
@@ -253,16 +275,5 @@ export async function postDelete(id: number) {
     });
   } catch (error) {
     console.error("Error submitting event:", error);
-  }
-}
-
-export async function postPassword(data: { newPassword: string }) {
-  try {
-    const response = await ApiHttp.post("/api/user", data);
-    console.log("비밀번호 변경 완료", response);
-    return response.data; // 변경된 정보 등 필요한 데이터 반환
-  } catch (error) {
-    console.error("패스워드 변경 실패:", error);
-    throw error;
   }
 }
