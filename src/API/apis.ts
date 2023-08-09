@@ -7,8 +7,6 @@ export const getAccessToken = () => {
 };
 
 const ACCESSTOKEN = getAccessToken();
-console.log(ACCESSTOKEN);
-
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
@@ -18,7 +16,7 @@ export const ApiHttp = axios.create({
 });
 
 export const ApiLogin = axios.create({
-  baseURL: "/mini"
+  baseURL: "/mini",
 });
 
 // 재요청 인스턴스
@@ -87,12 +85,12 @@ export const getNewAccessToken = async () => {
       {},
       {
         headers: {
-          Authorization: `Bearer ${ACCESSTOKEN}`
+          Authorization: `Bearer ${ACCESSTOKEN}`,
         },
-        withCredentials: true
-      }
+        withCredentials: true,
+      },
     );
-    const newAccessToken = response.data.accessToken;
+    const newAccessToken = response.data;
     return newAccessToken;
   } catch (error) {
     console.error("getNewAccessTokenAPI에러: ", error);
@@ -115,20 +113,24 @@ export const getListAll = async () => {
 };
 
 // ADMIN_연차/당직 승인 처리
-export const permission = async () => {
+export const permission = async (item) => {
   try {
-    const res = await ApiHttp.post("/api/admin/apply", {}, {
-      headers: {
-        Authorization: `Bearer ${ACCESSTOKEN}`
-      }
-    });
+    const res = await ApiHttp.post(
+      "/api/admin/apply",
+      { id: item.id },
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESSTOKEN}`,
+        },
+        withCredentials: true, // 이 부분을 추가하여 withCredentials 옵션 설정
+      },
+    );
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("permission 에러: ", error);
     throw error;
   }
 };
-
 
 // GET_MY_PAGE
 export const getMyPage = async () => {
@@ -137,7 +139,10 @@ export const getMyPage = async () => {
     return res.data;
   } catch (error: any) {
     console.error("getMyPage API에러: ", error);
-    if (error.response && (error.response.status === 403 || error.response.status === 401)) {
+    if (
+      error.response &&
+      (error.response.status === 403 || error.response.status === 401)
+    ) {
       console.log("새 토큰 보내고 정보 받아오는 중");
       try {
         const NEW_ACCESSTOKEN = await getNewAccessToken();
@@ -159,7 +164,6 @@ export const getMyPage = async () => {
   }
 };
 
-
 // LOG_IN
 export const login = async (email: string, password: string) => {
   try {
@@ -167,9 +171,9 @@ export const login = async (email: string, password: string) => {
       "/api/login",
       {
         email,
-        password
+        password,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
   } catch (error) {
     console.log("login Api 호출 : ", error);
@@ -191,14 +195,14 @@ export const signUp = async (
   email: string,
   password: string,
   name: string,
-  join: string
+  join: string,
 ) => {
   try {
     const response = await ApiLogin.post("/api/register", {
       email,
       password,
       name,
-      join
+      join,
     });
     return response.data;
   } catch (error) {
@@ -211,8 +215,8 @@ export const getMainPage = () => {
   try {
     const response = ApiHttp.get("/api/main", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN}`
-      }
+        Authorization: `Bearer ${ACCESSTOKEN}`,
+      },
     });
     return response;
   } catch (error) {
@@ -233,28 +237,26 @@ export async function postMain(data: NewEvent) {
 
 export async function postUpdate(data: UpdateType) {
   try {
-    await ApiHttp.post("/api/annual/update", data)
-      .then((res) => {
-        console.log("수정 완료", res);
-        return res;
-      });
+    await ApiHttp.post("/api/annual/update", data).then((res) => {
+      console.log("수정 완료", res);
+      return res;
+    });
   } catch (error) {
     console.error("Error submitting event:", error);
   }
 }
-export async function postDelete(id:number) {
+export async function postDelete(id: number) {
   try {
-    await ApiHttp.post("/api/annual/cancel", {id})
-     .then((res) => {
-        console.log("삭제 완료", res);
-        return res;
-      });
+    await ApiHttp.post("/api/annual/cancel", { id }).then((res) => {
+      console.log("삭제 완료", res);
+      return res;
+    });
   } catch (error) {
     console.error("Error submitting event:", error);
   }
 }
 
-export async function postPassword(data:{newPassword:string}) {
+export async function postPassword(data: { newPassword: string }) {
   try {
     const response = await ApiHttp.post("/api/user", data);
     console.log("비밀번호 변경 완료", response);
