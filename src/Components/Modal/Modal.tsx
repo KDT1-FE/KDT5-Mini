@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
-
 import "./Modal.scss";
+import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
   visibility: boolean;
@@ -8,6 +8,7 @@ interface ModalProps {
 }
 
 export default function Modal(props: PropsWithChildren<ModalProps>) {
+  const navigate = useNavigate();
   return (
     <div
       className="modal-overlay"
@@ -19,6 +20,7 @@ export default function Modal(props: PropsWithChildren<ModalProps>) {
           className="modal-close"
           onClick={() => {
             props.toggle(false);
+            navigate("/");
           }}
         >
           닫기

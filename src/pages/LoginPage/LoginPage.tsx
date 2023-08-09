@@ -18,6 +18,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    const isLogined = !!role;
+    if (isLogined) {
+      navigate("/main");
+    }
+  }, [navigate]);
+
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     const regex =
@@ -55,8 +63,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       localStorage.setItem("role", response?.data.role);
       console.log(response);
       if (response) {
-        await setCookie("accessToken", accessToken);
-        alert("로그인 성공");
+        setCookie("accessToken", accessToken);
         setIsLogined(true);
         navigate("/main");
       }

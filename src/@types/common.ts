@@ -137,3 +137,11 @@ declare interface NewEvent {
   category: string;
   reason: string;
 }
+
+declare interface UpdateType {
+  id?: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  reason: string;
+}

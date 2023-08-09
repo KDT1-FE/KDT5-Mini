@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import "./MainCalendar.scss";
-import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
+import Logout from "@/Components/Logout/Logout";
+import { getMainPage, getSilentAxios, getAccessToken } from "@/Api/apis";
 
-import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -28,7 +28,7 @@ const MainCalendar = () => {
       try {
         const mainInfo = await getMainPage();
 
-        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+        if (mainInfo?.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
             return {
@@ -48,17 +48,17 @@ const MainCalendar = () => {
 
           console.log(mainInfo);
           console.log(mainInfo.data.annuals);
-        } else {
-          console.error("Invalid event data in API response.");
-          console.log(mainInfo.data.annuals);
         }
       } catch (error) {
-        console.error("Error fetching main info:", error);
+        console.error("메인페이지 컴포넌트 에러: ", error);
+        // 밥먹고 이거 켜서 다시 불러오기 되는지 확인하기 안되면 api로 가서 return.data 확인하기
+        const silentAxios = getSilentAxios(getAccessToken());
+        const result = await silentAxios.get("/main");
+        return result.data;
       }
     };
-
     fetchMainInfo();
-  }, []);
+  }, [userName, role]);
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
@@ -152,7 +152,7 @@ const MainCalendar = () => {
             ) : (
               <li onClick={handleMyPageClick}>마이 페이지</li>
             )}
-            <li>로그아웃</li>
+            <Logout />
           </div>
         </ul>
         <div className="select_today">
