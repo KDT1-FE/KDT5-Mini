@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -5,16 +6,8 @@ import "./MainCalendar.scss";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
-import { getNewAccessToken, getMainPage } from "@/Api/apis";
-import axios from "axios";
-import AddEventModal from "./AddEventModal";
+import { getNewAccessToken, ApiHttp, getMainPage } from "@/Api/apis";
 
-
-const cookie = new Cookies;
-const coo = cookie.get('accessToken')
-export const ApiHttp = axios.create({
-  baseURL: "/mini",
-});
 
 
 const MainCalendar = () => {
@@ -23,52 +16,64 @@ const MainCalendar = () => {
     "당직",
   ]);
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [events, setEvents] = useState([]); // 빈 배열로 초기화
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigate = useNavigate();
-  const [userName, setUserName] = useState(""); // 사용자 이름 상태
-
-
-
-
+  const [userName, setUserName] = useState("");
+  const [processedEvents, setProcessedEvents] = useState([]);
 
   useEffect(() => {
-    // API 호출
-    ApiHttp
-    .get("/api/main", {
-      headers: {
-        Authorization: `Bearer ${coo}`
+    const fetchMainInfo = async () => {
+      try {
+        const mainInfo = await getMainPage();
+    
+        // mainInfo.annuals 존재하고 배열인 경우에만 처리
+        if (mainInfo.annuals && Array.isArray(mainInfo.annuals)) {
+          const processedEvents = mainInfo.annuals.map((annuals: any) => {
+            const { startDate, endDate, ...rest } = annuals;
+            return {
+              ...rest,
+              start: startDate,
+              end: endDate,
+              color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
+              textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
+              title: `• ${annuals.name}`,
+            };
+          });
+    
+          setEvents(mainInfo.annuals); // mainInfo.annuals 업데이트
+          setProcessedEvents(processedEvents);
+          setUserName(mainInfo.username);
+          console.log(mainInfo);
+        } else {
+          console.error("Invalid event data in API response.");
+        }
+
+      } catch (error: any) {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          try {
+            const newAccessToken = await getNewAccessToken();
+            new Cookies().set("accessToken", newAccessToken, { path: "/" });
+
+            const response = await ApiHttp.get("/api/main", {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            });
+            console.log(response);
+            
+          } catch (error) {
+            console.error("Error while retrying API call:", error);
+          }
+        } else {
+          console.error("API call error:", error);
+          
+        }
       }
-    })
-    .then((response) => {
-      // API에서 받아온 데이터를 state에 설정
-      console.log(response);
-      setEvents(response.data.annuals);
-      setUserName(response.data.username);
-      console.log("Fetched events:", response.data);
-      console.log(response.data.annuals);
-    })
-    .catch((error) => {
-      console.error("Error fetching events:", error);
-    });
-  
-  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-  
-  // 이후에 processedEvents를 생성하도록 위치를 변경
-  const processedEvents = events.map((event) => {
-    const { startDate, endDate, ...rest } = event;
-    return {
-      ...rest,
-      start: startDate,
-      end: endDate,
-      color: event.category === "연차" ? "#FEEFEC" : "#EEF6F1",
-      textColor: event.category === "연차" ? "#EA613C" : "#3ACAB9",
-      title: `• ${event.name}`,
     };
-  });
-  console.log(events);
+    fetchMainInfo();
+  }, []);
 
 
 
@@ -83,6 +88,10 @@ const MainCalendar = () => {
   };
 
 
+
+
+  
+
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -91,12 +100,15 @@ const MainCalendar = () => {
       setSelectedCategories([...selectedCategories, category]);
     }
   };
+
   // 선택된 카테고리에 따라 이벤트 필터링
   const filteredEvents = selectedCategories.includes("all")
-    ? events
-    : events.filter((event: { category: string }) =>
-        selectedCategories.includes(event.category),
-      );
+  ? processedEvents // 모든 이벤트를 표시
+  : processedEvents.filter((event: { category: string }) =>
+      selectedCategories.includes(event.category)
+    );
+
+
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
     (event: any) => event.category === "연차",
@@ -214,7 +226,7 @@ const MainCalendar = () => {
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           height={760}
-          events={processedEvents}
+          events={filteredEvents}
           headerToolbar={headerToolbarOptions}
           eventClick={handleEventClick}
         />
@@ -226,6 +238,7 @@ const MainCalendar = () => {
           />
         )}
       </div>
+      
     </div>
   );
 };

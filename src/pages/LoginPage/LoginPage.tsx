@@ -58,6 +58,7 @@ const LoginPage = () => {
         setCookie("accessToken", accessToken, {
           path: "/",
         });
+        window.location.reload();
       }
     } catch (error) {
       alert("로그인 실패");

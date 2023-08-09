@@ -6,7 +6,9 @@ export const getAccessToken = () => {
   return cookie.get("accessToken");
 };
 
+
 const ACCESSTOKEN = getAccessToken();
+console.log(ACCESSTOKEN);
 
 export const ApiHttp = axios.create({
   baseURL: "/mini",
@@ -32,7 +34,7 @@ export const getNewAccessToken = async () => {
         withCredentials: true,
       },
     );
-    const newAccessToken = response.data;
+    const newAccessToken = response.data.accessToken;
     return newAccessToken;
   } catch (error) {
     console.error("getNewAccessTokenAPI에러: ", error);
@@ -148,16 +150,15 @@ export const signUp = async (
   }
 };
 
-
 // GET_MAIN_PAGE
-export const getMainPage = (token) => {
+export const getMainPage = async () => {
   try {
-    const response = ApiHttp.get("/api/main", {
+    const response = await ApiHttp.get("/api/main", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`, // 새로운 토큰으로 요청
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
