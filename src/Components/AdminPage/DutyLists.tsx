@@ -1,5 +1,5 @@
 import styles from "./DutyLists.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminListsAll } from "@/@types/adminList.ts";
 import { permission } from "@/Api/apis.ts";
 
@@ -9,7 +9,11 @@ interface Props {
 
 export default function DutyLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
-  // const listData = item;
+
+  useEffect(() => {
+    setStatus(item.status);
+    console.log("동작을 하는가:", '당직');
+  }, [item.status]);
 
   const handlePermissionClick = async () => {
     if (status === "결재 대기") {

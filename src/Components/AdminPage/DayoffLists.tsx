@@ -1,5 +1,5 @@
 import styles from "./DayoffLists.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminListsAll } from "@/@types/adminList.ts";
 import { permission } from "@/Api/apis.ts";
 
@@ -9,7 +9,11 @@ interface Props {
 
 export default function DayoffLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
-  // const listData = item;
+
+  useEffect(() => {
+    setStatus(item.status);
+    console.log("동작을 하는가 :", "연차");
+  }, [status]);
 
   const calculateUsedDays = () => {
     const startDate = new Date(item.startDate);
