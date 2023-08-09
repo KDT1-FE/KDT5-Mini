@@ -2,53 +2,62 @@ import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { ChangeEvent, useState } from "react";
-import Modal from '@/Components/Modal/Modal';
+import Modal from "@/Components/Modal/Modal";
+import { postUpdate } from "@/Api/apis.ts";
 
 
-export default function AnnualList(props: { myData?: MyDataType}) {
-  const [visibility, setVisible] = useState(false)
-  const [edit, setEdit] = useState(false)
-  const [title, setTitle] = useState("")
-  const [start, setStart] = useState("")
-  const [end, setEnd] = useState("")
-  const [reason, setReason] = useState("")
+export default function AnnualList(props: { myData?: MyDataType }) {
+  const [visibility, setVisible] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const [reason, setReason] = useState("");
+  // const [id, setId] = useState("");
   const annuals = props.myData?.annualHistories || [];
 
 
   const closeModal = () => {
-    setVisible(!visibility)
-  }
-  const handleClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
-    e.stopPropagation()
-    setVisible(true)
-  }
-  const handleEditClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
-    e.stopPropagation()
-    setEdit(true)
-  }
+    setVisible(!visibility);
+  };
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setVisible(true);
+  };
+  const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setEdit(true);
+  };
 
-  const handleEdit = ()=>{
+  const handleEdit = () => {
     setEdit(!edit);
-  }
+  };
+
   /*const handleChange = (e: ChangeEvent<HTMLSelectElement>)=>{
     setChangeValue({...changeValue, [e.target.name]: e.target.value})
   }*/
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.name)
-    if(e.target.name === "title"){
-      setTitle(e.target.value)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.name);
+    if (e.target.name === "title") {
+      setTitle(e.target.value);
     } else if (e.target.name === "startDate") {
-      setStart(e.target.value)
+      setStart(e.target.value);
     } else if (e.target.name === "endDate") {
-      setEnd(e.target.value)
-    } else if (e.target.name === "select-reason"){
-      setReason(e.target.value)
+      setEnd(e.target.value);
+    } else if (e.target.name === "select-reason") {
+      setReason(e.target.value);
     }
   };
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const data = { title, startDate: start, endDate: end, reason };
+    console.log(data);
+    postUpdate(data);
+
     console.log(e.target);
     // changeValue 값을 api 를 통해 입력한다.
-  }
+  };
 
   return (
     <div className={styles.Container}>
@@ -62,10 +71,12 @@ export default function AnnualList(props: { myData?: MyDataType}) {
       <div
         className={styles.lists_content}>
         {annuals?.map((annual, index) => (
+
           <div
             onClick={handleClick}
             key={index}
-            className={styles.lists} >
+            className={styles.lists}>
+            {/*{setId(annual.id)}*/}
             <div className={styles.list}>{annual.reason}</div>
             <div className={styles.list}>{annual.title}</div>
             <div className={styles.list}>
@@ -75,7 +86,8 @@ export default function AnnualList(props: { myData?: MyDataType}) {
             <div className={styles.list}>{DateCount({
               startDate: annual.startDate,
               endDate: annual.endDate
-            })} 개</div>
+            })} 개
+            </div>
             <p className={styles.list}>{annual.status}</p>
             <Modal
               visibility={visibility} toggle={setVisible}>
@@ -136,11 +148,10 @@ export default function AnnualList(props: { myData?: MyDataType}) {
                       <option value="기타 휴가">기타 휴가</option>
                       <option value={reason} selected>{reason}</option>
                     </select>
-                  ) : (
+                    ) : (
                     <option value={annual.reason} selected>{annual.reason}</option>
-                  )
+                    )
                   }
-
                 </div>
                 <button onClick={closeModal}>닫기</button>
                 <div className="btn-group">

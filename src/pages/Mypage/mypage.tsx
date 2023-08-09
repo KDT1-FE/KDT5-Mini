@@ -30,10 +30,6 @@ export default function Mypage() {
 
 
 
-
-
-
-
   return (
     <div className={styles.page}>
       <Header />
