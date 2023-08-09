@@ -30,7 +30,8 @@ const MainCalendar = () => {
     const fetchMainInfo = async () => {
       try {
         const mainInfo = await getMainPage();
-        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+
+        if (mainInfo?.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
             return {
