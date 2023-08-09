@@ -1,37 +1,53 @@
 import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Modal from '@/Components/Modal/Modal';
 
 
 export default function AnnualList(props: { myData?: MyDataType}) {
   const [visibility, setVisible] = useState(false)
-  const [editingAnnual, setEditingAnnual] = useState< MyAnnualType | null>(null);
+  const [edit, setEdit] = useState(false)
+  const [title, setTitle] = useState("")
+  const [start, setStart] = useState("")
+  const [end, setEnd] = useState("")
   const [reason, setReason] = useState("")
   const annuals = props.myData?.annualHistories || [];
 
-  function closeModal() {
+
+  const closeModal = () => {
     setVisible(!visibility)
   }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (editingAnnual) {
-      setEditingAnnual(prevAnnual => ({
-        ...prevAnnual,
-        [name]: value
-      }));
-    }
-  };
-
   const handleClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
     e.stopPropagation()
     setVisible(true)
   }
+  const handleEditClick = (e: React.MouseEvent <HTMLDivElement, MouseEvent>)=>{
+    e.stopPropagation()
+    setEdit(true)
+  }
 
+  const handleEdit = ()=>{
+    setEdit(!edit);
+  }
+  /*const handleChange = (e: ChangeEvent<HTMLSelectElement>)=>{
+    setChangeValue({...changeValue, [e.target.name]: e.target.value})
+  }*/
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.name)
+    if(e.target.name === "title"){
+      setTitle(e.target.value)
+    } else if (e.target.name === "startDate") {
+      setStart(e.target.value)
+    } else if (e.target.name === "endDate") {
+      setEnd(e.target.value)
+    } else if (e.target.name === "select-reason"){
+      setReason(e.target.value)
+    }
+  };
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
     console.log(e.target);
+    // changeValue 값을 api 를 통해 입력한다.
   }
 
   return (
@@ -67,46 +83,66 @@ export default function AnnualList(props: { myData?: MyDataType}) {
                 <h1 className="addEvent-header">일정 등록</h1>
                 <div className="addEvent-title">
                   <label>제목</label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={annual.title}
-                    onChange={handleInputChange}
-                  />
+                  {edit ? (
+                    <input
+                      type="text"
+                      name="title"
+                      value={title}
+                      onClick={handleEditClick}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span onClick={handleEdit}>{annual.title}</span>
+                  )}
                 </div>
                 <div className="addEvent-start">
                   <label>시작일</label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={annual.startDate}
-                    onChange={handleInputChange}
-                  />
+                  {edit ? (
+                    <input
+                      type="date"
+                      name="startDate"
+                      value={start}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span onClick={handleEdit}>{annual.startDate}</span>
+                  )}
                 </div>
                 <div className="addEvent-end">
                   <label>종료일</label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={annual.endDate}
-                    onChange={handleInputChange}
-                  />
+                  {edit ? (
+                    <input
+                      type="date"
+                      name="endDate"
+                      value={end}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span onClick={handleEdit}>{annual.endDate}</span>
+                  )}
                 </div>
                 <div className="addEvent-reason">
                   <label>사유</label>
-                  <select
-                    name="select-reason" id="reason"
-                    onChange={handleInputChange}
-                  >
-                    <option value={""}>========== 선택하세요 ==========</option>
-                    <option value="연차유급 휴가">연차유급 휴가</option>
-                    <option value="병가 휴가">병가 휴가</option>
-                    <option value="경조사 휴가">경조사 휴가</option>
-                    <option value="출산 전휴 휴가">출산 전휴 휴가</option>
-                    <option value="기타 휴가">기타 휴가</option>
+                  {edit ? (
+                    <select
+                      name="select-reason" id="reason"
+                      onChange={handleInputChange}
+                    >
+                      <option value={""}>========== 선택하세요 ==========</option>
+                      <option value="연차유급 휴가">연차유급 휴가</option>
+                      <option value="병가 휴가">병가 휴가</option>
+                      <option value="경조사 휴가">경조사 휴가</option>
+                      <option value="출산 전휴 휴가">출산 전휴 휴가</option>
+                      <option value="기타 휴가">기타 휴가</option>
+                      <option value={reason} selected>{reason}</option>
+                    </select>
+                  ) : (
                     <option value={annual.reason} selected>{annual.reason}</option>
-                  </select>
+                  )
+                  }
+
                 </div>
+                <button onClick={closeModal}>닫기</button>
                 <div className="btn-group">
                   <button onClick={closeModal}>수 정</button>
                   <button onClick={handleSubmit}>삭 제</button>

@@ -42,7 +42,6 @@ const MainCalendar = () => {
         });
         setEvents(processedEvents);
         setUserName(res.name);
-        console.log(res.name); // 사용자 이름 설정
       })
       .catch((error) => {
     if (error.response && error.response.status === 401) {
