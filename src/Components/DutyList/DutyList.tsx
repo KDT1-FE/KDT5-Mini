@@ -1,8 +1,61 @@
 // import { useMyStore } from "@/Store/store.ts";
 import styles from "@/Components/DutyList/dutyList.module.scss";
+import Modal from "@/Components/Modal/Modal.tsx";
+import { ChangeEvent, useState } from "react";
+import { postDelete, postUpdate } from "@/Api/apis.ts";
 
 export default function DutyList(props:{myData:MyDataType|undefined}) {
+  const [visibility, setVisible] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState("");
+  const [start, setStart] = useState("");
+  const [id, setId] = useState(0);
   const dutyData = props.myData?.dutyHistories || [];
+
+  const closeModal = () => {
+    setVisible(false);
+  };
+  const handleClick = (id: number) => {
+    setVisible(true);
+    setId(id)
+  };
+  const handleEditClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setEdit(true);
+  };
+
+  const handleEdit = () => {
+    setEdit(!edit);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (e.target.name === "title") {
+      setTitle(e.target.value);
+    } else if (e.target.name === "startDate") {
+      setStart(e.target.value);
+    }
+  };
+  const handleSubmit = async () => {
+    const data: UpdateType = { id: id, title:title, startDate: start, endDate: start, reason:"기타휴가" };
+    console.log(data);
+    // await postUpdate(id,title,start,end,reason)
+    await postUpdate(data)
+      .then((res) => console.log(res));
+    setEdit(false);
+    setVisible(false);
+  };
+
+  const handleDelete = async () =>{
+    console.log(id);
+    await postDelete( id )
+      .then((res) => console.log(res));
+    setEdit(false);
+    setVisible(false);
+  }
   return (
     <div className={styles.container}>
       <div className={styles.index}>
@@ -13,11 +66,52 @@ export default function DutyList(props:{myData:MyDataType|undefined}) {
       </div>
       <div className={styles.lists_content}>
         {dutyData?.map((dutyItem) => (
-          <div key={dutyItem.id} className={styles.lists}>
+          <div
+            onClick={() => handleClick(dutyItem.id)}
+            key={dutyItem.id}
+            className={styles.lists}>
             <div className={styles.list}>당직</div> 
             <div className={styles.list}>{dutyItem.title}</div>
             <div className={styles.list}>{dutyItem.startDate}</div>
             <div className={styles.list}>{dutyItem.status}</div>
+            <Modal
+              visibility={visibility} toggle={setVisible}>
+              <div className="addEvent-wrap">
+                <h1 className="addEvent-header">일정 등록</h1>
+                <div className="addEvent-title">
+                  <label>제목</label>
+                  {edit ? (
+                    <input
+                      type="text"
+                      name="title"
+                      value={title}
+                      onClick={handleEditClick}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span onClick={handleEdit}>{dutyItem.title}</span>
+                  )}
+                </div>
+                <div className="addEvent-start">
+                  <label>시작일</label>
+                  {edit ? (
+                    <input
+                      type="date"
+                      name="startDate"
+                      value={start}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span onClick={handleEdit}>{dutyItem.startDate}</span>
+                  )}
+                </div>
+                <div className="btn-group">
+                  <button onClick={closeModal}>닫 기</button>
+                  <button onClick={handleDelete}>삭 제</button>
+                  <button onClick={handleSubmit}>수 정</button>
+                </div>
+              </div>
+            </Modal>
           </div>
         ))}
       </div>

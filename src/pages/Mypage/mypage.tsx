@@ -1,15 +1,16 @@
-// Mypage.tsx
 import UserBanner from "@/Components/userBanner/UserBanner.tsx";
 import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
 import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
 import { useEffect, useState } from "react";
-import { getAccessToken, getMyPage, getSilentAxios } from "@/Api/apis"; // apis.ts에서 필요한 함수 가져오기
+import { getMyPage } from "@/Api/apis";
+import Password from "@/Components/Password/password.tsx";
 
 export default function Mypage() {
   const [myData, setMyData] = useState<MyDataType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState(false);
 
   useEffect(() => {
     async function fetchMyData() {
@@ -17,7 +18,6 @@ export default function Mypage() {
         const data = await getMyPage(); // 사용자 데이터 가져오기
         setMyData(data);
         setIsLoading(false);
-        console.log(data);
       } catch (error) {
         setIsLoading(false);
       }
@@ -33,8 +33,9 @@ export default function Mypage() {
     <div className={styles.page}>
       <Header />
       <div className={styles.container}>
-        <UserBanner myData={myData} />
-        <div className={styles.inner_box}>
+        <UserBanner myData={myData} setCategory={setCategory} />
+        {!category ?
+          <div className={styles.inner_box}>
           <div className={styles.annual}>
             <p className={styles.title}>연차 리스트</p>
             <AnnualList myData={myData} />
@@ -44,7 +45,16 @@ export default function Mypage() {
             <DutyList myData={myData} />
           </div>
         </div>
+          :
+          <div className={styles.inner_box}>
+            <div className={styles.annual}>
+              <p className={styles.title}>비밀번호 수정</p>
+              <Password />
+            </div>
+          </div>
+        }
       </div>
+
     </div>
   );
 }
