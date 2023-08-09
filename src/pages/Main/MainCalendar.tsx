@@ -32,8 +32,8 @@ const MainCalendar = () => {
         const mainInfo = await getMainPage();
     
         // mainInfo.annuals 존재하고 배열인 경우에만 처리
-        if (mainInfo.annuals && Array.isArray(mainInfo.annuals)) {
-          const processedEvents = mainInfo.annuals.map((annuals: any) => {
+        if (mainInfo.data.annuals && Array.isArray(mainInfo.data.annuals)) {
+          const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
             const { startDate, endDate, ...rest } = annuals;
             return {
               ...rest,
@@ -45,12 +45,13 @@ const MainCalendar = () => {
             };
           });
     
-          setEvents(mainInfo.annuals); // mainInfo.annuals 업데이트
+          setEvents(mainInfo.data.annuals); // mainInfo.annuals 업데이트
           setProcessedEvents(processedEvents);
-          setUserName(mainInfo.username);
+          setUserName(mainInfo.data.annuals.username);
           console.log(mainInfo);
         } else {
           console.error("Invalid event data in API response.");
+          console.log(mainInfo.data.annuals);
         }
 
       } catch (error: any) {

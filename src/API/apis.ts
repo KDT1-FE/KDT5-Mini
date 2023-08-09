@@ -14,7 +14,7 @@ console.log(ACCESSTOKEN);
 export const ApiHttp = axios.create({
   baseURL: "/mini",
   headers: {
-    Authorization: `Bearer ${ACCESSTOKEN}`,
+    Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
   },
 });
 
@@ -48,7 +48,7 @@ export const getListAll = async () => {
   try {
     const res = await ApiHttp.get("/api/admin", {
       headers: {
-        Authorization: `Bearer ${ACCESSTOKEN}`,
+        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
       },
     });
     return res.data;
@@ -144,9 +144,12 @@ export const signUp = async (
 // GET_MAIN_PAGE
 export const getMainPage = () => {
   try {
-    const res = ApiHttp.get("/api/main");
-    console.log(res);
-    return res;
+    const response = ApiHttp.get("/api/main", {
+      headers: {
+        Authorization: `Bearer ${ACCESSTOKEN.accessToken}`,
+      },
+    });
+    return response;
   } catch (error) {
     console.log(error);
   }
