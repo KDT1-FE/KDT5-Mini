@@ -3,20 +3,23 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage.tsx";
 import Main from "./pages/Main/main.tsx";
 import Mypage from "./pages/Mypage/mypage.tsx";
 import Admin from "./pages/Admin/admin.tsx";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Modal from "react-modal";
 import { CookiesProvider, useCookies } from "react-cookie";
 import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute.tsx";
 import AccessRestrictionPage from "./pages/AccessRestrictionPage/AccessRestrictionPage.tsx";
+
 Modal.setAppElement("#root");
+
 function App() {
   const [cookies, setCookie] = useCookies(["accessToken"]);
   const [isLogined, setIsLogined] = useState(!!cookies.accessToken);
+
   useEffect(() => {
     setIsLogined(!!cookies.accessToken);
   }, [cookies.accessToken]);
-  console.log(cookies);
+  
   return (
     <CookiesProvider>
       <Routes>

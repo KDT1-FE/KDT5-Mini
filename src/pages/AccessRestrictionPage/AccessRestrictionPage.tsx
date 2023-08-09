@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 const AccessRestrictionPage = () => {
   const navigate = useNavigate();
   return (
@@ -9,4 +10,5 @@ const AccessRestrictionPage = () => {
     </div>
   );
 };
+
 export default AccessRestrictionPage;
