@@ -13,17 +13,30 @@ import AccessRestrictionPage from "./pages/AccessRestrictionPage/AccessRestricti
 Modal.setAppElement("#root");
 
 function App() {
-  const [cookies, setCookie] = useCookies(["accessToken"]);
-  const [isLogined, setIsLogined] = useState(!!cookies.accessToken);
+  // const role = localStorage.getItem("role");
+  const [role, setRole] = useState(localStorage.getItem("role"));
+  const [isLogined, setIsLogined] = useState(!!role);
 
   useEffect(() => {
-    setIsLogined(!!cookies.accessToken);
-  }, [cookies.accessToken]);
-  
+    setIsLogined(!!role);
+    if (!role) {
+      setRole(null);
+    }
+  }, [role]);
+
   return (
     <CookiesProvider>
       <Routes>
-        <Route path="/" element={<LoginPage setIsLogined={setIsLogined} />} />
+        <Route
+          path="/"
+          element={
+            isLogined ? (
+              <Navigate to="/main" replace />
+            ) : (
+              <LoginPage setIsLogined={setIsLogined} />
+            )
+          }
+        />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forbidden" element={<AccessRestrictionPage />} />
         <Route
@@ -31,6 +44,7 @@ function App() {
           element={
             <PrivateRoute
               isLogined={isLogined}
+              role={role}
               element={<Main />}
               fallbackPath="/forbidden"
             />
@@ -41,6 +55,7 @@ function App() {
           element={
             <PrivateRoute
               isLogined={isLogined}
+              role={role}
               element={<Mypage />}
               fallbackPath="/forbidden"
             />
@@ -51,6 +66,7 @@ function App() {
           element={
             <PrivateRoute
               isLogined={isLogined}
+              role={role}
               element={<Admin />}
               fallbackPath="/forbidden"
             />

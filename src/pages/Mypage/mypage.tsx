@@ -5,7 +5,7 @@ import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
 import { useEffect, useState } from "react";
-import { getMyPage } from "@/Api/apis"; // apis.ts에서 필요한 함수 가져오기
+import { getAccessToken, getMyPage, getSilentAxios } from "@/Api/apis"; // apis.ts에서 필요한 함수 가져오기
 
 export default function Mypage() {
   const [myData, setMyData] = useState<MyDataType>();
@@ -17,6 +17,7 @@ export default function Mypage() {
         const data = await getMyPage(); // 사용자 데이터 가져오기
         setMyData(data);
         setIsLoading(false);
+        console.log(data);
       } catch (error) {
         setIsLoading(false);
       }
@@ -27,12 +28,6 @@ export default function Mypage() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-
-
-
-
-
 
   return (
     <div className={styles.page}>

@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { getMainPage, login } from "@/Api/apis.ts";
+import {  login } from "@/Api/apis.ts";
 
 interface LoginPageProps {
   setIsLogined: (value: boolean) => void;
@@ -16,8 +16,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
-  ``;
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    const isLogined = !!role;
+    if (isLogined) {
+      navigate("/main");
+    }
+  }, [navigate]);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -56,8 +64,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       localStorage.setItem("role", response?.data.role);
       console.log(response);
       if (response) {
-        await setCookie("accessToken", accessToken);
-        alert("로그인 성공");
+        setCookie("accessToken", accessToken);
         setIsLogined(true);
         navigate("/main");
       }
