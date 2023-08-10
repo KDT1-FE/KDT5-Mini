@@ -6,6 +6,7 @@ import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
 import { getAccessToken, getListAll, getSilentAxios } from "@/Api/apis";
 
+
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
   const [dutyData, setDutyData] = useState<AdminListsAll[]>([]);
