@@ -85,7 +85,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       onRequestClose={closeModal}
       contentLabel="Add Event Modal"
       overlayClassName="custom-overlay"
-      className="custom-modal-content"
+      className="custom_modal_content"
     >
       <div className="addEvent_wrap">
         <h1 className="addEvent_header">일정 등록</h1>

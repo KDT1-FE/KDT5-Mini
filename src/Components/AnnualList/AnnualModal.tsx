@@ -1,8 +1,7 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
-import "./AnnualModal.module.scss";
-import { AnnualType, UpdateType } from "types/common";
+import "./annualModal.scss";
 
 export default function AnnualModal(props: {
   annual?: AnnualType;
@@ -74,13 +73,6 @@ export default function AnnualModal(props: {
     });
   };
 
-  // const handleCloseModal = () => {
-  //   setEdit(false);
-  //   setVisivility(false);
-  // };
-
-  
-
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
       onSuccess: (res: any) => {
@@ -103,75 +95,81 @@ export default function AnnualModal(props: {
   return (
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
-        <div className="modal-content">
-          <h1 className="modal-headerr">일정 등록</h1>
-          <div className="modal-titlee">
-            <label>제목</label>
-            {edit ? (
-              <input
-                type="text"
-                name="title"
-                value={title}
-                placeholder={annual?.title}
-                onClick={handleEditClick}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <span onClick={handleEdit}>{annual?.title}</span>
-            )}
-          </div>
-          <div className="addEvent-start">
-  <label>시작일</label>
-  {edit ? (
-    <input
-      type="date"
-      name="startDate"
-      value={start}
-      onChange={handleInputChange}
-    />
-  ) : (
-    <span onClick={handleEdit}>{annual?.startDate}</span>
-  )}
-</div>
-
-<div className="addEvent-end">
-  <label>종료일</label>
-  {edit ? (
-    <input
-      type="date"
-      name="endDate"
-      value={end}
-      onChange={handleInputChange}
-    />
-  ) : (
-    <span onClick={handleEdit}>{annual?.endDate}</span>
-  )}
-</div>
-          <div className="addEvent-reason">
-            <label>사유</label>
-            {edit ? (
-              <select
-                name="select-reason"
-                id="reason"
-                onChange={handleInputChange}
-              >
-                <option value={""}>========== 선택하세요 ==========</option>
-                <option value="연차유급휴가">연차유급휴가</option>
-                <option value="병가휴가">병가휴가</option>
-                <option value="경조사휴가">경조사휴가</option>
-                <option value="출산휴가">출산휴가</option>
-                <option value="기타휴가">기타휴가</option>
-              </select>
-            ) : (
-              <option value={annual?.reason} selected>
-                {annual?.reason}
-              </option>
-            )}
-          </div>
-          {/* <button onClick={handleCloseModal}>하하</button> */}
-          <div className="btn-group">
-            <button onClick={handleDelete}>삭 제</button>
-            <button onClick={handleSubmit}>수 정</button>
+        <div className="custom_modal_content">
+          <button className="Event_close">
+            <i className="fa-sharp fa-solid fa-circle-plus"></i>
+          </button>
+          <div className="addEvent_wrap">
+            <h1 className="addEvent_header">일정 등록</h1>
+            <div className="addEvent_title">
+              <label className="add_title">제목</label>
+              {edit ? (
+                <input
+                  type="text"
+                  name="title"
+                  value={title}
+                  onClick={handleEditClick}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <span onClick={handleEdit}>{annual?.title}</span>
+              )}
+            </div>
+            <div className="addEvent_start">
+              <label className="add_title">시작일</label>
+              {edit ? (
+                <input
+                  type="date"
+                  name="startDate"
+                  value={start}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <span onClick={handleEdit}>{annual?.startDate}</span>
+              )}
+            </div>
+            <div className="addEvent_end">
+              <label className="add_title">종료일</label>
+              {edit ? (
+                <input
+                  type="date"
+                  name="endDate"
+                  value={end}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <span onClick={handleEdit}>{annual?.endDate}</span>
+              )}
+            </div>
+            <div className="addEvent_reason">
+              <label className="add_title">사유</label>
+              {edit ? (
+                <select
+                  name="select-reason"
+                  id="reason"
+                  onChange={handleInputChange}
+                >
+                  <option value={""}>========== 선택하세요 ==========</option>
+                  <option value="연차유급휴가">연차유급휴가</option>
+                  <option value="병가휴가">병가휴가</option>
+                  <option value="경조사휴가">경조사휴가</option>
+                  <option value="출산휴가">출산휴가</option>
+                  <option value="기타휴가">기타휴가</option>
+                </select>
+              ) : (
+                <option value={annual?.reason} selected>
+                  {annual?.reason}
+                </option>
+              )}
+            </div>
+            <div className="btn_wrap">
+              <button className="close_btn" onClick={handleDelete}>
+                삭 제
+              </button>
+              <button className="submit_btn" onClick={handleSubmit}>
+                수 정
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
