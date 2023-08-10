@@ -1,6 +1,7 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
+import "./AnnualModal.module.scss";
 
 export default function AnnualModal(props: {
   annual?: AnnualType;
@@ -64,6 +65,11 @@ export default function AnnualModal(props: {
     });
   };
 
+  // const handleCloseModal = () => {
+  //   setEdit(false);
+  //   setVisivility(false);
+  // };
+
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
       onSuccess: (res: any) => {
@@ -86,9 +92,9 @@ export default function AnnualModal(props: {
   return (
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
-        <div className="addEvent-wrap">
-          <h1 className="addEvent-header">일정 등록</h1>
-          <div className="addEvent-title">
+        <div className="modal-content">
+          <h1 className="modal-headerr">일정 등록</h1>
+          <div className="modal-titlee">
             <label>제목</label>
             {edit ? (
               <input
@@ -152,6 +158,7 @@ export default function AnnualModal(props: {
               </option>
             )}
           </div>
+          {/* <button onClick={handleCloseModal}>하하</button> */}
           <div className="btn-group">
             <button onClick={handleDelete}>삭 제</button>
             <button onClick={handleSubmit}>수 정</button>

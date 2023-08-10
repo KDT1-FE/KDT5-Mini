@@ -17,10 +17,10 @@ interface Props {
   item: AdminListsAll;
 }
 
-export default function DayoffLists({ item }: Props): JSX.Element {
+
+export default function DayoffLists({ item }: Props) {
   const [status, setStatus] = useState<string>(item.status);
   const { changeAdminData } = useDataQuery();
-
   const calculateUsedDays = (): number => {
     const startDate = new Date(item.startDate);
     const endDate = new Date(item.endDate);
