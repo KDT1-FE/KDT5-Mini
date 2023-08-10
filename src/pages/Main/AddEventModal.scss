@@ -1,126 +1,112 @@
-@import '/src/_variables';
+@import "/src/_variables";
+@import "src/_mixin.scss";
 
-
-.ReactModal__Overlay{
+.ReactModal__Overlay {
   z-index: 9999;
-  background-color: rgba($main-color, $alpha: .5);
+  background-color: rgba($main-color, $alpha: 0.5);
   position: fixed;
   inset: 0px;
 }
 
-
-.custom-modal-content{
-    width: 660px;
-    height: 600px;
-    margin: auto;
-    border-radius: 35px;
-    position: absolute;
-      inset: 40px;
-      border: 1px solid rgb(204, 204, 204);
-      background: rgb(255, 255, 255);
-      overflow: auto;
-    font-family: 'noto-sans';
-      outline: none;
-      padding: 20px;
-
-
-      input{
-        width: 399px;
-        height: 46px;
-        border: none;
-        font-size: 16px;
-        border-radius: 10px;
-        padding-right: 20px;
-        background-color: $light-Grey-color;
-        padding-left: 20px;
-        color: $sub-color;
-    }
-    select{
-      padding-left: 20px;
-      color: $sub-color;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-
-    div{
-        margin-bottom: 13px;
-    }
-  }
-
-.addEvent-wrap{
-    width: 473px;
-    height: 464px;
-    margin:auto;
-    padding: 58px 0px;
-
-
-}
-.addEvent-wrap label{
-    font-size: 16px;
-    font-weight: bold;
-    color: $main-color;
-}
-
-
-.addEvent-header{
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0 auto;
-    margin-bottom: 40px;
-    font-family: 'noto-sans';
-}
-
-
-.addEvent-title{
-    width: 473px;
+.custom-modal-content {
+  width: 660px;
+  height: 600px;
+  margin: auto;
+  border-radius: 35px;
+  position: absolute;
+  inset: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  font-family: "noto-sans";
+  outline: none;
+  padding: 20px;
+  input {
+    width: 399px;
     height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    input{
-      float: right;
-    }
+    border: none;
+    font-size: 16px;
+    border-radius: 10px;
+    padding-right: 20px;
+    background-color: $light-Grey-color;
+    padding-left: 20px;
+    color: $sub-color;
+  }
+  select {
+    padding-left: 20px;
+    color: $sub-color;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  div {
+    margin-bottom: 13px;
+  }
 }
 
-
-.addEvent-start{
+.addEvent_wrap {
+  width: 473px;
+  height: 464px;
+  margin: auto;
+  padding: 58px 0px;
+}
+.addEvent-wrap label {
+  font-size: 16px;
+  font-weight: bold;
+  color: $main-color;
+}
+.addEvent_header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  font-family: "noto-sans";
+}
+.addEvent_title {
+  width: 473px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  input{
+  input {
     float: right;
   }
 }
 
-.addEvent-end{
+.addEvent_start {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  input{
+  input {
+    float: right;
+  }
+}
+.addEvent_end {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  input {
     float: right;
   }
 }
 
-.addEvent-category{
+.addEvent_category {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  input{
+  input {
     float: left;
     width: 22px;
   }
 
-.addCategory-wrap {
-  width: 400px;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-}
-
-  .addRest{
+  .addCategory_wrap {
+    width: 400px;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+  }
+  .add_Rest {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,7 +116,7 @@
     }
   }
 
-  .addDuty{
+  .add_Duty {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,14 +127,14 @@
   }
 }
 
-.addEvent-reason{
+.addEvent_reason {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  input{
+  input {
     float: right;
   }
-  select{
+  select {
     border-radius: 10px;
     background-color: $light-Grey-color;
     border: none;
@@ -157,28 +143,26 @@
   }
 }
 
-.btn-group {
-    width: 365px;
+.btn_group {
+  width: 365px;
+  height: 54px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  button {
+    font-family: "noto-sans";
+    width: 177px;
     height: 54px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-    margin-top: 50px;
-
-    button{
-      font-family: "noto-sans";
-        width: 177px;
-        height: 54px;
-        font-size: 16px;
-        font-weight: bold;
-        border: 2px solid $main-color;
-        color: $main-color;
-        border-radius: 10px;
-    }
-
-    button:hover{
-      background-color: $main-color;
-      color: white;
-    }
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid $main-color;
+    color: $main-color;
+    border-radius: 10px;
+  }
+  button:hover {
+    background-color: $main-color;
+    color: white;
+  }
 }

@@ -1,25 +1,52 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import {  getMyPage, postMain } from "@/Api/apis.ts";
+import { getMyPage, postDelete, postUpdate } from "@/Api/apis.ts";
 
-const queryClient = new QueryClient();
+
 export default function useDataQuery() {
-
-  // 마이페이지 처음 읽어오는 쿼리
+const queryClient = new QueryClient();
+  // 마이페이지
   const getMyPageData = useQuery(
     ['myData'],
     async () => {
-      return getMyPage();
+      return await getMyPage().then(res => {
+        console.log(res);
+        return res});
     },
     { staleTime: 1000 * 3 }
   );
-
-  const postMainData =
-    useMutation((data: NewEvent) => postMain(data), {
+  const changeMyData =
+   useMutation((data:UpdateType) => postUpdate(data),{
+     onSuccess: () => {
+       queryClient.invalidateQueries(['myData']).then(res => console.log(res))
+       console.log('수정 성공');
+     }
+   })
+  const deleteMyData =
+    useMutation((id: number) => postDelete(id), {
       onSuccess: () => {
-        queryClient.invalidateQueries(["mainData"]);
+        queryClient.invalidateQueries(['myData']).then(res => console.log(res))
+        console.log('삭제 성공');
       }
     });
 
+  // amin 페이지
+  // const getAdminPageData = useQuery(
+  //   ['adminData'],
+  //   async () => {
+  //     return await getListAll().then(res => {
+  //       console.log(res);
+  //       return res});
+  //   },
+  //   { staleTime: 1000 * 60 }
+  // );
+  // const changeAdminData =
+  //   useMutation((data:UpdateType) => postUpdate(data),{
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(['adminData']);
+  //     }
+  //   })
 
-  return {postMainData, getMyPageData };
+
+
+  return {getMyPageData,changeMyData,deleteMyData};
 }
