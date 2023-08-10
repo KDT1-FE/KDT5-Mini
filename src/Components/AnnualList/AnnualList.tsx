@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { ChangeEvent, useState } from "react";
-import Modal from "@/Components/Modal/Modal";
+import "@/Components/Modal/Modal.scss"
 import { postDelete, postUpdate } from "@/Api/apis.ts";
 
 export default function AnnualList(props: { myData?: MyDataType }) {
-  const [visibility, setVisible] = useState(false);
+  const { isVisible, show, hide } = useModal();
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
@@ -15,12 +15,9 @@ export default function AnnualList(props: { myData?: MyDataType }) {
   const [id, setId] = useState(0);
   const annuals = props.myData?.annualHistories || [];
 
-  const closeModal = () => {
-    setVisible(!visibility);
-  };
   const handleClick = (id: number) => {
-    setVisible(true);
     setId(id)
+    show()
   };
   const handleEditClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -53,7 +50,7 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     await postUpdate(data)
       .then((res) => console.log(res));
     setEdit(false);
-    setVisible(false);
+    hide();
   };
 
   const handleDelete = async () =>{
@@ -61,7 +58,7 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     await postDelete( id )
     .then((res) => console.log(res));
     setEdit(false);
-    setVisible(false);
+    hide()
   }
 
   return (
@@ -92,9 +89,12 @@ export default function AnnualList(props: { myData?: MyDataType }) {
             })} 개
             </div>
             <p className={styles.list}>{annual.status}</p>
-            <Modal
-              visibility={visibility} toggle={setVisible}>
-              <div className="addEvent-wrap">
+
+            {isVisible && (
+              <div
+                style={{display: isVisible? "flex" : "none"}}
+                className="addEvent-wrap"
+              >
                 <h1 className="addEvent-header">일정 등록</h1>
                 <div className="addEvent-title">
                   <label>제목</label>
@@ -157,16 +157,29 @@ export default function AnnualList(props: { myData?: MyDataType }) {
                   }
                 </div>
                 <div className="btn-group">
-                  <button onClick={closeModal}>닫 기</button>
+                  <button
+                    className="modal-close"
+                    onClick={hide}>닫기</button>
                   <button onClick={handleDelete}>삭 제</button>
                   <button onClick={handleSubmit}>수 정</button>
                 </div>
               </div>
-            </Modal>
+            )}
           </div>
         ))}
       </div>
     </div>
   );
+}
+
+function useModal() {
+  const [isVisible, setIsVisible] = useState(false);
+  function show() {
+    setIsVisible(true);
+  }
+  function hide() {
+    setIsVisible(false);
+  }
+  return { isVisible, show, hide };
 }
 

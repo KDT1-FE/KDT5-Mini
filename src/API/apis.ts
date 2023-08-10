@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Cookies, useCookies } from "react-cookie";
+import { Cookies} from "react-cookie";
 
 export const getAccessToken = () => {
   const cookie = new Cookies();
@@ -49,7 +49,7 @@ export const ApiLogin = axios.create({
 //   );
 //   return silentAxios;
 // };
-export const getSilentAxios = (token) => {
+export const getSilentAxios = (token:string) => {
   const silentAxios = axios.create({
     baseURL: "/mini",
     headers: {
@@ -113,8 +113,9 @@ export const getListAll = async () => {
 };
 
 // ADMIN_연차/당직 승인 처리
-export const permission = async (item) => {
+export const permission = async (item:any ) => {
   try {
+
     const res = await ApiHttp.post(
       "/api/admin/apply",
       { id: item.id },
@@ -254,7 +255,7 @@ export async function postPassword(data:{newPassword:string}) {
     console.error("패스워드 변경 실패:", error);
     throw error;
   }
-};
+}
 
 
 export async function postUpdate(data: UpdateType) {
