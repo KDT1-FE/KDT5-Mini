@@ -10,10 +10,10 @@ interface Props {
 export default function DayoffLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
 
-  useEffect(() => {
-    setStatus(item.status);
-    console.log("동작을 하는가 :", "연차");
-  }, [status]);
+  // useEffect(() => {
+  //   setStatus(item.status);
+  //   console.log("동작을 하는가 :", "연차");
+  // }, [status]);
 
   const calculateUsedDays = () => {
     const startDate = new Date(item.startDate);
