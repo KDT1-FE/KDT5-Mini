@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { ChangeEvent, useState } from "react";
-import "@/Components/Modal/Modal.scss"
+import "@/Components/Modal/Modal.scss";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 import Modal from "@/Components/Modal/Modal.tsx";
 
@@ -15,16 +15,13 @@ export default function AnnualList(props: { myData?: MyDataType }) {
   const [id, setId] = useState(0);
   const [visivibility, setVisivibility] = useState(false);
   const annuals = props.myData?.annualHistories || [];
-  const {changeMyData,deleteMyData} = useDataQuery();
-
+  const { changeMyData, deleteMyData } = useDataQuery();
 
   const handleClick = (id: number) => {
-    setId(id)
-    setVisivibility(true)
+    setId(id);
+    setVisivibility(true);
   };
-  const handleEditClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(true);
   };
@@ -34,7 +31,7 @@ export default function AnnualList(props: { myData?: MyDataType }) {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
   ) => {
     if (e.target.name === "title") {
       setTitle(e.target.value);
@@ -47,12 +44,18 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     }
   };
   const handleSubmit = async () => {
-    const data: UpdateType = { id: id, title:title, startDate: start, endDate: end, reason:reason };
+    const data: UpdateType = {
+      id: id,
+      title: title,
+      startDate: start,
+      endDate: end,
+      reason: reason,
+    };
     changeMyData.mutate(data, {
-     onSuccess: () => {
-       setEdit(false)
-       setVisivibility(false)
-     }
+      onSuccess: () => {
+        setEdit(false);
+        setVisivibility(false);
+      },
     });
 
     // await postUpdate(data)
@@ -61,19 +64,19 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     // hide();
   };
 
-  const handleDelete = async () =>{
-    deleteMyData.mutate(id,{
+  const handleDelete = async () => {
+    deleteMyData.mutate(id, {
       onSuccess: () => {
-        setEdit(false)
-        setVisivibility(false)
-      }
-    })
+        setEdit(false);
+        setVisivibility(false);
+      },
+    });
 
     // await postDelete( id )
     // .then((res) => console.log(res));
     // setEdit(false);
     // hide()
-  }
+  };
 
   return (
     <div className={styles.Container}>
@@ -91,23 +94,24 @@ export default function AnnualList(props: { myData?: MyDataType }) {
             key={index}
             className={styles.lists}
           >
-            <div className={styles.list}>{annual.reason}</div>
-            <div className={styles.list}>{annual.title}</div>
-            <div className={styles.list}>
+            <div>{annual.reason}</div>
+            <div>{annual.title}</div>
+            <div>
               <span>{dayjs(annual.startDate).format("YYYY/MM/DD")}</span>~
               <span>{dayjs(annual.endDate).format("YYYY/MM/DD")}</span>
             </div>
-            <div className={styles.list}>{DateCount({
-              startDate: annual.startDate,
-              endDate: annual.endDate
-            })} 개
+            <div>
+              {DateCount({
+                startDate: annual.startDate,
+                endDate: annual.endDate,
+              })}{" "}
+              개
             </div>
-            <p className={styles.list}>{annual.status}</p>
-
+            <p>{annual.status}</p>
             <Modal visibility={visivibility} toggle={setVisivibility}>
-              <div className="addEvent-wrap">
-                <h1 className="addEvent-header">일정 등록</h1>
-                <div className="addEvent-title">
+              <div className="modal-content">
+                <h1 className="modal-header">일정 등록</h1>
+                <div className="modal-title">
                   <label>제목</label>
                   {edit ? (
                     <input
@@ -151,25 +155,35 @@ export default function AnnualList(props: { myData?: MyDataType }) {
                   <label>사유</label>
                   {edit ? (
                     <select
-                      name="select-reason" id="reason"
+                      name="select-reason"
+                      id="reason"
                       onChange={handleInputChange}
                     >
-                      <option value={""}>========== 선택하세요 ==========</option>
+                      <option value={""}>
+                        ========== 선택하세요 ==========
+                      </option>
                       <option value="연차유급휴가">연차유급휴가</option>
                       <option value="병가휴가">병가휴가</option>
                       <option value="경조사휴가">경조사휴가</option>
                       <option value="출산전후휴가">출산전휴휴가</option>
                       <option value="기타휴가">기타휴가</option>
-                      <option value={reason} selected>{reason}</option>
+                      <option value={reason} selected>
+                        {reason}
+                      </option>
                     </select>
                   ) : (
-                    <option value={annual.reason} selected>{annual.reason}</option>
-                  )
-                  }
+                    <option value={annual.reason} selected>
+                      {annual.reason}
+                    </option>
+                  )}
                 </div>
                 <div className="btn-group">
-                  <button onClick={handleDelete}>삭 제</button>
-                  <button onClick={handleSubmit}>수 정</button>
+                  <button className="btn-delet" onClick={handleDelete}>
+                    삭 제
+                  </button>
+                  <button className="btn-edit" onClick={handleSubmit}>
+                    수 정
+                  </button>
                 </div>
               </div>
             </Modal>
@@ -179,5 +193,3 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     </div>
   );
 }
-
-

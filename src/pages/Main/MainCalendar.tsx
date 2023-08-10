@@ -167,7 +167,7 @@ const MainCalendar = () => {
               {" "}
               {/* 오늘 날짜 렌더링 */}
               <h1 className="sub_title">Today</h1>
-              <span className="today_weather">{formattedDate}</span>
+              <span className="today_date">{formattedDate}</span>
             </div>
             <div className="select_calendar">
               <h1 className="sub_title">Calendar</h1>

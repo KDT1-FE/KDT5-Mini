@@ -1,6 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-
 import "./SignUpPage.scss";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "@/Api/apis.ts";

@@ -81,10 +81,10 @@ export default function DutyList(props:{myData:MyDataType|undefined}) {
             onClick={() => handleClick(dutyItem.id)}
             key={dutyItem.id}
             className={styles.lists}>
-            <div className={styles.list}>당직</div> 
-            <div className={styles.list}>{dutyItem.title}</div>
-            <div className={styles.list}>{dutyItem.startDate}</div>
-            <div className={styles.list}>{dutyItem.status}</div>
+            <div>당직</div> 
+            <div>{dutyItem.title}</div>
+            <div>{dutyItem.startDate}</div>
+            <div>{dutyItem.status}</div>
             <Modal
               visibility={visibility} toggle={setVisible}>
               <div className="addEvent-wrap">

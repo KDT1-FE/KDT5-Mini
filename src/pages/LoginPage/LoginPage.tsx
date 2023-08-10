@@ -76,7 +76,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       console.log(email, password);
     }
   };
-
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
@@ -139,7 +138,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
           </div>
         </div>
       </form>
-
       <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
         <div className="modal-content">
           <h2 className="modal-title">로그인에 실패하였습니다.</h2>
