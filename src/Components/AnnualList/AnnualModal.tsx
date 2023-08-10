@@ -2,7 +2,12 @@ import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 
-export default function AnnualModal(props: { annual?: AnnualType, id:number,visivility:boolean ,setVisivility:(value:boolean)=>void }) {
+export default function AnnualModal(props: {
+  annual?: AnnualType;
+  id: number;
+  visivility: boolean;
+  setVisivility: (value: boolean) => void;
+}) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
@@ -16,12 +21,10 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
 
   const { changeMyData, deleteMyData } = useDataQuery();
 
-  const handleEditClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(true);
-    setVisivility(true)
+    setVisivility(true);
   };
 
   const handleEdit = () => {
@@ -29,7 +32,7 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
   ) => {
     if (e.target.name === "title") {
       setTitle(e.target.value);
@@ -42,22 +45,28 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
     }
   };
   const handleSubmit = async () => {
-    const data: UpdateType = { id: id, title: title, startDate: start, endDate: end, reason: reason };
+    const data: UpdateType = {
+      id: id,
+      title: title,
+      startDate: start,
+      endDate: end,
+      reason: reason,
+    };
     changeMyData.mutate(data, {
       onSuccess: () => {
         console.log("수정되었습니다.");
         setEdit(false);
         setVisivility(false);
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.log("수정 실패", error);
-      }
+      },
     });
   };
 
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
-      onSuccess: (res) => {
+      onSuccess: (res: any) => {
         res.status === 200 && alert("삭제되었습니다.");
         setEdit(false);
         setVisivility(false);
@@ -70,7 +79,7 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
           setVisivility(false);
         }
         console.log("삭제 실패");
-      }
+      },
     });
   };
 
@@ -123,7 +132,8 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
             <label>사유</label>
             {edit ? (
               <select
-                name="select-reason" id="reason"
+                name="select-reason"
+                id="reason"
                 onChange={handleInputChange}
               >
                 <option value={""}>========== 선택하세요 ==========</option>
@@ -132,12 +142,15 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
                 <option value="경조사휴가">경조사휴가</option>
                 <option value="출산휴가">출산휴가</option>
                 <option value="기타휴가">기타휴가</option>
-                <option value={reason} selected>{reason}</option>
+                <option value={reason} selected>
+                  {reason}
+                </option>
               </select>
             ) : (
-              <option value={annual?.reason} selected>{annual?.reason}</option>
-            )
-            }
+              <option value={annual?.reason} selected>
+                {annual?.reason}
+              </option>
+            )}
           </div>
           <div className="btn-group">
             <button onClick={handleDelete}>삭 제</button>
@@ -146,5 +159,5 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
         </div>
       </Modal>
     </>
-  )
+  );
 }

@@ -7,7 +7,7 @@ import AddEventModal from "./AddEventModal";
 import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import Logout from "@/Components/Logout/Logout";
-import { getMainPage, getSilentAxios, getAccessToken } from "@/Api/apis";
+import { getMainPage, getSilentAxios, getAccessToken } from "../../Api/apis"
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
