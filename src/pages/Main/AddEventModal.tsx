@@ -20,7 +20,7 @@ interface NewEvent {
 const AddEventModal: React.FC<AddEventModalProps> = ({
   isOpen,
   closeModal,
-  handleAddEvent,
+  // handleAddEvent,
 }) => {
   const [events, setEvents] = useState<NewEvent[]>([]); // events 상태 변수 추가
 
@@ -149,17 +149,18 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             {newEvent.category === "당직" && (
               <option value="기타휴가">============= 당직 =============</option>
             )}
-
             {newEvent.category === "연차" && (
               <>
                 <option value="">========== 선택하세요 ===========</option>
                 <option value="연차유급휴가">연차 유급 휴가</option>
                 <option value="병가휴가">병가 휴가</option>
                 <option value="경조사휴가">경조사 휴가</option>
-                <option value="출산전휴휴가">출산 전휴 휴가</option>
+                <option value="출산휴가">출산 휴가</option>
                 <option value="기타휴가">기타 휴가</option>
               </>
             )}
+                <option value="출산휴가">출산 전휴 휴가</option>
+                <option value="기타휴가">기타 휴가</option>
           </select>
         </div>
         <div className="btn_wrap">

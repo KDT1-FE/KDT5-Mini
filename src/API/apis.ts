@@ -110,6 +110,7 @@ export const getMyPage = async (): Promise<any> => {
     return result.data; // Assuming result is an AxiosResponse object
   }
 };
+
 // LOG_IN
 export const login = async (email: string, password: string): Promise<any> => {
   // eslint-disable-next-line no-useless-catch
@@ -148,6 +149,7 @@ export const signUp = async (
   name: string,
   join: string,
 ): Promise<any> => {
+// eslint-disable-next-line no-useless-catch
   try {
     const response = await ApiLogin.post("/api/register", {
       email,
@@ -157,7 +159,7 @@ export const signUp = async (
     });
     return response.data;
   } catch (error) {
-    console.log("signupAPI호출 :", error);
+    throw error;
   }
 };
 
@@ -216,8 +218,8 @@ export async function postPassword(data: {
 export async function postUpdate(data: UpdateType): Promise<any> {
   try {
     const response = await ApiHttp.post("/api/annual/update", data);
-    console.log("수정 완료", response);
-    return response.data; // Assuming response contains relevant data
+    console.log("수정 완료", response.status);
+    return response.status; // Assuming response contains relevant data
   } catch (error) {
     console.error("Error submitting event:", error);
     throw error;
@@ -227,11 +229,10 @@ export async function postUpdate(data: UpdateType): Promise<any> {
 export async function postDelete(id: number): Promise<any> {
   try {
     const response = await ApiHttp.post("/api/annual/cancel", { id });
-    console.log("삭제 완료", response);
-    return response.data; // Assuming response contains relevant data
+    console.log("삭제 완료", response.status);
+    return response.status;
   } catch (error) {
     console.error("Error submitting event:", error);
     throw error;
   }
 }
-

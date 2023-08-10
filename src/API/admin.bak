@@ -1,67 +1,101 @@
-import { useState, useEffect } from "react";
+import { useState, } from "react";
 import styles from "./admin.module.scss";
 import Header from "@/Components/Header/Header.tsx";
 import SearchBar from "@/Components/AdminPage/SearchBar.tsx";
 import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
+import { AdminListsAll } from "@/@types/adminList.ts";
 import { getSilentAxios } from "@/Api/apis.ts";
 import { getAccessToken } from "@/Api/mainApi";
+import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
   const [dutyData, setDutyData] = useState<AdminListsAll[]>([]);
-  const [filteredDayoffData, setFilteredDayoffData] = useState<AdminListsAll[]>(
-    [],
+  const [filteredDayoffData, setFilteredDayoffData]
+    = useState<AdminListsAll[]>(
+    []
   );
   const [filteredDutyData, setFilteredDutyData] = useState<AdminListsAll[]>([]);
   const [searchOption, setSearchOption] = useState("이름");
   console.log(searchOption);
+  const { getAdminPageData } = useDataQuery();
+  const { isLoading, isError, data: adminData } = getAdminPageData;
+  console.log(adminData);
+
+
   // 사용자 기안 데이터 불러오기
+  if (adminData) {
+    const data = adminData;
+    const dayoffItems = data.filter(
+      (item: AdminListsAll) => item.category === "연차"
+    );
+    const dutyItems = data.filter(
+      (item: AdminListsAll) => item.category === "당직"
+    );
+    console.log(data);
+    setDayoffData(dayoffItems);
+    setDutyData(dutyItems);
+    setFilteredDayoffData(dayoffItems);
+    setFilteredDutyData(dutyItems);
+  } else if (isLoading) {
+    return <div>로딩중...</div>;
+  } else if (isError) {
+    console.error("데이터를 가져오는 중 오류 발생:", isError);
+    const silentAxios = getSilentAxios(getAccessToken());
+    return silentAxios.get("/admin").then(res => {
+      return res.data;
+    });
+  }
 
-  useEffect(() => {
-    async function fetchListData() {
-      try {
-        const data = await getListAll();
-        const dayoffItems = data.filter(
-          (item: AdminListsAll) => item.category === "연차",
-        );
-        const dutyItems = data.filter(
-          (item: AdminListsAll) => item.category === "당직",
-        );
 
-        setDayoffData(dayoffItems);
-        setDutyData(dutyItems);
-        setFilteredDayoffData(dayoffItems);
-        setFilteredDutyData(dutyItems);
-      } catch (error) {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
-        const silentAxios = getSilentAxios(getAccessToken());
-        const result = await silentAxios.get("/admin");
-        return result.data;
-      }
-    }
-    fetchListData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchListData() {
+  //     try {
+  //       const data = await getListAll();
+  //       const dayoffItems = data.filter(
+  //         (item: AdminListsAll) => item.category === "연차"
+  //       );
+  //       const dutyItems = data.filter(
+  //         (item: AdminListsAll) => item.category === "당직"
+  //       );
+  //       console.log(data);
+  //       setDayoffData(dayoffItems);
+  //       setDutyData(dutyItems);
+  //       setFilteredDayoffData(dayoffItems);
+  //       setFilteredDutyData(dutyItems);
+  //
+  //
+  //     } catch (error) {
+  //       console.error("데이터를 가져오는 중 오류 발생:", error);
+  //       const silentAxios = getSilentAxios(getAccessToken());
+  //       const result = await silentAxios.get("/admin");
+  //       return result.data;
+  //     }
+  //   }
+  //   fetchListData();
+  // }, []);
 
   // 검색 기능 추가 (옵션 선택)
+
 
   const handleSearch = (searchTerm: string, option: string) => {
     setSearchOption(option);
     if (option === "이름") {
       const filteredDayoff = dayoffData.filter((item) =>
-        item.name.includes(searchTerm),
+        item.name.includes(searchTerm)
       );
       const filteredDuty = dutyData.filter((item) =>
-        item.name.includes(searchTerm),
+        item.name.includes(searchTerm)
       );
       setFilteredDayoffData(filteredDayoff);
       setFilteredDutyData(filteredDuty);
     } else if (option === "제목") {
       const filteredDayoff = dayoffData.filter((item) =>
-        item.title.includes(searchTerm),
+        item.title.includes(searchTerm)
       );
       const filteredDuty = dutyData.filter((item) =>
-        item.title.includes(searchTerm),
+        item.title.includes(searchTerm)
       );
       setFilteredDayoffData(filteredDayoff);
       setFilteredDutyData(filteredDuty);

@@ -8,24 +8,10 @@ import Password from "@/Components/Password/Password.tsx";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 export default function Mypage() {
-  // const [myData, setMyData] = useState<MyDataType>();
-  // const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState(false);
-  const { getMyPageData } = useDataQuery();
-  const { isLoading, isError, data: myData } = getMyPageData;
+  const {getMyPageData} = useDataQuery()
+  const {isLoading, isError, data:myData} = getMyPageData;
 
-  // useEffect(() => {
-  //   async function fetchMyData() {
-  //     try {
-  //       const data = await getMyPage(); // 사용자 데이터 가져오기
-  //       setMyData(data);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       setIsLoading(false);
-  //     }
-  //   }
-  //   fetchMyData();
-  // }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

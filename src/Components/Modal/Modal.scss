@@ -1,5 +1,5 @@
-@import "/src/mixin";
 @import "/src/variables";
+@import "src/_mixin.scss";
 
 .modal-overlay {
   position: fixed;
