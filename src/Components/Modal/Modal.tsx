@@ -15,14 +15,14 @@ export default function Modal(props: PropsWithChildren<ModalProps>) {
     >
       <div className="modal-window">
         {props.children}
-        <button
+        {/* <button
           className="modal-close"
           onClick={() => {
             props.toggle(false);
           }}
         >
           닫기
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -1,8 +1,14 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
+import "./AnnualModal.module.scss";
 
-export default function AnnualModal(props: { annual?: AnnualType, id:number,visivility:boolean ,setVisivility:(value:boolean)=>void }) {
+export default function AnnualModal(props: {
+  annual?: AnnualType;
+  id: number;
+  visivility: boolean;
+  setVisivility: (value: boolean) => void;
+}) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
@@ -16,12 +22,10 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
 
   const { changeMyData, deleteMyData } = useDataQuery();
 
-  const handleEditClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(true);
-    setVisivility(true)
+    setVisivility(true);
   };
 
   const handleEdit = () => {
@@ -29,7 +33,7 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
   ) => {
     if (e.target.name === "title") {
       setTitle(e.target.value);
@@ -42,7 +46,13 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
     }
   };
   const handleSubmit = async () => {
-    const data: UpdateType = { id: id, title: title, startDate: start, endDate: end, reason: reason };
+    const data: UpdateType = {
+      id: id,
+      title: title,
+      startDate: start,
+      endDate: end,
+      reason: reason,
+    };
     changeMyData.mutate(data, {
       onSuccess: () => {
         console.log("수정되었습니다.");
@@ -51,9 +61,14 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
       },
       onError: (error) => {
         console.log("수정 실패", error);
-      }
+      },
     });
   };
+
+  // const handleCloseModal = () => {
+  //   setEdit(false);
+  //   setVisivility(false);
+  // };
 
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
@@ -70,16 +85,16 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
           setVisivility(false);
         }
         console.log("삭제 실패");
-      }
+      },
     });
   };
 
   return (
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
-        <div className="addEvent-wrap">
-          <h1 className="addEvent-header">일정 등록</h1>
-          <div className="addEvent-title">
+        <div className="modal-content">
+          <h1 className="modal-headerr">일정 등록</h1>
+          <div className="modal-titlee">
             <label>제목</label>
             {edit ? (
               <input
@@ -123,7 +138,8 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
             <label>사유</label>
             {edit ? (
               <select
-                name="select-reason" id="reason"
+                name="select-reason"
+                id="reason"
                 onChange={handleInputChange}
               >
                 <option value={""}>========== 선택하세요 ==========</option>
@@ -132,13 +148,17 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
                 <option value="경조사휴가">경조사휴가</option>
                 <option value="출산휴가">출산휴가</option>
                 <option value="기타휴가">기타휴가</option>
-                <option value={reason} selected>{reason}</option>
+                <option value={reason} selected>
+                  {reason}
+                </option>
               </select>
             ) : (
-              <option value={annual?.reason} selected>{annual?.reason}</option>
-            )
-            }
+              <option value={annual?.reason} selected>
+                {annual?.reason}
+              </option>
+            )}
           </div>
+          {/* <button onClick={handleCloseModal}>하하</button> */}
           <div className="btn-group">
             <button onClick={handleDelete}>삭 제</button>
             <button onClick={handleSubmit}>수 정</button>
@@ -146,5 +166,5 @@ export default function AnnualModal(props: { annual?: AnnualType, id:number,visi
         </div>
       </Modal>
     </>
-  )
+  );
 }

@@ -3,7 +3,6 @@ import "./SignUpPage.scss";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "@/Api/apis";
 import Modal from "@/Components/Modal/Modal";
-import ErrorModal from "@/Components/ErrorModal/ErrorModal";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -103,7 +102,6 @@ export default function SignUpPage() {
       const response = await signUp(email, password, name, join);
       if (response) {
         setShowWelcomeModal(true);
-        navigate("/");
       }
     } catch (error: any) {
       setCatchError(error?.response?.data?.message);
@@ -115,9 +113,17 @@ export default function SignUpPage() {
   };
   // serverErrorMessage
   const serverErrorMessage = catchError;
+
   // 패스워드 가시화 토글
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const handleClickModal_Welcom = () => {
+    setShowWelcomeModal(false);
+  };
+  const handleClickModal_Error = () => {
+    setShowErrorTextModal(false);
   };
 
   return (
@@ -273,22 +279,24 @@ export default function SignUpPage() {
           </div>
         </div>
       </form>
-
       <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
-        <div className="modal-content">
-          <h2 className="modal-title">환영합니다!</h2>
-          <p className="modal-text">회원가입에 성공하셨습니다.</p>
+        <div className="modal_content">
+          <h2 className="modal_title">환영합니다!</h2>
+          <p className="modal_text">회원가입에 성공하셨습니다.</p>
+          <button className="modal_closebtn" onClick={handleClickModal_Welcom}>
+            닫기
+          </button>
         </div>
       </Modal>
-
-      <ErrorModal
-        visibility={showErrorTextModal}
-        toggle={setShowErrorTextModal}
-      >
-        <div className="modal-content">
-          <p className="modal-text">{serverErrorMessage}</p>
+      <Modal visibility={showErrorTextModal} toggle={setShowErrorTextModal}>
+        <div className="modal_content">
+          <p className="modal_title">회원 가입 정보 확인!</p>
+          <p className="modal_text">{serverErrorMessage}</p>
+          <button className="modal_closebtn" onClick={handleClickModal_Error}>
+            닫기
+          </button>
         </div>
-      </ErrorModal>
+      </Modal>
     </div>
   );
 }

@@ -19,7 +19,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   // Modal
   const [showLoginModal, setShowLoginModal] = useState(false);
   // Cookie
-  const [, setCookie] = useCookies(["accessToken"]);
+  const [ ,setCookie] = useCookies(["accessToken"]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,7 +63,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     try {
       const response = await login(email, password);
       const status = response?.status;
-
       if (status === 200) {
         const accessToken = response?.data.accessToken;
         const userRole = response?.data.role;
@@ -78,6 +77,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
       setShowLoginModal(true);
     }
   };
+
+  const handleClickModal = () => {
+    setShowLoginModal(false);
+  }
+
   return (
     <div className="login_page">
       <form className="login_box" onSubmit={onClickLogin}>
@@ -141,9 +145,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
         </div>
       </form>
       <Modal visibility={showLoginModal} toggle={setShowLoginModal}>
-        <div className="modal-content">
-          <h2 className="modal-title">로그인에 실패하였습니다.</h2>
-          <p className="modal-text">입력정보를 다시 확인해주세요.</p>
+        <div className="modal_content">
+          <h2 className="modal_title">로그인에 실패하였습니다.</h2>
+          <p className="modal_text">입력정보를 다시 확인해주세요.</p>
+          <button className='modal_closebtn' onClick={handleClickModal}>닫기</button>
         </div>
       </Modal>
     </div>

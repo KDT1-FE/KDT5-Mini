@@ -94,7 +94,6 @@ export default function Admin() {
                 <span className={styles.permission}>상태</span>
               </div>
               <ul className={styles.lists}>
-                {/* dayoffData 상태는 AdminListsAll 타입의 배열로 정의 */}
                 {filteredDayoffData.map((item) => (
                   <DayoffLists key={item.id} item={item} />
                 ))}

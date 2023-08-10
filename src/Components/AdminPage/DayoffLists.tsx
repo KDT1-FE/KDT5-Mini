@@ -11,12 +11,6 @@ interface Props {
 export default function DayoffLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
   const {changeAdminData} = useDataQuery()
-  console.log(status);
-
-  // useEffect(() => {
-  //   setStatus(item.status);
-  //   console.log("동작을 하는가 :", "연차");
-  // }, [status]);
 
   const calculateUsedDays = () => {
     const startDate = new Date(item.startDate);
@@ -38,14 +32,6 @@ export default function DayoffLists({ item }: Props) {
           console.error("결재 승인 중 오류", error);
         }
       })
-      // try {
-      //   const response = await permission(item);
-      //   if (response && response.data) {
-      //     setStatus("결재 완료");
-      //   }
-      // } catch (error) {
-      //   console.error("결재 승인 중 오류 발생:", error);
-      // }
     }
   };
 
