@@ -4,17 +4,18 @@
 .main_page {
   height: 120vh;
   width: 100vw;
+  display: flex;
+  align-items: center;
   .main_wrap {
     position: relative;
     margin: auto;
-    margin-top: 10vh;
     width: 1080px;
     height: 850px;
     display: flex;
-    border-radius: 20px;
+    border-radius: 24px;
     background-color: $light-Green-BG-color;
     box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
-    .select_wrap {
+    .info_wrap {
       margin: auto;
       margin-left: 50px;
       width: 220px;
@@ -26,30 +27,34 @@
       font-size: 18px;
       font-family: "Montserrat", "Noto Sans KR", sans-serif;
       .UserInfo {
+        // position: absolute;
         width: 215px;
-        // margin-bottom: 100px;
-        display: flex;
-        // justify-content: space-between;
+        height: 50px;
+        line-height: 1.2;
         .UserInfo_name {
           color: $point-color;
           font-weight: 800;
+          margin-left: 10px;
         }
         .UserInfo_icon {
           color: $point-color;
           i {
             margin-left: 15px;
             margin-bottom: 5px;
+            cursor: pointer;
           }
         }
         .HideInfo {
+          z-index: 2;
           position: absolute;
-          margin-top: 40px;
-          width: 160px;
-          height: 120px;
+          margin-top: 10px;
+          width: 140px;
+          height: 110px;
           display: none;
           flex-direction: column;
           justify-content: center;
           text-align: center;
+          font-size: 14px;
           box-shadow: 5px 5px 20px $main-color-30;
           background-color: $white-color;
           border-radius: 10px;
@@ -59,128 +64,142 @@
           }
           li {
             margin: 0 auto;
-            width: 150px;
-            padding: 15px;
+            width: 130px;
+            padding: 13px;
             li:hover {
-              background-color: $white-color;
+              background-color: $light-Grey-color;
             }
           }
-          .admin_page {
+          .my_page {
+            width: 80%;
             border-bottom: 1px solid $main-color-30;
           }
         }
       }
-      .select_today {
-        width: 220px;
-        .today_weather {
-          color: $main-color;
-          font-weight: 500;
-        }
-      }
-      .select_calendar {
-        width: 220px;
+      .select_box {
         position: relative;
-        &::before {
-          content: "";
-          display: block;
-          width: 100%;
-          height: 1px;
-          background-color: $green-BG-color;
-          position: absolute;
-          top: -28px;
+        height: 560px;
+        width: 100%;
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .sub_title {
+          font-size: 24px;
+          font-weight: bold;
+          font-family: "montserrat";
+          color: $black-color;
+          margin: 14px 0;
         }
-        .select_calendar_options {
-          height: 65px;
-          display: flex;
-          flex-direction: column;
-          font-size: 16px;
-          font-weight: 800;
-          font-family: "noto-sans";
-          .select_calendar_option {
-            height: 30px;
+        .select_today {
+          width: 220px;
+          .today_weather {
+            color: $main-color;
+            font-weight: 500;
+          }
+        }
+        .select_calendar {
+          width: 220px;
+          position: relative;
+          &::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: $green-BG-color;
+            position: absolute;
+            top: -28px;
+          }
+          .select_calendar_options {
+            height: 65px;
             display: flex;
-            align-items: center;
-            .input_checkbox {
-              @include custom-checkbox(
-                transparent,
-                $green-BG-color,
-                $sub-color,
-                $white-color
-              );
+            flex-direction: column;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: "noto-sans";
+            .select_calendar_option {
+              height: 30px;
+              display: flex;
+              align-items: center;
+              .input_checkbox {
+                @include custom-checkbox(
+                  transparent,
+                  $green-BG-color,
+                  $sub-color,
+                  $white-color
+                );
+              }
             }
           }
         }
-      }
-      .select_categories {
-        width: 220px;
-        position: relative;
-        &::before {
-          content: "";
-          display: block;
-          width: 100%;
-          height: 1px;
-          background-color: $green-BG-color;
-          position: absolute;
-          top: -28px;
-        }
-        .select_category_options {
-          display: flex;
-          height: 65px;
-          flex-direction: column;
-          justify-content: space-between;
-          font-size: 16px;
-          font-weight: 800;
-          font-family: "noto-sans", sans-serif;
-          .select_category_option {
-            height: 30px;
+        .select_categories {
+          width: 220px;
+          position: relative;
+          &::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: $green-BG-color;
+            position: absolute;
+            top: -28px;
+          }
+          .select_category_options {
             display: flex;
-            align-items: center;
+            height: 65px;
+            flex-direction: column;
             justify-content: space-between;
-            .input_dayoff_checkbox {
-              @include custom-checkbox(
-                transparent,
-                $point-color,
-                $point-color,
-                $white-color
-              );
-            }
-            .input_duty_checkbox {
-              @include custom-checkbox(
-                transparent,
-                $date-color-green,
-                $date-color-green,
-                $white-color
-              );
-            }
-            .LeaveBox,
-            .dutyBox {
-              margin-left: 122px;
-              padding: 5px 15px;
-              background-color: $green-BG-color;
-              color: $main-color;
-              border-radius: 14px;
-              font-size: 14px;
-              font-weight: 800;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: "noto-sans", sans-serif;
+            .select_category_option {
+              position: relative;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              text-align: left;
+              .input_dayoff_checkbox {
+                position: absolute;
+                @include custom-checkbox(
+                  transparent,
+                  $point-color-50,
+                  $point-color,
+                  $white-color
+                );
+              }
+              .input_duty_checkbox {
+                @include custom-checkbox(
+                  transparent,
+                  $date-color-green-50,
+                  $date-color-green,
+                  $white-color
+                );
+              }
+              .LeaveBox,
+              .dutyBox {
+                position: absolute;
+                right: 0;
+                padding: 5px 15px;
+                background-color: $green-BG-color;
+                color: $main-color;
+                border-radius: 14px;
+                font-size: 14px;
+                font-weight: 800;
+              }
             }
           }
         }
-      }
-      .addSchedule_Btn {
-        @include small-button;
-        transition: box-shadow 0.3s ease-in-out;
-        &:hover {
-          box-shadow: 4px 4px 20px rgba($color: $point-color, $alpha: 0.4);
+        .addSchedule_Btn {
+          @include small-button;
+          transition: box-shadow 0.3s ease-in-out;
+          i {
+            margin-left: 10px;
+            transition: rotate 0.3s ease-in-out;
+          }
+          &:hover {
+            box-shadow: 4px 4px 20px $point-color-50;
+          }
         }
-        i {
-          margin-left: 10px;
-        }
-      }
-      .sub_title {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: "montserrat";
-        color: $black-color;
-        margin: 14px 0;
       }
     }
     .calendar_wrap {

@@ -137,3 +137,29 @@
     }
   }
 }
+
+@mixin tags($bg-color, $main-color) {
+  margin: 0 5px;
+  width: 60px;
+  height: 28px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 20px;
+  color: $main-color;
+  background-color: $bg-color;
+  .tag {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 20px;
+      background-color: $main-color;
+      margin-right: 5px;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import "./AccessRestrictionPage.scss";
+import "./AccessForbidden.scss";
 
-const AccessRestrictionPage = () => {
+const AccessForbidden = () => {
   const navigate = useNavigate();
   return (
     <div className="container">
@@ -22,4 +22,4 @@ const AccessRestrictionPage = () => {
   );
 };
 
-export default AccessRestrictionPage;
+export default AccessForbidden;

@@ -137,12 +137,18 @@ const MainCalendar = () => {
   return (
     <div className="main_page">
       <div className="main_wrap">
-        <div className="select_wrap">
+        <div className="info_wrap">
           <ul className={`UserInfo ${userInfoVisible ? "active" : ""}`}>
             반가워요,
             <span className="UserInfo_name">{userName}</span>님!
             <span className="UserInfo_icon" onClick={toggleUserInfo}>
-              <i className="fa-solid fa-chevron-left fa-rotate-270"></i>
+              <i
+                className={
+                  userInfoVisible
+                    ? "fa-solid fa-chevron-left fa-rotate-90"
+                    : "fa-solid fa-chevron-left fa-rotate-270"
+                }
+              ></i>
             </span>
             <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
               {role === "관리자" ? (
@@ -157,69 +163,67 @@ const MainCalendar = () => {
               <Logout />
             </div>
           </ul>
-          <div className="select_today">
-            {" "}
-            {/* 오늘 날짜 렌더링 */}
-            <h1 className="sub_title">Today</h1>
-            <span className="today_weather">{formattedDate}</span>
-          </div>
-          <div className="select_calendar">
-            {" "}
-            {/* 일정 선택 박스 */}
-            <h1 className="sub_title">Calendar</h1>
-            <div className="select_calendar_options">
-              <label className="select_calendar_option">
-                <input
-                  type="checkbox"
-                  className="input_checkbox"
-                  checked={isAllEventsChecked}
-                  onChange={handleAllEventsToggle}
-                />
-                전체 일정
-              </label>
-              <label className="select_calendar_option">
-                <input type="checkbox" className="input_checkbox" />내 일정
-              </label>
+          <div className="select_box">
+            <div className="select_today">
+              {" "}
+              {/* 오늘 날짜 렌더링 */}
+              <h1 className="sub_title">Today</h1>
+              <span className="today_weather">{formattedDate}</span>
             </div>
-          </div>
-          <div className="select_categories">
-            <h1 className="sub_title">Categories</h1>
-            <div className="select_category_options">
-              <label className="select_category_option">
-                {" "}
-                {/* 연차 카테고리 선택 박스   */}
-                <input
-                  type="checkbox"
-                  className="input_dayoff_checkbox"
-                  checked={selectedCategories.includes("연차")}
-                  onChange={() => handleCategoryChange("연차")}
-                />
-                연차
-                <span className="LeaveBox">{selectedAnnualLeave}</span>
-                {/* 연차 리스트 카운트 */}
-              </label>
-              <label className="select_category_option">
-                {" "}
-                {/* 당직 카테고리 선택 박스   */}
-                <input
-                  type="checkbox"
-                  className="input_duty_checkbox"
-                  checked={selectedCategories.includes("당직")}
-                  onChange={() => handleCategoryChange("당직")}
-                />
-                당직
-                <span className="dutyBox">{selectedDuty}</span>
-                {/* 당직 리스트 카운트 */}
-              </label>
+            <div className="select_calendar">
+              <h1 className="sub_title">Calendar</h1>
+              <div className="select_calendar_options">
+                <label className="select_calendar_option">
+                  <input
+                    type="checkbox"
+                    className="input_checkbox"
+                    checked={isAllEventsChecked}
+                    onChange={handleAllEventsToggle}
+                  />
+                  전체 일정
+                </label>
+                <label className="select_calendar_option">
+                  <input type="checkbox" className="input_checkbox" />내 일정
+                </label>
+              </div>
             </div>
+            <div className="select_categories">
+              <h1 className="sub_title">Categories</h1>
+              <div className="select_category_options">
+                <label className="select_category_option">
+                  <input
+                    type="checkbox"
+                    className="input_dayoff_checkbox"
+                    checked={selectedCategories.includes("연차")}
+                    onChange={() => handleCategoryChange("연차")}
+                  />
+                  연차
+                  <span className="LeaveBox">{selectedAnnualLeave}</span>
+                  {/* 연차 리스트 카운트 */}
+                </label>
+                <label className="select_category_option">
+                  {" "}
+                  {/* 당직 카테고리 선택 박스   */}
+                  <input
+                    type="checkbox"
+                    className="input_duty_checkbox"
+                    checked={selectedCategories.includes("당직")}
+                    onChange={() => handleCategoryChange("당직")}
+                  />
+                  당직
+                  <span className="dutyBox">{selectedDuty}</span>
+                  {/* 당직 리스트 카운트 */}
+                </label>
+              </div>
+            </div>
+            <button
+              className="addSchedule_Btn"
+              onClick={() => setIsAddModalOpen(true)}
+            >
+              <span>일정 등록하기</span>
+              <i className="fa-sharp fa-solid fa-circle-plus"></i>
+            </button>
           </div>
-          <button
-            className="addSchedule_Btn"
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            <span>일정 등록하기</span>
-            <i className="fa-sharp fa-solid fa-circle-plus"></i>
-          </button>
           <AddEventModal
             isOpen={isAddModalOpen}
             closeModal={() => setIsAddModalOpen(false)}

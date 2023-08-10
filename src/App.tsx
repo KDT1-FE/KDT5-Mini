@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { CookiesProvider, useCookies } from "react-cookie";
 import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute.tsx";
-import AccessRestrictionPage from "./pages/AccessRestrictionPage/AccessRestrictionPage.tsx";
+import AccessForbidden from "./pages/AccessForbiddenPage/AccessForbidden.tsx";
 
 Modal.setAppElement("#root");
 
@@ -38,7 +38,7 @@ function App() {
           }
         />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/forbidden" element={<AccessRestrictionPage />} />
+        <Route path="/forbidden" element={<AccessForbidden />} />
         <Route
           path="/main"
           element={

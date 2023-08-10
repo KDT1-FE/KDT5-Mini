@@ -3,11 +3,6 @@ import "./AddEventModal.scss";
 import Modal from "react-modal";
 import { postMain } from "@/Api/apis.ts";
 
-
-
-
-
-
 interface AddEventModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -22,7 +17,11 @@ interface NewEvent {
   reason: string;
 }
 
-const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handleAddEvent }) => {
+const AddEventModal: React.FC<AddEventModalProps> = ({
+  isOpen,
+  closeModal,
+  handleAddEvent,
+}) => {
   const [events, setEvents] = useState<NewEvent[]>([]); // events 상태 변수 추가
 
   const [newEvent, setNewEvent] = useState<NewEvent>({
@@ -33,13 +32,13 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     startDate: "",
   });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.target;
-
 
     // name이 'select-reason'인 경우, reason 값을 설정
     if (name === "select-reason") {
-
       setNewEvent((prevEvent) => ({ ...prevEvent, reason: value }));
     } else {
       setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
@@ -56,7 +55,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
     }));
   };
 
-
   const handleSubmit = async () => {
     try {
       const response = await postMain(
@@ -64,26 +62,22 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
         newEvent.category,
         newEvent.endDate,
         newEvent.reason,
-        newEvent.startDate
+        newEvent.startDate,
       );
-  
+
       console.log("Event successfully submitted:", response);
-  
+
       // 새 이벤트를 현재 이벤트 목록에 추가하기
       setEvents([...events, newEvent]);
-  
+
       // 이벤트 등록에 성공한 경우, 추가 작업을 수행하거나 사용자에게 알림을 표시할 수 있음
     } catch (error) {
       console.error("Error submitting event:", error);
       // 이벤트 등록에 실패한 경우, 에러 처리 로직을 수행하거나 사용자에게 알림을 표시할 수 있음
     }
-    
-  
+
     closeModal();
   };
-
-  
-
 
   return (
     <Modal
@@ -93,10 +87,10 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
       overlayClassName="custom-overlay"
       className="custom-modal-content"
     >
-      <div className="addEvent-wrap">
-        <h1 className="addEvent-header">일정 등록</h1>
-        <div className="addEvent-title">
-          <label>제목</label>
+      <div className="addEvent_wrap">
+        <h1 className="addEvent_header">일정 등록</h1>
+        <div className="addEvent_title">
+          <label className="add_title">제목</label>
           <input
             type="text"
             name="title"
@@ -104,8 +98,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className="addEvent-start">
-          <label>시작일</label>
+        <div className="addEvent_start">
+          <label className="add_title">시작일</label>
           <input
             type="date"
             name="startDate"
@@ -113,8 +107,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className="addEvent-end">
-          <label>종료일</label>
+        <div className="addEvent_end">
+          <label className="add_title">종료일</label>
           <input
             type="date"
             name="endDate"
@@ -122,13 +116,10 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
             onChange={handleInputChange}
           />
         </div>
-        <div className="addEvent-category">
-          <label>종류</label>
-
-          <div className="addCategory-wrap">
-
-            <label
-              className="addRest">
+        <div className="addEvent_category">
+          <label className="add_title">종류</label>
+          <div className="addCategory_wrap">
+            <label className="add_Rest">
               <input
                 type="checkbox"
                 name="category"
@@ -138,8 +129,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
               />
               연차
             </label>
-            <label
-              className="addDuty">
+            <label className="add_Duty">
               <input
                 type="checkbox"
                 name="category"
@@ -150,31 +140,31 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
               당직
             </label>
           </div>
-
         </div>
-        <div className="addEvent-reason">
-          <label>사유</label>
-            <select name="select-reason" id="reason" onChange={handleInputChange}>
-              {newEvent.category === "당직" && (
-                <option value="기타휴가">========== 당직 ==========</option>
-              )}
+        <div className="addEvent_reason">
+          <label className="add_title">사유</label>
+          <select name="select-reason" id="reason" onChange={handleInputChange}>
+            {newEvent.category === "당직" && (
+              <option value="기타휴가">========== 당직 ==========</option>
+            )}
 
-              {newEvent.category === "연차" && (
-                <><option value="">========== 선택하세요 ==========</option>
+            {newEvent.category === "연차" && (
+              <>
+                <option value="">========== 선택하세요 ==========</option>
                 <option value="연차유급휴가">연차 유급 휴가</option>
                 <option value="병가휴가">병가 휴가</option>
                 <option value="경조사휴가">경조사 휴가</option>
                 <option value="출산전휴휴가">출산 전휴 휴가</option>
-                <option value="기타휴가">기타 휴가</option></>
-                  )}
+                <option value="기타휴가">기타 휴가</option>
+              </>
+            )}
           </select>
         </div>
-        <div className="btn-group">
+        <div className="btn_group">
           <button onClick={closeModal}>닫기</button>
           <button onClick={handleSubmit}>등록</button>
         </div>
       </div>
-
     </Modal>
   );
 };
