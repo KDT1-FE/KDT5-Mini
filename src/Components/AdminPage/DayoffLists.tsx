@@ -1,7 +1,8 @@
 import styles from "./DayoffLists.module.scss";
-import { useState, useEffect } from "react";
-import { AdminListsAll } from "@/@types/adminList.ts";
-import { permission } from "@/Api/apis.ts";
+import { useState, } from "react";
+// import { AdminListsAll } from "@/@types/adminList.ts";
+// import { permission } from "@/Api/apis.ts";
+import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 interface Props {
   item: AdminListsAll;
@@ -9,6 +10,8 @@ interface Props {
 
 export default function DayoffLists({ item }: Props) {
   const [status, setStatus] = useState(item.status);
+  const {changeAdminData} = useDataQuery()
+  console.log(status);
 
   // useEffect(() => {
   //   setStatus(item.status);
@@ -25,14 +28,24 @@ export default function DayoffLists({ item }: Props) {
 
   const handlePermissionClick = async () => {
     if (status === "결재 대기") {
-      try {
-        const response = await permission(item);
-        if (response && response.data) {
-          setStatus("결재 완료");
+      changeAdminData.mutate(item,{
+        onSuccess: (res) => {
+          if (res && res.data) {
+            setStatus("결재완료");
+          }
+        },
+        onError: (error) => {
+          console.error("결재 승인 중 오류", error);
         }
-      } catch (error) {
-        console.error("결재 승인 중 오류 발생:", error);
-      }
+      })
+      // try {
+      //   const response = await permission(item);
+      //   if (response && response.data) {
+      //     setStatus("결재 완료");
+      //   }
+      // } catch (error) {
+      //   console.error("결재 승인 중 오류 발생:", error);
+      // }
     }
   };
 

@@ -23,7 +23,7 @@ const MainCalendar = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState<string|null>(null);
 
   useEffect(() => {
     const fetchMainInfo = async () => {

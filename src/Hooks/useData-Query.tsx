@@ -1,52 +1,50 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { getMyPage, postDelete, postUpdate } from "@/Api/apis.ts";
+import { getListAll, getMyPage, permission, postDelete, postUpdate } from "@/Api/apis.ts";
 
 
 export default function useDataQuery() {
-const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
   // 마이페이지
   const getMyPageData = useQuery(
-    ['myData'],
+    ["myData"],
     async () => {
       return await getMyPage().then(res => {
-        console.log(res);
-        return res});
-    },
-    { staleTime: 1000 * 3 }
+        return res;
+      });
+    }
   );
   const changeMyData =
-   useMutation((data:UpdateType) => postUpdate(data),{
-     onSuccess: () => {
-       queryClient.invalidateQueries(['myData']).then(res => console.log(res))
-       console.log('수정 성공');
-     }
-   })
+    useMutation((data: UpdateType) => postUpdate(data), {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["myData"]);
+        console.log("수정 성공");
+      }
+    });
+
   const deleteMyData =
     useMutation((id: number) => postDelete(id), {
       onSuccess: () => {
-        queryClient.invalidateQueries(['myData']).then(res => console.log(res))
-        console.log('삭제 성공');
+        queryClient.invalidateQueries(["myData"]);
+        console.log("삭제 성공");
       }
     });
 
   // amin 페이지
-  // const getAdminPageData = useQuery(
-  //   ['adminData'],
-  //   async () => {
-  //     return await getListAll().then(res => {
-  //       console.log(res);
-  //       return res});
-  //   },
-  //   { staleTime: 1000 * 60 }
-  // );
-  // const changeAdminData =
-  //   useMutation((data:UpdateType) => postUpdate(data),{
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries(['adminData']);
-  //     }
-  //   })
+  const getAdminPageData = useQuery(
+    ["adminData"],
+    async () => {
+      return await getListAll().then(res => {
+        return res;
+      });
+    }
+  );
+  const changeAdminData =
+    useMutation((data: AdminListsAll) => permission(data), {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["adminData"]);
+      }
+    });
 
 
-
-  return {getMyPageData,changeMyData,deleteMyData};
+  return { getMyPageData, changeMyData, deleteMyData, getAdminPageData, changeAdminData };
 }
