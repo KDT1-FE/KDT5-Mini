@@ -59,7 +59,7 @@ export default function AnnualModal(props: {
         setEdit(false);
         setVisivility(false);
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.log("수정 실패", error);
       },
     });
@@ -72,7 +72,7 @@ export default function AnnualModal(props: {
 
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
-      onSuccess: (res) => {
+      onSuccess: (res: any) => {
         res.status === 200 && alert("삭제되었습니다.");
         setEdit(false);
         setVisivility(false);

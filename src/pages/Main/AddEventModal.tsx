@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AddEventModal.scss";
 import Modal from "react-modal";
-import { postMain } from "@/Api/apis";
+import { postMain } from "../../Api/apis";
 
 interface AddEventModalProps {
   isOpen: boolean;
@@ -159,8 +159,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 <option value="기타휴가">기타 휴가</option>
               </>
             )}
-                <option value="출산휴가">출산 전휴 휴가</option>
-                <option value="기타휴가">기타 휴가</option>
+            <option value="출산휴가">출산 전휴 휴가</option>
+            <option value="기타휴가">기타 휴가</option>
           </select>
         </div>
         <div className="btn_wrap">

@@ -1,37 +1,44 @@
+import { useState } from "react";
+import useDataQuery from "@/Hooks/useData-Query";
 import styles from "./DayoffLists.module.scss";
-import { useState, } from "react";
-// import { AdminListsAll } from "@/@types/adminList.ts";
-// import { permission } from "@/Api/apis.ts";
-import useDataQuery from "@/Hooks/useData-Query.tsx";
+
+interface AdminListsAll {
+  id: number;
+  status: string;
+  startDate: string;
+  endDate: string;
+  name: string;
+  title: string;
+  reason?: string;
+  category: any;
+}
 
 interface Props {
   item: AdminListsAll;
 }
 
-export default function DayoffLists({ item }: Props) {
-  const [status, setStatus] = useState(item.status);
-  const {changeAdminData} = useDataQuery()
 
-  const calculateUsedDays = () => {
+export default function DayoffLists({ item }: Props) {
+  const [status, setStatus] = useState<string>(item.status);
+  const { changeAdminData } = useDataQuery();
+  const calculateUsedDays = (): number => {
     const startDate = new Date(item.startDate);
     const endDate = new Date(item.endDate);
     const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-    const usedDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // 1을 더하여 마지막 날을 포함
+    const usedDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
     return usedDays;
   };
 
-  const handlePermissionClick = async () => {
+  const handlePermissionClick = async (): Promise<void> => {
     if (status === "결재 대기") {
-      changeAdminData.mutate(item,{
-        onSuccess: (res) => {
-          if (res && res.data) {
-            setStatus("결재완료");
-          }
-        },
-        onError: (error) => {
-          console.error("결재 승인 중 오류", error);
+      try {
+        const res = await changeAdminData.mutateAsync(item);
+        if (res && res.data) {
+          setStatus("결재완료");
         }
-      })
+      } catch (error) {
+        console.error("결재 승인 중 오류", error);
+      }
     }
   };
 

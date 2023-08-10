@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { signUp } from "@/Api/apis";
 import Modal from "@/Components/Modal/Modal";
 
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   // Input
