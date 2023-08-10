@@ -110,6 +110,7 @@ export const getMyPage = async (): Promise<any> => {
     return result.data; // Assuming result is an AxiosResponse object
   }
 };
+
 // LOG_IN
 export const login = async (email: string, password: string): Promise<any> => {
   // eslint-disable-next-line no-useless-catch
@@ -148,6 +149,7 @@ export const signUp = async (
   name: string,
   join: string,
 ): Promise<any> => {
+// eslint-disable-next-line no-useless-catch
   try {
     const response = await ApiLogin.post("/api/register", {
       email,
@@ -157,7 +159,7 @@ export const signUp = async (
     });
     return response.data;
   } catch (error) {
-    console.log("signup API호출 :", error);
+    throw error;
   }
 };
 
@@ -234,4 +236,3 @@ export async function postDelete(id: number): Promise<any> {
     throw error;
   }
 }
-

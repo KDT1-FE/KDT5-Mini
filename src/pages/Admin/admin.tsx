@@ -6,61 +6,62 @@ import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
 import { getSilentAxios } from "@/Api/apis.ts";
 import { getAccessToken } from "@/Api/mainApi";
-import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
   const [dutyData, setDutyData] = useState<AdminListsAll[]>([]);
-  const [filteredDayoffData, setFilteredDayoffData] = useState<AdminListsAll[]>([]);
+  const [filteredDayoffData, setFilteredDayoffData] = useState<AdminListsAll[]>(
+    [],
+  );
   const [filteredDutyData, setFilteredDutyData] = useState<AdminListsAll[]>([]);
   const [searchOption, setSearchOption] = useState("이름");
   console.log(searchOption);
-  const { getAdminPageData } = useDataQuery();
-  const { isLoading, isError, data: adminData } = getAdminPageData;
+  // 사용자 기안 데이터 불러오기
 
   useEffect(() => {
-    if (adminData) {
-      const dayoffItems = adminData.filter(
-        (item: AdminListsAll) => item.category === "연차"
-      );
-      const dutyItems = adminData.filter(
-        (item: AdminListsAll) => item.category === "당직"
-      );
-      setDayoffData(dayoffItems);
-      setDutyData(dutyItems);
-      setFilteredDayoffData(dayoffItems);
-      setFilteredDutyData(dutyItems);
+    async function fetchListData() {
+      try {
+        const data = await getListAll();
+        const dayoffItems = data.filter(
+          (item: AdminListsAll) => item.category === "연차",
+        );
+        const dutyItems = data.filter(
+          (item: AdminListsAll) => item.category === "당직",
+        );
+
+        setDayoffData(dayoffItems);
+        setDutyData(dutyItems);
+        setFilteredDayoffData(dayoffItems);
+        setFilteredDutyData(dutyItems);
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        const silentAxios = getSilentAxios(getAccessToken());
+        const result = await silentAxios.get("/admin");
+        return result.data;
+      }
     }
-  }, [adminData]);
+    fetchListData();
+  }, []);
 
-
-  if (isLoading) {
-    return <div>로딩중...</div>;
-  } else if (isError) {
-    console.error("데이터를 가져오는 중 오류 발생:", isError);
-    const silentAxios = getSilentAxios(getAccessToken());
-    return silentAxios.get("/admin").then(res => {
-      return res.data;
-    });
-  }
+  // 검색 기능 추가 (옵션 선택)
 
   const handleSearch = (searchTerm: string, option: string) => {
     setSearchOption(option);
     if (option === "이름") {
       const filteredDayoff = dayoffData.filter((item) =>
-        item.name.includes(searchTerm)
+        item.name.includes(searchTerm),
       );
       const filteredDuty = dutyData.filter((item) =>
-        item.name.includes(searchTerm)
+        item.name.includes(searchTerm),
       );
       setFilteredDayoffData(filteredDayoff);
       setFilteredDutyData(filteredDuty);
     } else if (option === "제목") {
       const filteredDayoff = dayoffData.filter((item) =>
-        item.title.includes(searchTerm)
+        item.title.includes(searchTerm),
       );
       const filteredDuty = dutyData.filter((item) =>
-        item.title.includes(searchTerm)
+        item.title.includes(searchTerm),
       );
       setFilteredDayoffData(filteredDayoff);
       setFilteredDutyData(filteredDuty);
@@ -93,6 +94,7 @@ export default function Admin() {
                 <span className={styles.permission}>상태</span>
               </div>
               <ul className={styles.lists}>
+                {/* dayoffData 상태는 AdminListsAll 타입의 배열로 정의 */}
                 {filteredDayoffData.map((item) => (
                   <DayoffLists key={item.id} item={item} />
                 ))}
