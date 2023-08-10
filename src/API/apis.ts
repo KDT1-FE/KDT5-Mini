@@ -157,7 +157,7 @@ export const signUp = async (
     });
     return response.data;
   } catch (error) {
-    console.log("signupAPI호출 :", error);
+    console.log("signup API호출 :", error);
   }
 };
 
@@ -216,8 +216,8 @@ export async function postPassword(data: {
 export async function postUpdate(data: UpdateType): Promise<any> {
   try {
     const response = await ApiHttp.post("/api/annual/update", data);
-    console.log("수정 완료", response);
-    return response.data; // Assuming response contains relevant data
+    console.log("수정 완료", response.status);
+    return response.status; // Assuming response contains relevant data
   } catch (error) {
     console.error("Error submitting event:", error);
     throw error;
@@ -227,8 +227,8 @@ export async function postUpdate(data: UpdateType): Promise<any> {
 export async function postDelete(id: number): Promise<any> {
   try {
     const response = await ApiHttp.post("/api/annual/cancel", { id });
-    console.log("삭제 완료", response);
-    return response.data; // Assuming response contains relevant data
+    console.log("삭제 완료", response.status);
+    return response.status;
   } catch (error) {
     console.error("Error submitting event:", error);
     throw error;
