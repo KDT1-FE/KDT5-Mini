@@ -25,7 +25,6 @@ const MainCalendar = () => {
   const [processedEvents, setProcessedEvents] = useState([]);
   const [role, setRole] = useState(null);
 
-  // window.location.reload();
   useEffect(() => {
     const fetchMainInfo = async () => {
       try {
