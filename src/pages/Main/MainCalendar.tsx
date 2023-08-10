@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import EventModal from "./EventModal";
 import Logout from "@/Components/Logout/Logout";
 import { getMainPage, getSilentAxios, getAccessToken } from "@/Api/apis";
-
 
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
@@ -25,12 +25,11 @@ const MainCalendar = () => {
   const [processedEvents, setProcessedEvents] = useState([]);
   const [role, setRole] = useState(null);
 
-
-
   useEffect(() => {
     const fetchMainInfo = async () => {
       try {
-        const mainInfo = await getMainPage();
+        const ACCESSTOKEN = getAccessToken();
+        const mainInfo = await getMainPage(ACCESSTOKEN ?? "");
 
         if (mainInfo?.data.annuals && Array.isArray(mainInfo.data.annuals)) {
           const processedEvents = mainInfo.data.annuals.map((annuals: any) => {
@@ -42,28 +41,26 @@ const MainCalendar = () => {
               color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
               textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
               title: `• ${annuals.name}`,
-              detail: annuals.title
+              detail: annuals.title,
             };
           });
 
           setEvents(mainInfo.data.annuals);
           setProcessedEvents(processedEvents);
           setUserName(mainInfo.data.username);
-          setRole(localStorage.getItem("role"));
-
-          console.log(mainInfo);
-          console.log(mainInfo.data.annuals);
+          const ROLE = localStorage.getItem("role");
+          setRole(ROLE);
         }
       } catch (error) {
         console.error("메인페이지 컴포넌트 에러: ", error);
-        // 밥먹고 이거 켜서 다시 불러오기 되는지 확인하기 안되면 api로 가서 return.data 확인하기
-        const silentAxios = getSilentAxios(getAccessToken());
+        const ACCESSTOKEN = getAccessToken();
+        const silentAxios = getSilentAxios(ACCESSTOKEN);
         const result = await silentAxios.get("/main");
         return result.data;
       }
     };
     fetchMainInfo();
-  }, [userName, role]);
+  }, []);
 
   // 당직, 연차 값을 조건에 따라 색상 변경
   const toggleUserInfo = () => {
@@ -72,14 +69,14 @@ const MainCalendar = () => {
 
   const handleMyPageClick = () => {
     // 마이페이지 버튼을 클릭한 후에 이동할 경로를 지정
-    if (role == "관리자") {
+    if (role === "관리자") {
       navigate("/admin");
     } else {
       navigate("/mypage");
     }
   };
 
- const handleAllEventsToggle = () => {
+  const handleAllEventsToggle = () => {
     setIsAllEventsChecked(!isAllEventsChecked);
     setSelectedCategories(isAllEventsChecked ? [] : ["all"]);
   };
@@ -136,8 +133,6 @@ const MainCalendar = () => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
 
-
-
   return (
     <div className="main_wrap">
       <div className="select_wrap">
@@ -169,16 +164,16 @@ const MainCalendar = () => {
           <div className="select_calendar_options">
             <label className="select_calendar_option">
               <div className="select_calendar_options">
-            <label className="select_calendar_option">
-              <input
-                type="checkbox"
-                className="input_checkbox"
-                checked={isAllEventsChecked}
-                onChange={handleAllEventsToggle}
+                <label className="select_calendar_option">
+                  <input
+                    type="checkbox"
+                    className="input_checkbox"
+                    checked={isAllEventsChecked}
+                    onChange={handleAllEventsToggle}
                   />
-                전체 일정
-              </label>
-            </div>
+                  전체 일정
+                </label>
+              </div>
             </label>
             <label className="select_calendar_option">
               <input type="checkbox" className="input_checkbox" />내 일정
@@ -216,17 +211,16 @@ const MainCalendar = () => {
             </label>
           </div>
           <button
-          className="addScheduleBtn"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          <span>일정 등록하기</span>
-        </button>
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          closeModal={() => setIsAddModalOpen(false)}
-        />
+            className="addScheduleBtn"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <span>일정 등록하기</span>
+          </button>
+          <AddEventModal
+            isOpen={isAddModalOpen}
+            closeModal={() => setIsAddModalOpen(false)}
+          />
         </div>
-        
       </div>
       <div className="calendar_wrap">
         <FullCalendar
