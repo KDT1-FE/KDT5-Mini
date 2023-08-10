@@ -1,27 +1,94 @@
-# ✔️ 미니 프로젝트_연차/당직 프로그램 만들기
+# 🏥 닥터캘 (Dr. Cal)
 
-## 필수 요구 사항
+<img width="300" src="admin/public/logo.png"/>
 
-- 로그인 / 회원가입 페이지
-- 개인 정보 수정 페이지
-- 사용자간 공유 게시 페이지 캘린더 사용
+### 대학병원 의사들을 위한 쉽고 빠른 당직/연차 관리 서비스
 
-## 선택 요구 사항
+<br />
 
-- `useCallback`, `useMemo `등을 통한 컴포넌트 렌더링 최적화
-- 내가 작성한 코드를 팀원 중 누가봐도 쉽게 알아볼 수 있도록 고민하면서 작성해주세요.
+## 👩🏻‍💻 프로젝트 소개
 
-## 과제 수행 및 제출 방법
+> **개발 기간** : 2023. 07. 24 ~ 2023. 08. 10<br /> > **USER DEMO** : [닥터캘(Dr.Cal)]()<br /> > **ADMIN DEMO** : [닥터캘(Dr.Cal) 관리자]()<br />
 
-1. 현재 저장소를 로컬에 클론(Clone)합니다.
-2. 팀별로 브랜치를 생성합니다.(`git branch KDT5_TEAM_ABC`)
-3. 팀별 브랜치에서 과제를 수행합니다.
-4. 과제 수행이 완료되면, 자신의 본명 브랜치를 원격 저장소에 푸시(Push)합니다.(`main` 브랜치에 푸시하지 않도록 꼭 주의하세요, `git push origin KDT5_TEAM_ABC`)
-5. 저장소에서 `main` 브랜치를 대상으로 Pull Request 생성하면, 과제 제출이 완료됩니다!(E.g, `main` <== `KDT5_TEAM_ABC`)
+> **Client Repo** : [Client](https://github.com/MINI-TEAM3/client)<br /> > **Admin Repo** : [Admin](https://github.com/MINI-TEAM3/admin)<br /> > **Server Repo** : [Server](https://github.com/MINI-TEAM3/mini3-server)
 
-### 주의사항!
+<br />
 
-- `main` 혹은 다른 사람의 브랜치로 절대 병합하지 않도록 주의하세요!
-- Pull Request에서 보이는 설명을 다른 사람들이 이해하기 쉽도록 꼼꼼하게 작성하세요!
-- Pull Request에서 과제 제출 후 절대 병합(Merge)하지 않도록 주의하세요!
-- 과제 수행 및 제출 과정에서 문제가 발생한 경우, 바로 담당 멘토나 강사에서 얘기하세요!
+## 👩🏻‍💻 개발자 소개
+
+|                                             **[김다슬](https://github.com/7581058)**                                              |                                             **[김준희](https://github.com/dev-junehee)**                                              |                                             **[임승이](https://github.com/doitidey)**                                              |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
+| <a href="https://github.com/7581058"><img src="https://avatars.githubusercontent.com/u/100559990?v=4" width=150px alt="김다슬" /> | <a href="https://github.com/dev-junehee"><img src="https://avatars.githubusercontent.com/u/116873887?v=4" width=150px alt="김준희" /> | <a href="https://github.com/doitidey"><img src="https://avatars.githubusercontent.com/u/128357188?v=4" width=150px alt="임승이" /> |
+|             Main Calendar<br />Admin 사용자 관리<br />Admin 회원가입 요청<br />Admin 당직일정 추가<br />SideBar<br />             |                       회원가입<br/>마이페이지<br />Admin 당직변경관리<br />Admin 당직 일정 추가<br />MainHeader                       |                        로그인<br/>요청내역확인<br/>Admin 연차 신청 관리<br/>Admin 당직 일정 추가<br/>Modals                        |
+
+<br />
+
+## 사용기술 및 개발환경
+
+### Development
+
+<p>
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white" />
+<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=flat&logo=styledcomponents&logoColor=white" />
+<img src="https://img.shields.io/badge/Recoil-3578E5?style=flat&logo=recoil&logoColor=white" />
+</p>
+
+### Config
+
+<p>
+<img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white"/></a>
+</p>
+
+### Deployment
+
+<img src="https://img.shields.io/badge/Netlify-00C7B7?style=flat&logo=netlify&logoColor=white"/></a>
+
+### Environment
+
+<p>
+<img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat&logo=Visual Studio Code&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a>
+</p>
+
+### Cowork Tools
+
+<p>
+<img src="https://img.shields.io/badge/Slack-4A154B?style=flat&logo=Slack&logoColor=white" />
+<img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white" />
+<img src="https://img.shields.io/badge/Zoom-2D8CFF?style=flat&logo=Zoom&logoColor=white" />
+</p>
+
+<br />
+
+## 프로젝트 테스트
+
+### clone project
+
+```bash
+$ git clone git@github.com:MINI-TEAM3/client.git
+$ git clone @github.com:MINI-TEAM3/admin.git
+```
+
+### go to project
+
+```bash
+$ cd client
+$ cd admin
+```
+
+### install npm
+
+```bash
+$ npm install
+```
+
+### start project
+
+```bash
+$ npm run dev
+```
+
+<br />
