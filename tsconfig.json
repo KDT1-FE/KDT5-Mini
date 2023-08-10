@@ -27,12 +27,11 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src",
     "src/main.tsx",
     "vite-env.d.ts",
     "client",
-    ".exlintrc.cjs"
-    //"vite.config.ts"
+    ".exlintrc.cjs",
+    "vite.config.ts"
   ],
   "references": [
     {
