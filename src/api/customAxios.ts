@@ -22,6 +22,7 @@ customAxios.interceptors.request.use(
 
     // 로그인 요청, 회원가입 등... 을 제외한 모든 요청은 accessToken을 필요로함
     req.headers.Authorization = `Bearer ${accessToken}`;
+    req.withCredentials = true;
 
     // // 만료시간 표시
     // access토큰의 만료시간을 초로 나타낸 시간
@@ -54,8 +55,8 @@ customAxios.interceptors.response.use(
     const status = error.response?.data.error.status;
 
     if (status === 401) {
+      // 로컬
       const refreshToken = localStorage.getItem('refreshToken');
-
       if (!refreshToken) {
         return Promise.reject(error);
       }
@@ -64,14 +65,23 @@ customAxios.interceptors.response.use(
         isRefreshing = true;
 
         try {
+          // 로컬
           const response = await axios.post(
             `${BASE_API_URL}/v2/auth/refresh-token`,
             {
               refreshToken,
             },
           );
+          // 배포
+          // const response = await axios(
+          //   `${BASE_API_URL}/v1/auth/refresh-token`,
+          //   {
+          //     refreshToken,
+          //   },
+          // );
 
           if (response.status === 200) {
+            // 로컬
             localStorage.setItem(
               'refreshToken',
               response.data.response.refreshToken,
@@ -80,6 +90,7 @@ customAxios.interceptors.response.use(
 
             const config = error.config;
             config.headers.Authorization = `Bearer ${response.data.response.accessToken}`;
+            config.withCredentials = true;
 
             const retryOriginalRequest = new Promise((resolve) => {
               resolve(axios(config));
