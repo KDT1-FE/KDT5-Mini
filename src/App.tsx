@@ -5,7 +5,7 @@ import Mypage from "./pages/Mypage/mypage.tsx";
 import Admin from "./pages/Admin/admin.tsx";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Modal from "react-modal";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { Cookies, CookiesProvider, useCookies } from "react-cookie";
 import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute.tsx";
 import AccessForbidden from "./pages/AccessForbiddenPage/AccessForbidden.tsx";

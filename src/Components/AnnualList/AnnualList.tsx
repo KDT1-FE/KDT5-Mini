@@ -2,25 +2,25 @@ import dayjs from "dayjs";
 import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { ChangeEvent, useState } from "react";
-import Modal from "@/Components/Modal/Modal";
-import { postDelete, postUpdate } from "@/Api/apis.ts";
+import "@/Components/Modal/Modal.scss"
+import useDataQuery from "@/Hooks/useData-Query.tsx";
+import Modal from "@/Components/Modal/Modal.tsx";
 
 export default function AnnualList(props: { myData?: MyDataType }) {
-  const [visibility, setVisible] = useState(false);
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [reason, setReason] = useState("");
   const [id, setId] = useState(0);
+  const [visivibility, setVisivibility] = useState(false);
   const annuals = props.myData?.annualHistories || [];
+  const {changeMyData,deleteMyData} = useDataQuery();
 
-  const closeModal = () => {
-    setVisible(!visibility);
-  };
+
   const handleClick = (id: number) => {
-    setVisible(true);
     setId(id)
+    setVisivibility(true)
   };
   const handleEditClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -48,20 +48,31 @@ export default function AnnualList(props: { myData?: MyDataType }) {
   };
   const handleSubmit = async () => {
     const data: UpdateType = { id: id, title:title, startDate: start, endDate: end, reason:reason };
-    console.log(data);
-    // await postUpdate(id,title,start,end,reason)
-    await postUpdate(data)
-      .then((res) => console.log(res));
-    setEdit(false);
-    setVisible(false);
+    changeMyData.mutate(data, {
+     onSuccess: () => {
+       setEdit(false)
+       setVisivibility(false)
+     }
+    });
+
+    // await postUpdate(data)
+    //   .then((res) => console.log(res));
+    // setEdit(false);
+    // hide();
   };
 
   const handleDelete = async () =>{
-    console.log(id);
-    await postDelete( id )
-    .then((res) => console.log(res));
-    setEdit(false);
-    setVisible(false);
+    deleteMyData.mutate(id,{
+      onSuccess: () => {
+        setEdit(false)
+        setVisivibility(false)
+      }
+    })
+
+    // await postDelete( id )
+    // .then((res) => console.log(res));
+    // setEdit(false);
+    // hide()
   }
 
   return (
@@ -92,8 +103,8 @@ export default function AnnualList(props: { myData?: MyDataType }) {
             })} 개
             </div>
             <p className={styles.list}>{annual.status}</p>
-            <Modal
-              visibility={visibility} toggle={setVisible}>
+
+            <Modal visibility={visivibility} toggle={setVisivibility}>
               <div className="addEvent-wrap">
                 <h1 className="addEvent-header">일정 등록</h1>
                 <div className="addEvent-title">
@@ -157,7 +168,6 @@ export default function AnnualList(props: { myData?: MyDataType }) {
                   }
                 </div>
                 <div className="btn-group">
-                  <button onClick={closeModal}>닫 기</button>
                   <button onClick={handleDelete}>삭 제</button>
                   <button onClick={handleSubmit}>수 정</button>
                 </div>
@@ -169,4 +179,5 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     </div>
   );
 }
+
 
