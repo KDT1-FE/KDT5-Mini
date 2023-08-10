@@ -2,7 +2,8 @@ import { FormEvent, useEffect, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import {  login } from "@/Api/apis.ts";
+import { getAccessToken, login } from "@/Api/apis.ts";
+import Modal from "@/Components/Modal/Modal";
 
 interface LoginPageProps {
   setIsLogined: (value: boolean) => void;
@@ -11,6 +12,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cookies, setCookie] = useCookies(["accessToken"]);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   // input 유효성 검사
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -20,8 +22,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    const isLogined = !!role;
-    if (isLogined) {
+    // const isLogined = !!role;
+    if (role === "일반 회원" || role === "관리자") {
       navigate("/main");
     }
   }, [navigate]);
@@ -60,15 +62,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     try {
       const response = await login(email, password);
       const accessToken = response?.data.accessToken;
-      localStorage.setItem("role", response?.data.role);
-      console.log(response);
-      if (response) {
+      const userRole = response?.data.role;
+      console.log(response)
+      if (accessToken && userRole) {
+        localStorage.setItem("role", userRole);
         setCookie("accessToken", accessToken);
         setIsLogined(true);
         navigate("/main");
       }
     } catch (error) {
-      alert("로그인 실패");
+      setShowWelcomeModal(true);
       console.log("LoginPageError: ", error);
       console.log(email, password);
     }
@@ -136,6 +139,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
           </div>
         </div>
       </form>
+
+      <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
+        <div className="modal-content">
+          <h2 className="modal-title">로그인에 실패하였습니다.</h2>
+          <p className="modal-text">입력정보를 다시 확인해주세요.</p>
+        </div>
+      </Modal>
     </div>
   );
 };
