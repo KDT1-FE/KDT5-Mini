@@ -1,27 +1,55 @@
-# ✔️ 미니 프로젝트_연차/당직 프로그램 만들기
+# Mini Project FE
 
-## 필수 요구 사항
+### Component 생성
 
-- 로그인 / 회원가입 페이지
-- 개인 정보 수정 페이지
-- 사용자간 공유 게시 페이지 캘린더 사용
+components 폴더 아래 작업할 page 폴더 생성 후 해당 page에서 사용하는 component 파일 추가
 
-## 선택 요구 사항
+### Antd 커스텀 컬러 사용법
 
-- `useCallback`, `useMemo `등을 통한 컴포넌트 렌더링 최적화
-- 내가 작성한 코드를 팀원 중 누가봐도 쉽게 알아볼 수 있도록 고민하면서 작성해주세요.
+1. global token import
 
-## 과제 수행 및 제출 방법
+```
+import { globalToken } from '@/globalThemeConfig'
+```
 
-1. 현재 저장소를 로컬에 클론(Clone)합니다.
-2. 팀별로 브랜치를 생성합니다.(`git branch KDT5_TEAM_ABC`)
-3. 팀별 브랜치에서 과제를 수행합니다.
-4. 과제 수행이 완료되면, 자신의 본명 브랜치를 원격 저장소에 푸시(Push)합니다.(`main` 브랜치에 푸시하지 않도록 꼭 주의하세요, `git push origin KDT5_TEAM_ABC`)
-5. 저장소에서 `main` 브랜치를 대상으로 Pull Request 생성하면, 과제 제출이 완료됩니다!(E.g, `main` <== `KDT5_TEAM_ABC`)
+2. globalToken에서 지정한 color key를 사용
 
-### 주의사항!
+```
+<Sider
+  style={{
+     backgroundColor: globalToken['blue-3']
+  }}>
+ </Sider>
+```
 
-- `main` 혹은 다른 사람의 브랜치로 절대 병합하지 않도록 주의하세요!
-- Pull Request에서 보이는 설명을 다른 사람들이 이해하기 쉽도록 꼼꼼하게 작성하세요!
-- Pull Request에서 과제 제출 후 절대 병합(Merge)하지 않도록 주의하세요!
-- 과제 수행 및 제출 과정에서 문제가 발생한 경우, 바로 담당 멘토나 강사에서 얘기하세요!
+### Project 설정
+
+#### Antd Global Style 적용
+
+Primary Color와 팀에서 고른 테마 색상들 `blue-n` 으로 지정  
+`globalToken.colorPrimary`로도 컬러 값 사용 가능
+
+```
+export const config: ThemeConfig = {
+  token: {
+    colorPrimary: '#0554F2',
+    colorBorder: '#EEE',
+    colorBgLayout: '#F2F2F2',
+    colorWhite: '#FFFFFF',
+    'blue-1': '#010626',
+    'blue-2': '#395BBF',
+    'blue-3': '#1374F2'
+  },
+  components: {
+    Layout: {
+      colorBgHeader: '#010626'
+    }
+  }
+}
+```
+
+#### Styled-components Global Style 적용
+
+#### Antd 기본 레이아웃 적용 완료
+
+NavBar 있는 페이지들은 `NavLayout.tsx` 레이아웃 사용
