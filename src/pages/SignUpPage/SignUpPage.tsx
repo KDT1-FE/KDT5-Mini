@@ -1,33 +1,37 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-
 import "./SignUpPage.scss";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "@/Api/apis.ts";
 import Modal from "@/Components/Modal/Modal";
+import ErrorModal from "@/Components/ErrorModal/ErrorModal";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
+  // Input
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
+  // Input-Check
   const [isNameValid, setIsNameValid] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  // Date
+  const currentYear = new Date().getFullYear();
+  const months = Array.from({ length: 12 }, (_, index) => index + 1); // index가 0부터 시작이니까 +1
+  const days = Array.from({ length: 31 }, (_, index) => index + 1);
   const [selectedYear, setSelectedYear] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string>("");
-  const currentYear = new Date().getFullYear();
-  const [showPassword, setShowPassword] = useState(false);
-  const months = Array.from({ length: 12 }, (_, index) => index + 1); // index가 0부터 시작이니까 +1
-  const days = Array.from({ length: 31 }, (_, index) => index + 1);
+  // Modal
+  const [catchError, setCatchError] = useState<string>("");
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  // const navigate = useNavigate();
+  const [showErrorTextModal, setShowErrorTextModal] = useState(false);
+  // RegEx
   const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ]*$/; // 자음, 모음, 한글
   const emailRegex = // @ . 포함
     /^(([^<>()\\[\].,;:\s@"]+(\.[^<>()\\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-
   const passwordRegex = // 영문, 숫자, 특수문자 포함 8자 이상
     /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
@@ -85,27 +89,32 @@ export default function SignUpPage() {
 
   const onSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (!checkEmptyForm()) {
       alert("입력사항을 모두 채워주세요.");
       return;
     }
+
     const join = `${selectedYear}-${selectedMonth
       .toString()
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
+
     try {
       const response = await signUp(email, password, name, join);
-      console.log("response", response);
       if (response) {
         setShowWelcomeModal(true);
-        // navigate("/");
-      } else {
-        alert("해당 이메일은 이미 가입된 정보입니다.");
+        navigate("/");
       }
-    } catch (error) {
-      console.log("signUpPageError: ", error);
+    } catch (error: any) {
+      setCatchError(error?.response?.data?.message);
+      const alertText = catchError;
+      if (alertText !== "") {
+        setShowErrorTextModal(true);
+      }
     }
   };
-
+  // serverErrorMessage
+  const serverErrorMessage = catchError;
   // 패스워드 가시화 토글
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -136,11 +145,11 @@ export default function SignUpPage() {
             <div className="input_box">
               <input
                 className="input"
-                name="email" // name 속성 추가
+                name="email"
                 value={email}
                 type="text"
                 placeholder="이메일 @email.com"
-                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+                onChange={handleInputChange}
               />
             </div>
             {!isEmailValid && email.length > 0 && (
@@ -155,9 +164,9 @@ export default function SignUpPage() {
                 className="input"
                 name="password"
                 value={password}
-                type={showPassword ? "text" : "password"} // Toggle 비밀번호 보이기/가리기
+                type={showPassword ? "text" : "password"}
                 placeholder="비밀번호 입력"
-                onChange={handleInputChange} // onChange 이벤트 핸들러 연결
+                onChange={handleInputChange}
               />
               {showPassword ? (
                 <i
@@ -173,8 +182,7 @@ export default function SignUpPage() {
             </div>
             {!isPasswordValid && password.length > 0 && (
               <div className="error_message">
-                영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경
-                필요)
+                영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
               </div>
             )}
           </div>
@@ -265,12 +273,22 @@ export default function SignUpPage() {
           </div>
         </div>
       </form>
+
       <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
         <div className="modal-content">
           <h2 className="modal-title">환영합니다!</h2>
           <p className="modal-text">회원가입에 성공하셨습니다.</p>
         </div>
       </Modal>
+
+      <ErrorModal
+        visibility={showErrorTextModal}
+        toggle={setShowErrorTextModal}
+      >
+        <div className="modal-content">
+          <p className="modal-text">{serverErrorMessage}</p>
+        </div>
+      </ErrorModal>
     </div>
   );
 }

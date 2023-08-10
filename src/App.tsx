@@ -31,7 +31,7 @@ function App() {
           path="/"
           element={
             isLogined ? (
-              <Navigate to="/main" replace />
+              <Navigate to="/" replace />
             ) : (
               <LoginPage setIsLogined={setIsLogined} />
             )

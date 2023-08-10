@@ -2,29 +2,32 @@ import { FormEvent, useEffect, useState } from "react";
 import "./LoginPage.scss";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { getAccessToken, login } from "@/Api/apis.ts";
+import { login } from "@/Api/apis.ts";
 import Modal from "@/Components/Modal/Modal";
 
 interface LoginPageProps {
   setIsLogined: (value: boolean) => void;
 }
 const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
+  // Input
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie] = useCookies(["accessToken"]);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-
-  // input 유효성 검사
+  // Input-Check
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
+  // Modal
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  // Cookie
+  const [, setCookie] = useCookies(["accessToken"]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    // const isLogined = !!role;
     if (role === "일반 회원" || role === "관리자") {
       navigate("/main");
+    } else {
+      navigate("/");
     }
   }, [navigate]);
 
@@ -41,7 +44,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    // 영문, 숫자, 특수문자 포함 8자 이상 정규식 (추후 조건 따라 변경 필요)
     const regex =
       /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(e.target.value)) {
@@ -56,24 +58,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // 로그인 처리 api
   const onClickLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await login(email, password);
-      const accessToken = response?.data.accessToken;
-      const userRole = response?.data.role;
-      console.log(response)
-      if (accessToken && userRole) {
-        localStorage.setItem("role", userRole);
-        setCookie("accessToken", accessToken);
-        setIsLogined(true);
-        navigate("/main");
+      const status = response?.status;
+
+      if (status === 200) {
+        const accessToken = response?.data.accessToken;
+        const userRole = response?.data.role;
+        if (accessToken && userRole) {
+          localStorage.setItem("role", userRole);
+          setCookie("accessToken", accessToken);
+          setIsLogined(true);
+          navigate("/main");
+        }
       }
     } catch (error) {
-      setShowWelcomeModal(true);
-      console.log("LoginPageError: ", error);
-      console.log(email, password);
+      setShowLoginModal(true);
     }
   };
 
@@ -140,7 +142,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsLogined }) => {
         </div>
       </form>
 
-      <Modal visibility={showWelcomeModal} toggle={setShowWelcomeModal}>
+      <Modal visibility={showLoginModal} toggle={setShowLoginModal}>
         <div className="modal-content">
           <h2 className="modal-title">로그인에 실패하였습니다.</h2>
           <p className="modal-text">입력정보를 다시 확인해주세요.</p>
