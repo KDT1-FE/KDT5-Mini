@@ -3,30 +3,35 @@ import AnnualList from "@/Components/AnnualList/AnnualList.tsx";
 import Header from "../../Components/Header/Header.tsx";
 import DutyList from "@/Components/DutyList/DutyList.tsx";
 import styles from "./mypage.module.scss";
-import { useEffect, useState } from "react";
-import { getMyPage } from "@/Api/apis";
+import { useState } from "react";
 import Password from "@/Components/Password/password.tsx";
+import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 export default function Mypage() {
-  const [myData, setMyData] = useState<MyDataType>();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [myData, setMyData] = useState<MyDataType>();
+  // const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState(false);
+  const {getMyPageData} = useDataQuery()
+  const {isLoading, isError, data:myData} = getMyPageData;
 
-  useEffect(() => {
-    async function fetchMyData() {
-      try {
-        const data = await getMyPage(); // 사용자 데이터 가져오기
-        setMyData(data);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    }
-    fetchMyData();
-  }, []);
+
+  // useEffect(() => {
+  //   async function fetchMyData() {
+  //     try {
+  //       const data = await getMyPage(); // 사용자 데이터 가져오기
+  //       setMyData(data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchMyData();
+  // }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
+  } else if (isError) {
+    return <div>Error...</div>;
   }
 
   return (

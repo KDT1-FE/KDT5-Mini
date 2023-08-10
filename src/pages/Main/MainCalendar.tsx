@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -25,6 +24,8 @@ const MainCalendar = () => {
   const [userName, setUserName] = useState("");
   const [processedEvents, setProcessedEvents] = useState([]);
   const [role, setRole] = useState(null);
+
+
 
   useEffect(() => {
     const fetchMainInfo = async () => {

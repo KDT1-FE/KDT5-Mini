@@ -2,7 +2,7 @@
 import styles from "@/Components/DutyList/dutyList.module.scss";
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
-import { postDelete, postUpdate } from "@/Api/apis.ts";
+import useDataQuery from "@/Hooks/useData-Query.tsx";
 
 export default function DutyList(props:{myData:MyDataType|undefined}) {
   const [visibility, setVisible] = useState(false);
@@ -10,6 +10,7 @@ export default function DutyList(props:{myData:MyDataType|undefined}) {
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
   const [id, setId] = useState(0);
+  const {changeMyData, deleteMyData} = useDataQuery();
   const dutyData = props.myData?.dutyHistories || [];
 
   const closeModal = () => {
@@ -41,20 +42,30 @@ export default function DutyList(props:{myData:MyDataType|undefined}) {
   };
   const handleSubmit = async () => {
     const data: UpdateType = { id: id, title:title, startDate: start, endDate: start, reason:"기타휴가" };
-    console.log(data);
-    // await postUpdate(id,title,start,end,reason)
-    await postUpdate(data)
-      .then((res) => console.log(res));
-    setEdit(false);
-    setVisible(false);
+    changeMyData.mutate(data,{
+      onSuccess:()=>{
+        setEdit(false);
+        setVisible(false);
+      }
+    });
+
+    // await postUpdate(data)
+    //   .then((res) => console.log(res));
+    // setEdit(false);
+
   };
 
   const handleDelete = async () =>{
-    console.log(id);
-    await postDelete( id )
-      .then((res) => console.log(res));
-    setEdit(false);
-    setVisible(false);
+    deleteMyData.mutate(id,{
+      onSuccess:()=>{
+        setEdit(false);
+        setVisible(false);
+      }
+    });
+    // await postDelete( id )
+    //   .then((res) => console.log(res));
+    // setEdit(false);
+    // setVisible(false);
   }
   return (
     <div className={styles.container}>
