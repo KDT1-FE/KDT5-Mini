@@ -77,13 +77,10 @@ const MainCalendar = () => {
     }
   };
 
-  const handleAllEventsToggle = () => {
-    setIsAllEventsChecked(!isAllEventsChecked);
-    setSelectedCategories(isAllEventsChecked ? [] : ["all"]);
-  };
+
   useEffect(() => {
     if (isAllEventsChecked) {
-      setSelectedCategories(["all", "연차", "당직"]);
+      setSelectedCategories([ "연차", "당직"]);
     } else {
       setSelectedCategories([]);
     }
@@ -91,20 +88,28 @@ const MainCalendar = () => {
 
   // 카테고리 선택 버튼 클릭 시
   const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
+    if (category !== "all") {
+      const updatedCategories = selectedCategories.includes(category)
+        ? selectedCategories.filter((c) => c !== category)
+        : [...selectedCategories, category];
+      
+      setSelectedCategories(updatedCategories);
+      console.log('Selected Categories:', updatedCategories);
     }
   };
 
   // 선택된 카테고리에 따라 이벤트 필터링
-  const filteredEvents = selectedCategories.includes("all")
-    ? processedEvents // 모든 이벤트를 표시
-    : processedEvents.filter((event: { category: string }) =>
-        selectedCategories.includes(event.category),
-      );
+  const filteredEvents = selectedCategories.length === 0
+  ? processedEvents // 모든 이벤트를 표시
+  : processedEvents.filter((event: { category: string }) =>
+      selectedCategories.includes(event.category),
+    );
 
+    console.log("selectedCategories:", selectedCategories); // 로그 추가
+    console.log("isAllEventsChecked:", isAllEventsChecked); // 로그 추가
+    console.log("processedEvents:", processedEvents); // 로그 추가
+    console.log("filteredEvents:", filteredEvents); // 로그 추가
+    
   // 연차 리스트 개수
   const selectedAnnualLeave = events.filter(
     (event: any) => event.category === "연차",
@@ -133,6 +138,16 @@ const MainCalendar = () => {
   const handleEventClick = (eventInfo: any) => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
+
+  const handleAllEventsToggle = () => {
+    setIsAllEventsChecked(!isAllEventsChecked);
+  
+    if (!isAllEventsChecked) {
+      setSelectedCategories([]);
+    }
+  };
+  console.log(isAllEventsChecked);
+
 
   return (
     <div className="main_wrap">

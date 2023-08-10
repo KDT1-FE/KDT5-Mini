@@ -2,20 +2,32 @@ import { logOut } from "@/Api/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
-// LOG_OUT
 const Logout = () => {
-  const [, , removeCookie] = useCookies(["accessToken"]);
+  const [, , removeCookies] = useCookies();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      // const ACCESSTOKEN = getAccessToken();
+      // 먼저 페이지 이동
+      navigate("/");
+
+      // 페이지 이동 후에 토큰 제거
       const res = await logOut();
       if (res) {
         console.log(res);
         localStorage.removeItem("role");
-        removeCookie("accessToken");
-        navigate("/");
+        localStorage.removeItem("accessToken");
+
+        // 모든 쿠키 제거
+        const cookieKeys = Object.keys(document.cookie.split(";"));
+        cookieKeys.forEach((key) => {
+          removeCookies(key.trim());
+        });
+
+        alert("로그아웃 되셨습니다.");
+
+        // 페이지 새로고침
+        window.location.reload();
       }
     } catch (error) {
       console.error("로그아웃이 실패 하였습니다.", error);
@@ -24,4 +36,5 @@ const Logout = () => {
 
   return <li onClick={handleLogout}>로그아웃</li>;
 };
+
 export default Logout;

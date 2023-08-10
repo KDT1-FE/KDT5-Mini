@@ -164,7 +164,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({ isOpen, closeModal, handl
                 <option value="연차유급휴가">연차 유급 휴가</option>
                 <option value="병가휴가">병가 휴가</option>
                 <option value="경조사휴가">경조사 휴가</option>
-                <option value="출산전휴휴가">출산 전휴 휴가</option>
+                <option value="출산휴가">출산 전휴 휴가</option>
                 <option value="기타휴가">기타 휴가</option></>
                   )}
           </select>
