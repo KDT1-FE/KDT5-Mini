@@ -30,8 +30,8 @@ declare interface LoginType {
 declare type MyDataType = {
   name: string,
   annualBalance: number,
-  position:string,
-  annualUsed:string,
+  position: string,
+  annualUsed: string,
   annualRemain: number,
   annualHistories: Array<{
     id: number,
@@ -59,31 +59,27 @@ declare interface MyDataAction {
 }
 
 declare interface AnnualType {
-  annual: {
-    reason: string;
-    title: string;
-    startDate: string;
-    endDate: string;
-    annualRemain: number;
-    status: string;
-  }[];
+  id: number;
+  reason: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  status: string;
 }
 
 
 declare interface DutyType {
-  duty:{
-    id: number,
-    title: string,
-    startDate: string,
-    endDate: string,
-    status: string
-  }[];
+  id: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  status: string;
 }
 
-declare type MyStore = {
-  data: MyDataType[];
-  addMyData: (myDataArray: MyDataType[]) => void;
-};
+// declare type MyStore = {
+//   data: MyDataType[];
+//   addMyData: (myDataArray: MyDataType[]) => void;
+// };
 
 declare interface User {
   email: string,
@@ -104,16 +100,19 @@ declare interface UserStore {
   deleteUser: UserActions["deleteUser"];
   updateUser: UserActions["updateUser"];
 }
+
 declare interface CounterType {
   annualCal: number,
   count: number,
-  setAnnualCal:(value:number) => void,
-  setCount:(value:number) => void
+  setAnnualCal: (value: number) => void,
+  setCount: (value: number) => void
 }
+
 declare interface ModalProps {
   visibility: boolean;
   toggle: (param: boolean) => void;
 }
+
 declare interface NewEvent {
   title: string;
   startDate: string;
@@ -144,4 +143,15 @@ declare interface UpdateType {
   startDate: string;
   endDate: string;
   reason: string;
+}
+
+declare interface AdminListsAll {
+  id: number;
+  name: string;
+  category: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  reason?: string;
+  status: string;
 }
