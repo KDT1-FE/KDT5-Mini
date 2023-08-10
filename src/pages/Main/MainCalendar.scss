@@ -1,136 +1,197 @@
 @import "/src/variables";
+@import "src/_mixin.scss";
 
-.main_wrap {
-  position: relative;
-  width: 1080px;
-  height: 850px;
-  margin: auto;
-  margin-top: 50px;
-  display: flex;
-  border-radius: 20px;
-  background-color: $light-Green-BG-color;
-  box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
-  .select_wrap {
-    margin-left: 50px;
-    padding-top: 100px;
-    width: 260px;
-    .UserInfo {
-      position: relative;
-      width: 215px;
-      font-family: "noto-sans";
-      font-size: 18px;
-      margin-bottom: 100px;
-
-      &.active {
-        bottom: 10%;
-      }
-      .UserNameInfo {
-        color: $point-color;
-        font-weight: bold;
-      }
-      .HideInfo {
-        position: absolute;
-        display: none;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        margin-top: 20px;
-        width: 170px;
-        height: 124px;
-        box-shadow: 5px 5px 20px $main-color-30;
-        background-color: $white-color;
-        border-radius: 10px;
-        cursor: pointer;
-        &.visible {
-          display: flex;
-        }
-        li:nth-child(1) {
-          border-bottom: 1px solid $main-color-30;
-        }
-        li {
-          margin: 0 auto;
-          width: 150px;
-          padding: 15px;
-          font-size: 18px;
-          font-family: "noto-sans";
-        }
-        li:hover {
-          background-color: $white-color;
-        }
-      }
-    }
-    .select_today {
-      margin-bottom: 35px;
-      width: 220px;
-      .today_weather {
-        font-size: 18px;
-        font-family: "montserrat";
-      }
-    }
-    .select_calendar {
-      border-top: 1px solid $green-BG-color;
-      padding-top: 22px;
-      width: 220px;
-      .select_calendar_option {
-        display: flex;
-        align-items: center;
-        margin-bottom: 14px;
-        font-size: 16px;
-        font-weight: bold;
-        font-family: "noto-sans";
-        .input_checkbox {
-          width: 22px;
-          height: 22px;
-          margin-right: 10px;
-        }
-      }
-    }
-    .select_categories {
-      border-top: 1px solid $green-BG-color;
-      width: 220px;
-      margin-top: 30px;
-      margin-bottom: 100px;
-      .select_category_option {
-        display: flex;
-        align-items: center;
-        margin-bottom: 14px;
-        font-size: 16px;
-        font-weight: bold;
-        font-family: "noto-sans";
-        .input_checkbox {
-          width: 22px;
-          height: 22px;
-          margin-right: 10px;
-        }
-      }
-      .LeaveBox,
-      .dutyBox {
-        margin-left: 100px;
-        padding: 3px 15px;
-        border: none;
-        background-color: $green-BG-color;
-        color: $main-color;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: bold;
-      }
-    }
-    .sub_title {
-      font-size: 24px;
-      font-weight: bold;
-      font-family: "montserrat";
-      color: $black-color;
-      margin: 24px 0;
-    }
-  }
-  .calendar_wrap {
-    position: absolute;
-    width: 761px;
-    height: 824px;
-    background-color: $white-color;
+.main_page {
+  height: 120vh;
+  width: 100vw;
+  .main_wrap {
+    position: relative;
+    margin: auto;
+    margin-top: 10vh;
+    width: 1080px;
+    height: 850px;
+    display: flex;
     border-radius: 20px;
-    bottom: 0;
-    right: 2%;
+    background-color: $light-Green-BG-color;
+    box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
+    .select_wrap {
+      margin: auto;
+      margin-left: 50px;
+      width: 220px;
+      height: 660px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      font-size: 18px;
+      font-family: "Montserrat", "Noto Sans KR", sans-serif;
+      .UserInfo {
+        width: 215px;
+        // margin-bottom: 100px;
+        display: flex;
+        // justify-content: space-between;
+        .UserInfo_name {
+          color: $point-color;
+          font-weight: 800;
+        }
+        .UserInfo_icon {
+          color: $point-color;
+          i {
+            margin-left: 15px;
+            margin-bottom: 5px;
+          }
+        }
+        .HideInfo {
+          position: absolute;
+          margin-top: 40px;
+          width: 160px;
+          height: 120px;
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+          box-shadow: 5px 5px 20px $main-color-30;
+          background-color: $white-color;
+          border-radius: 10px;
+          cursor: pointer;
+          &.visible {
+            display: flex;
+          }
+          li {
+            margin: 0 auto;
+            width: 150px;
+            padding: 15px;
+            li:hover {
+              background-color: $white-color;
+            }
+          }
+          .admin_page {
+            border-bottom: 1px solid $main-color-30;
+          }
+        }
+      }
+      .select_today {
+        width: 220px;
+        .today_weather {
+          color: $main-color;
+          font-weight: 500;
+        }
+      }
+      .select_calendar {
+        width: 220px;
+        position: relative;
+        &::before {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 1px;
+          background-color: $green-BG-color;
+          position: absolute;
+          top: -28px;
+        }
+        .select_calendar_options {
+          height: 65px;
+          display: flex;
+          flex-direction: column;
+          font-size: 16px;
+          font-weight: 800;
+          font-family: "noto-sans";
+          .select_calendar_option {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            .input_checkbox {
+              @include custom-checkbox(
+                transparent,
+                $green-BG-color,
+                $sub-color,
+                $white-color
+              );
+            }
+          }
+        }
+      }
+      .select_categories {
+        width: 220px;
+        position: relative;
+        &::before {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 1px;
+          background-color: $green-BG-color;
+          position: absolute;
+          top: -28px;
+        }
+        .select_category_options {
+          display: flex;
+          height: 65px;
+          flex-direction: column;
+          justify-content: space-between;
+          font-size: 16px;
+          font-weight: 800;
+          font-family: "noto-sans", sans-serif;
+          .select_category_option {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .input_dayoff_checkbox {
+              @include custom-checkbox(
+                transparent,
+                $point-color,
+                $point-color,
+                $white-color
+              );
+            }
+            .input_duty_checkbox {
+              @include custom-checkbox(
+                transparent,
+                $date-color-green,
+                $date-color-green,
+                $white-color
+              );
+            }
+            .LeaveBox,
+            .dutyBox {
+              margin-left: 122px;
+              padding: 5px 15px;
+              background-color: $green-BG-color;
+              color: $main-color;
+              border-radius: 14px;
+              font-size: 14px;
+              font-weight: 800;
+            }
+          }
+        }
+      }
+      .addSchedule_Btn {
+        @include small-button;
+        transition: box-shadow 0.3s ease-in-out;
+        &:hover {
+          box-shadow: 4px 4px 20px rgba($color: $point-color, $alpha: 0.4);
+        }
+        i {
+          margin-left: 10px;
+        }
+      }
+      .sub_title {
+        font-size: 24px;
+        font-weight: bold;
+        font-family: "montserrat";
+        color: $black-color;
+        margin: 14px 0;
+      }
+    }
+    .calendar_wrap {
+      position: absolute;
+      width: 761px;
+      height: 824px;
+      background-color: $white-color;
+      border-radius: 20px 20px 0 0;
+      bottom: 0;
+      right: 2%;
+    }
   }
 }
 
@@ -159,21 +220,6 @@
   border-radius: 2px;
 }
 
-.addScheduleBtn {
-  width: 220px;
-  height: 54px;
-  background-color: $point-color;
-  border-radius: 10px;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-  color: $white-color;
-  box-shadow: 4px 4px 30px rgba($color: $main-color, $alpha: 0.3);
-  cursor: pointer;
-  &:hover {
-    background-color: $point-color;
-  }
-}
 .fc-dayGridMonth-view .fc-view .fc-daygrid {
   z-index: 10;
 }
@@ -219,7 +265,7 @@
 .fc .fc-daygrid-day-number {
   font-size: 16px;
   font-weight: bold;
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   padding: 10px;
 }
 .fc .fc-day-other .fc-daygrid-day-top {

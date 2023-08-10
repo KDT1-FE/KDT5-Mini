@@ -9,7 +9,6 @@ import EventModal from "./EventModal";
 import Logout from "@/Components/Logout/Logout";
 import { getMainPage, getSilentAxios, getAccessToken } from "@/Api/apis";
 
-
 const MainCalendar = () => {
   const [selectedCategories, setSelectedCategories] = useState([
     "연차",
@@ -41,7 +40,7 @@ const MainCalendar = () => {
               color: annuals.category === "연차" ? "#FEEFEC" : "#EEF6F1",
               textColor: annuals.category === "연차" ? "#EA613C" : "#3ACAB9",
               title: `• ${annuals.name}`,
-              detail: annuals.title
+              detail: annuals.title,
             };
           });
 
@@ -78,7 +77,7 @@ const MainCalendar = () => {
     }
   };
 
- const handleAllEventsToggle = () => {
+  const handleAllEventsToggle = () => {
     setIsAllEventsChecked(!isAllEventsChecked);
     setSelectedCategories(isAllEventsChecked ? [] : ["all"]);
   };
@@ -135,114 +134,114 @@ const MainCalendar = () => {
     setSelectedEvent(eventInfo.event); // 수정된 부분
   };
 
-
-
   return (
-    <div className="main_wrap">
-      <div className="select_wrap">
-        <ul
-          className={`UserInfo ${userInfoVisible ? "active" : ""}`}
-          onClick={toggleUserInfo}
-        >
-          반가워요,
-          <span className="UserNameInfo">{userName}</span>님!
-          <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
-            {role === "관리자" ? (
-              <li onClick={handleMyPageClick}>회원 관리 페이지</li>
-            ) : (
-              <li onClick={handleMyPageClick}>마이 페이지</li>
-            )}
-            <Logout />
+    <div className="main_page">
+      <div className="main_wrap">
+        <div className="select_wrap">
+          <ul className={`UserInfo ${userInfoVisible ? "active" : ""}`}>
+            반가워요,
+            <span className="UserInfo_name">{userName}</span>님!
+            <span className="UserInfo_icon" onClick={toggleUserInfo}>
+              <i className="fa-solid fa-chevron-left fa-rotate-270"></i>
+            </span>
+            <div className={`HideInfo ${userInfoVisible ? "visible" : ""}`}>
+              {role === "관리자" ? (
+                <li className="admin_page" onClick={handleMyPageClick}>
+                  회원 관리 페이지
+                </li>
+              ) : (
+                <li className="my_page" onClick={handleMyPageClick}>
+                  마이 페이지
+                </li>
+              )}
+              <Logout />
+            </div>
+          </ul>
+          <div className="select_today">
+            {" "}
+            {/* 오늘 날짜 렌더링 */}
+            <h1 className="sub_title">Today</h1>
+            <span className="today_weather">{formattedDate}</span>
           </div>
-        </ul>
-        <div className="select_today">
-          {" "}
-          {/* 오늘 날짜 렌더링 */}
-          <h1 className="sub_title">Today</h1>
-          <span className="today_weather">{formattedDate}</span>
-        </div>
-        <div className="select_calendar">
-          {" "}
-          {/* 일정 선택 박스 */}
-          <h1 className="sub_title">Calendar</h1>
-          <div className="select_calendar_options">
-            <label className="select_calendar_option">
-              <div className="select_calendar_options">
-            <label className="select_calendar_option">
-              <input
-                type="checkbox"
-                className="input_checkbox"
-                checked={isAllEventsChecked}
-                onChange={handleAllEventsToggle}
-                  />
+          <div className="select_calendar">
+            {" "}
+            {/* 일정 선택 박스 */}
+            <h1 className="sub_title">Calendar</h1>
+            <div className="select_calendar_options">
+              <label className="select_calendar_option">
+                <input
+                  type="checkbox"
+                  className="input_checkbox"
+                  checked={isAllEventsChecked}
+                  onChange={handleAllEventsToggle}
+                />
                 전체 일정
               </label>
+              <label className="select_calendar_option">
+                <input type="checkbox" className="input_checkbox" />내 일정
+              </label>
             </div>
-            </label>
-            <label className="select_calendar_option">
-              <input type="checkbox" className="input_checkbox" />내 일정
-            </label>
           </div>
-        </div>
-        <div className="select_categories">
-          <h1 className="sub_title">Categories</h1>
-          <div className="select_category_options">
-            <label className="select_category_option">
-              {" "}
-              {/* 연차 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                className="input_checkbox"
-                checked={selectedCategories.includes("연차")}
-                onChange={() => handleCategoryChange("연차")}
-              />
-              연차
-              <span className="LeaveBox">{selectedAnnualLeave}</span>
-              {/* 연차 리스트 카운트 */}
-            </label>
-            <label className="select_category_option">
-              {" "}
-              {/* 당직 카테고리 선택 박스   */}
-              <input
-                type="checkbox"
-                className="input_checkbox"
-                checked={selectedCategories.includes("당직")}
-                onChange={() => handleCategoryChange("당직")}
-              />
-              당직
-              <span className="dutyBox">{selectedDuty}</span>
-              {/* 당직 리스트 카운트 */}
-            </label>
+          <div className="select_categories">
+            <h1 className="sub_title">Categories</h1>
+            <div className="select_category_options">
+              <label className="select_category_option">
+                {" "}
+                {/* 연차 카테고리 선택 박스   */}
+                <input
+                  type="checkbox"
+                  className="input_dayoff_checkbox"
+                  checked={selectedCategories.includes("연차")}
+                  onChange={() => handleCategoryChange("연차")}
+                />
+                연차
+                <span className="LeaveBox">{selectedAnnualLeave}</span>
+                {/* 연차 리스트 카운트 */}
+              </label>
+              <label className="select_category_option">
+                {" "}
+                {/* 당직 카테고리 선택 박스   */}
+                <input
+                  type="checkbox"
+                  className="input_duty_checkbox"
+                  checked={selectedCategories.includes("당직")}
+                  onChange={() => handleCategoryChange("당직")}
+                />
+                당직
+                <span className="dutyBox">{selectedDuty}</span>
+                {/* 당직 리스트 카운트 */}
+              </label>
+            </div>
           </div>
           <button
-          className="addScheduleBtn"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          <span>일정 등록하기</span>
-        </button>
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          closeModal={() => setIsAddModalOpen(false)}
-        />
-        </div>
-        
-      </div>
-      <div className="calendar_wrap">
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          height={760}
-          events={filteredEvents}
-          headerToolbar={headerToolbarOptions}
-          eventClick={handleEventClick}
-        />
-        {selectedEvent && (
-          <EventModal
-            isOpen={true} // 여기서 모달을 열려면 true로 설정하거나, 필요한 조건에 따라서 설정해주어야 합니다.
-            closeModal={() => setSelectedEvent(null)} // 모달 닫기 함수
-            event={selectedEvent} // 이벤트 정보 전달
+            className="addSchedule_Btn"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <span>일정 등록하기</span>
+            <i className="fa-sharp fa-solid fa-circle-plus"></i>
+          </button>
+          <AddEventModal
+            isOpen={isAddModalOpen}
+            closeModal={() => setIsAddModalOpen(false)}
           />
-        )}
+        </div>
+        <div className="calendar_wrap">
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            height={760}
+            events={filteredEvents}
+            headerToolbar={headerToolbarOptions}
+            eventClick={handleEventClick}
+          />
+          {selectedEvent && (
+            <EventModal
+              isOpen={true} // 여기서 모달을 열려면 true로 설정하거나, 필요한 조건에 따라서 설정해주어야 합니다.
+              closeModal={() => setSelectedEvent(null)} // 모달 닫기 함수
+              event={selectedEvent} // 이벤트 정보 전달
+            />
+          )}
+        </div>
       </div>
     </div>
   );

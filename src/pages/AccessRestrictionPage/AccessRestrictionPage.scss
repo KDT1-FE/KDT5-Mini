@@ -1,40 +1,66 @@
 @import "/src/variables.scss";
-@import "/src/mixin.scss";
 
-.guideWrap {
-  text-align: center;
-  display: block;
-  margin-top: 35vh;
-}
-
-.main-guide {
-  font-size: 30px;
-  color: #49767a;
-  font-weight: 700;
-}
-.sub-guide {
-  font-size: 14px;
-}
-
-.naviate-btn {
-  margin-top: 30px;
-}
-
-.naviate-btn span {
-  color: #49767a;
-}
-
-.half-circle {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vh;
-  height: 400px;
-  background-color: #839ea0;
-  border-radius: 2000px 2000px 0 0;
-}
-
-.icon {
-  font-size: 30px;
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  .guide_wrap {
+    z-index: 1;
+    width: 500px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", "Noto Sans KR", sans-serif;
+    text-align: center;
+    color: $main-color;
+    .main_text {
+      font-size: 36px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .sub_text {
+      font-size: 14px;
+      color: $black-color;
+      font-weight: 500;
+    }
+    .nav_btn {
+      margin-top: 30px;
+      width: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .text {
+        color: $main-color;
+        font-weight: 800;
+        border-bottom: 1px solid $main-color;
+      }
+      .icon {
+        font-size: 20px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .bg_circle {
+    position: absolute;
+    bottom: -50px;
+    width: 80vw;
+    height: 440px;
+    background-color: $sub-color;
+    border-radius: 800px 800px 0 0;
+    display: flex;
+    justify-content: center;
+    .bg_text {
+      margin-top: 30px;
+      font-size: 8rem;
+      font-weight: 800;
+      color: $main-color;
+    }
+  }
 }
