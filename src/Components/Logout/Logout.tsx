@@ -1,5 +1,5 @@
 import { logOut } from "@/Api/apis";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
@@ -16,13 +16,7 @@ const Logout = () => {
       if (res) {
         console.log(res);
         localStorage.removeItem("role");
-        localStorage.removeItem("accessToken");
-
-        // 모든 쿠키 제거
-        const cookieKeys = Object.keys(document.cookie.split(";"));
-        cookieKeys.forEach((key) => {
-          removeCookies(key.trim());
-        });
+        removeCookies("accessToken");
 
         alert("로그아웃 되셨습니다.");
 
