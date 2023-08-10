@@ -227,6 +227,10 @@
   padding: 0 20px;
 }
 
+.fc-event-time{
+  display: none;
+}
+
 .fc-view-harness-active {
   margin-left: 40px;
   margin-right: 40px;
@@ -237,6 +241,41 @@
   background-color: $black-color;
   cursor: pointer;
   border-radius: 2px;
+}
+
+
+.fc-daygrid-event-harness{
+  :hover{
+    background-color: black;
+    cursor: pointer;
+  }
+}
+
+// 당일 하루 이벤트 
+.fc-event.fc-event-start.fc-event-end.fc-daygrid-event.fc-daygrid-dot-event.fc-daygrid-event{
+  color: rgb(58, 202, 185);
+  border-color: rgb(238, 246, 241);
+  background-color: rgb(238, 246, 241);
+  font-size: 14px;
+  padding: 2px;
+  font-weight: bold;
+
+  :hover{
+    background-color: black;
+    cursor: pointer;
+  }
+
+
+  .fc-event-title{
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+
+.fc-daygrid-event-dot {
+  display: none;
 }
 
 .fc-dayGridMonth-view .fc-view .fc-daygrid {
