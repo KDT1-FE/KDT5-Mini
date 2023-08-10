@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 import Modal from "@/Components/Modal/Modal.tsx";
+import { DutyType, UpdateType } from "types/common";
 
 export default function DutyModal(props: { duty?: DutyType, id:number, visivility:boolean , setVisivility:(value:boolean)=>void }) {
   const [edit, setEdit] = useState(false);

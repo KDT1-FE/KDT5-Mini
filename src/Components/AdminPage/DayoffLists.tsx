@@ -3,6 +3,7 @@ import { useState, } from "react";
 // import { AdminListsAll } from "@/@types/adminList.ts";
 // import { permission } from "@/Api/apis.ts";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
+import { AdminListsAll } from 'types/common'; // 모듈 경로 수정
 
 interface Props {
   item: AdminListsAll;

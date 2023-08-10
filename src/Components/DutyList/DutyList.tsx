@@ -1,6 +1,7 @@
 import styles from "@/Components/DutyList/dutyList.module.scss";
 import { useState } from "react";
 import DutyModal from "@/Components/DutyList/DutyModal.tsx";
+import { MyDataType, DutyType } from "types/common";
 
 export default function DutyList(props:{myData?:MyDataType}) {
 

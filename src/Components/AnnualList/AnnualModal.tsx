@@ -1,6 +1,7 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
+import { AnnualType, UpdateType } from "types/common";
 
 export default function AnnualModal(props: { annual?: AnnualType, id:number,visivility:boolean ,setVisivility:(value:boolean)=>void }) {
   const [edit, setEdit] = useState(false);

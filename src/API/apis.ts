@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { Cookies } from "react-cookie";
+import { UpdateType } from "types/common";
 
 export const getAccessToken = (): string | undefined => {
   const cookie = new Cookies();
