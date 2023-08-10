@@ -89,16 +89,13 @@ export default function SignUpPage() {
 
   const onSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!checkEmptyForm()) {
       alert("입력사항을 모두 채워주세요.");
       return;
     }
-
     const join = `${selectedYear}-${selectedMonth
       .toString()
       .padStart(2, "0")}-${selectedDay.toString().padStart(2, "0")}`;
-
     try {
       const response = await signUp(email, password, name, join);
       if (response) {
