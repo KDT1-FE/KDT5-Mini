@@ -1,4 +1,4 @@
-import { ApiHttp } from "@/Api/apis";
+import { logOut } from "@/Api/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 const Logout = () => {
   const [, , removeCookie] = useCookies(["accessToken"]);
   const navigate = useNavigate();
-  
+
   const handleLogout = async () => {
     try {
-      const res = await ApiHttp.post("/api/logout");
+      // const ACCESSTOKEN = getAccessToken();
+      const res = await logOut();
       if (res) {
+        console.log(res);
         localStorage.removeItem("role");
         removeCookie("accessToken");
         navigate("/");
@@ -19,7 +21,7 @@ const Logout = () => {
       console.error("로그아웃이 실패 하였습니다.", error);
     }
   };
-  
+
   return <li onClick={handleLogout}>로그아웃</li>;
 };
 export default Logout;

@@ -16,10 +16,10 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 }) => {
   if (isLogined) {
     if (role === "일반 회원") {
-      // 일반 회원일때 admin 막기
-      if (location.pathname === "/admin") {
-        return <Navigate to="/forbidden" replace />;
-      }
+    // 일반 회원일때 admin 막기
+    if (location.pathname === "/admin") {
+      return <Navigate to="/forbidden" replace />;
+    }
     }
     return <React.Fragment>{element}</React.Fragment>;
   } else {
