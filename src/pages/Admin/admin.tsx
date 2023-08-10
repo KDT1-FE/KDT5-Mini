@@ -4,9 +4,7 @@ import Header from "@/Components/Header/Header.tsx";
 import SearchBar from "@/Components/AdminPage/SearchBar.tsx";
 import DutyLists from "@/Components/AdminPage/DutyLists.tsx";
 import DayoffLists from "@/Components/AdminPage/DayoffLists.tsx";
-import { getAccessToken, getListAll, getSilentAxios } from "@/Api/apis";
-import { AdminListsAll } from "types/common";
-
+import { getAccessToken, getListAll, getSilentAxios } from "../../Api/apis"
 
 export default function Admin() {
   const [dayoffData, setDayoffData] = useState<AdminListsAll[]>([]);
