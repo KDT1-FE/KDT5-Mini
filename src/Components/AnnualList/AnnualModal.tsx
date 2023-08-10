@@ -2,6 +2,7 @@ import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 import "./AnnualModal.module.scss";
+import { AnnualType, UpdateType } from "types/common";
 
 export default function AnnualModal(props: {
   annual?: AnnualType;
@@ -9,23 +10,22 @@ export default function AnnualModal(props: {
   visivility: boolean;
   setVisivility: (value: boolean) => void;
 }) {
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [reason, setReason] = useState("");
-
   const annual = props.annual;
   const id = props.id;
   const visivility = props.visivility;
   const setVisivility = props.setVisivility;
-
   const { changeMyData, deleteMyData } = useDataQuery();
 
   const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(true);
     setVisivility(true);
+    console.log(annual?.title)
   };
 
   const handleEdit = () => {
@@ -52,6 +52,9 @@ export default function AnnualModal(props: {
       startDate: start,
       endDate: end,
       reason: reason,
+      message: function (): unknown {
+        throw new Error("Function not implemented.");
+      }
     };
     changeMyData.mutate(data, {
       onSuccess: () => {
@@ -61,6 +64,12 @@ export default function AnnualModal(props: {
       },
       onError: (error: any) => {
         console.log("수정 실패", error);
+        const errorMessage = error.response.data.message;
+        if (!errorMessage) {
+          alert("제목을 입력하세요");
+        } else {
+          alert(errorMessage);
+        }
       },
     });
   };
@@ -69,6 +78,8 @@ export default function AnnualModal(props: {
   //   setEdit(false);
   //   setVisivility(false);
   // };
+
+  
 
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
@@ -101,6 +112,7 @@ export default function AnnualModal(props: {
                 type="text"
                 name="title"
                 value={title}
+                placeholder={annual?.title}
                 onClick={handleEditClick}
                 onChange={handleInputChange}
               />
@@ -109,31 +121,32 @@ export default function AnnualModal(props: {
             )}
           </div>
           <div className="addEvent-start">
-            <label>시작일</label>
-            {edit ? (
-              <input
-                type="date"
-                name="startDate"
-                value={start}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <span onClick={handleEdit}>{annual?.startDate}</span>
-            )}
-          </div>
-          <div className="addEvent-end">
-            <label>종료일</label>
-            {edit ? (
-              <input
-                type="date"
-                name="endDate"
-                value={end}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <span onClick={handleEdit}>{annual?.endDate}</span>
-            )}
-          </div>
+  <label>시작일</label>
+  {edit ? (
+    <input
+      type="date"
+      name="startDate"
+      value={start}
+      onChange={handleInputChange}
+    />
+  ) : (
+    <span onClick={handleEdit}>{annual?.startDate}</span>
+  )}
+</div>
+
+<div className="addEvent-end">
+  <label>종료일</label>
+  {edit ? (
+    <input
+      type="date"
+      name="endDate"
+      value={end}
+      onChange={handleInputChange}
+    />
+  ) : (
+    <span onClick={handleEdit}>{annual?.endDate}</span>
+  )}
+</div>
           <div className="addEvent-reason">
             <label>사유</label>
             {edit ? (
@@ -148,9 +161,6 @@ export default function AnnualModal(props: {
                 <option value="경조사휴가">경조사휴가</option>
                 <option value="출산휴가">출산휴가</option>
                 <option value="기타휴가">기타휴가</option>
-                <option value={reason} selected>
-                  {reason}
-                </option>
               </select>
             ) : (
               <option value={annual?.reason} selected>

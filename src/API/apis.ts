@@ -231,6 +231,7 @@ export async function postDelete(id: number): Promise<any> {
   try {
     const response = await ApiHttp.post("/api/annual/cancel", { id });
     console.log("삭제 완료", response.status);
+    alert("삭제 완료");
     return response.status;
   } catch (error) {
     console.error("Error submitting event:", error);
