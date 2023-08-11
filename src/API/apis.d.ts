@@ -6,6 +6,7 @@ import { UpdateType } from "../types/common.ts";
 declare module "src/Api/apis.ts" {
   export const getAccessToken: () => string | undefined;
   
+
   
   export const ApiHttp: AxiosInstance;
   export const ApiLogin: AxiosInstance;
