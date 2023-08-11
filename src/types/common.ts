@@ -1,15 +1,17 @@
-declare interface User {
+declare module 'types/common' {
+
+interface User {
   name: string;
   joinDate: string;
 }
 
-declare interface JoinUserInputType {
+interface JoinUserInputType {
   id: string;
   name: string;
   joinDate: string;
 }
 
-declare interface LoginOutputType {
+interface LoginOutputType {
   id: string;
   name: string;
   joinDate: string;
@@ -17,17 +19,17 @@ declare interface LoginOutputType {
   refreshToken?: string;
 }
 
-declare interface UserLoginType {
+interface UserLoginType {
   accessToken: string;
   refreshToken?: string;
 }
 
-declare interface LoginType {
+interface LoginType {
   email: string,
   password: string
 }
 
-declare type MyDataType = {
+type MyDataType = {
   name: string,
   annualBalance: number,
   position: string,
@@ -51,14 +53,14 @@ declare type MyDataType = {
 };
 
 
-declare interface MyDataAction {
+interface MyDataAction {
   addMyData: (myData: MyDataType) => void,
   addAnnual: (annual: AnnualType) => void,
   updateAnnual: (annual: AnnualType) => void,
   deleteAnnual: (id: number) => void
 }
 
-declare interface AnnualType {
+interface AnnualType {
   id: number;
   reason: string;
   title: string;
@@ -68,7 +70,7 @@ declare interface AnnualType {
 }
 
 
-declare interface DutyType {
+interface DutyType {
   id: number;
   title: string;
   startDate: string;
@@ -81,39 +83,39 @@ declare interface DutyType {
 //   addMyData: (myDataArray: MyDataType[]) => void;
 // };
 
-declare interface User {
+interface User {
   email: string,
   password: string,
   name: string,
   joinDate: string
 }
 
-declare type UserActions = {
+type UserActions = {
   addUser: (email: string, name: string, password: string, join: string) => void,
   deleteUser: (email: string) => void,
   updateUser: (email: string, name: string, password: string, join: string) => void
 }
 
-declare interface UserStore {
+interface UserStore {
   users: User[];
   addUser: UserActions["addUser"];
   deleteUser: UserActions["deleteUser"];
   updateUser: UserActions["updateUser"];
 }
 
-declare interface CounterType {
+interface CounterType {
   annualCal: number,
   count: number,
   setAnnualCal: (value: number) => void,
   setCount: (value: number) => void
 }
 
-declare interface ModalProps {
+interface ModalProps {
   visibility: boolean;
   toggle: (param: boolean) => void;
 }
 
-declare interface NewEvent {
+interface NewEvent {
   title: string;
   startDate: string;
   endDate: string;
@@ -121,15 +123,15 @@ declare interface NewEvent {
   reason: string;
 }
 
-declare type HandleClickType = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+type HandleClickType = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 
-declare interface AddEventModalProps {
+type AddEventModalProps = {
   isOpen: boolean;
   closeModal: () => void;
   handleAddEvent: (newEvent: NewEvent) => void; // NewEvent 타입으로 수정
-}
+};
 
-declare interface NewEvent {
+interface NewEvent {
   title: string;
   startDate: string;
   endDate: string;
@@ -137,7 +139,8 @@ declare interface NewEvent {
   reason: string;
 }
 
-declare interface UpdateType {
+interface UpdateType {
+  message(message: any): unknown;
   id?: number;
   title: string;
   startDate: string;
@@ -145,7 +148,7 @@ declare interface UpdateType {
   reason: string;
 }
 
-declare interface AdminListsAll {
+interface  AdminListsAll {
   id: number;
   name: string;
   category: string;
@@ -154,4 +157,7 @@ declare interface AdminListsAll {
   endDate: string;
   reason?: string;
   status: string;
+}
+
+
 }

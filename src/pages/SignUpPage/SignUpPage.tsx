@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import "./SignUpPage.scss";
 import { useNavigate } from "react-router-dom";
-import { signUp } from "@/Api/apis";
-import Modal from "@/Components/Modal/Modal";
+import { signUp } from "../../Api/apis.ts";
+import Modal from "../../Components/Modal/Modal";
 
 
 export default function SignUpPage() {

@@ -1,7 +1,8 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
-import "./annualModal.scss";
+import "./AnnualModal.scss";
+import { AnnualType, UpdateType } from "types/common";
 
 export default function AnnualModal(props: {
   annual?: AnnualType;
@@ -14,18 +15,18 @@ export default function AnnualModal(props: {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [reason, setReason] = useState("");
-
   const annual = props.annual;
   const id = props.id;
   const visivility = props.visivility;
   const setVisivility = props.setVisivility;
-
   const { changeMyData, deleteMyData } = useDataQuery();
+  
 
   const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(true);
     setVisivility(true);
+    console.log(annual?.title)
   };
 
   const handleEdit = () => {
@@ -52,6 +53,9 @@ export default function AnnualModal(props: {
       startDate: start,
       endDate: end,
       reason: reason,
+      message: function (): unknown {
+        throw new Error("Function not implemented.");
+      }
     };
     changeMyData.mutate(data, {
       onSuccess: () => {
@@ -61,10 +65,19 @@ export default function AnnualModal(props: {
       },
       onError: (error: any) => {
         console.log("수정 실패", error);
+        const errorMessage = error.response.data.message;
+        if (!errorMessage) {
+          alert("제목을 입력하세요");
+        } else {
+          alert(errorMessage);
+        }
       },
     });
   };
 
+
+
+  
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
       onSuccess: (res: any) => {
@@ -88,7 +101,7 @@ export default function AnnualModal(props: {
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
         <div className="custom_modal_content">
-          <button className="Event_close">
+          <button className="Event_close" onClick={() => window.location.reload()}>
             <i className="fa-sharp fa-solid fa-circle-plus"></i>
           </button>
           <div className="addEvent_wrap">

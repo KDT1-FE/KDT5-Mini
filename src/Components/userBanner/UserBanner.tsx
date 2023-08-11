@@ -1,3 +1,4 @@
+import { MyDataType } from "types/common";
 import styles from "./userBanner.module.scss";
 export default function UserBanner(props: {
   myData: MyDataType | undefined;

@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 import Modal from "@/Components/Modal/Modal.tsx";
+import { DutyType, UpdateType } from "types/common";
 import "./DutyModal.scss";
 
 export default function DutyModal(props: {
@@ -44,6 +45,9 @@ export default function DutyModal(props: {
       startDate: start,
       endDate: start,
       reason: "기타휴가",
+      message: function (): unknown {
+        throw new Error("Function not implemented.");
+      }
     };
     changeMyData.mutate(data, {
       onSuccess: () => {
@@ -66,7 +70,7 @@ export default function DutyModal(props: {
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
         <div className="custom_modal_content">
-          <button className="Event_close">
+          <button className="Event_close" onClick={() => window.location.reload()}>
             <i className="fa-sharp fa-solid fa-circle-plus"></i>
           </button>
           <div className="addEvent_wrap">

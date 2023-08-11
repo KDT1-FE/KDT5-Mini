@@ -5,7 +5,8 @@ import {
   permission,
   postDelete,
   postUpdate,
-} from "../Api/apis";
+} from "../Api/apis.ts";
+import { AdminListsAll, UpdateType } from "types/common";
 
 export default function useDataQuery() {
   const queryClient = new QueryClient();

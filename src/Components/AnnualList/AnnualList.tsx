@@ -3,6 +3,7 @@ import styles from "./annualList.module.scss";
 import { DateCount } from "@/Common/CommonFunction.ts";
 import { useState } from "react";
 import AnnualModal from "@/Components/AnnualList/AnnualModal.tsx";
+import { AnnualType, MyDataType } from "types/common";
 
 export default function AnnualList(props: { myData?: MyDataType }) {
 
@@ -15,8 +16,13 @@ export default function AnnualList(props: { myData?: MyDataType }) {
     setId(id);
     const temp = annuals.find((annual) => annual.id === id);
     console.log(temp);
-    setAnnualData(temp);
-    setVisivility(true);
+
+    if (temp?.status === "결재 완료") {
+      alert("결재 완료된 항목은 수정할 수 없습니다.");
+    } else {
+      setAnnualData(temp);
+      setVisivility(true);
+    }
   };
 
   return (
