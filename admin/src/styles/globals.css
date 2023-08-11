@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  src: url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+  unicode-range: U+26, U+0030-0039;
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap%22');
+  unicode-range: U+AC00-D7A3;
+}
