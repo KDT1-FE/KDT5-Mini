@@ -2,7 +2,7 @@ import axios from "axios";
 import { Cookies } from 'react-cookie';
 
 const ApiHttp = axios.create({
-  baseURL: "https://miniproject-team9.p-e.kr/api"
+  baseURL: "/mini"
 });
 
 // AC 토큰을 얻어오는 함수
@@ -14,7 +14,7 @@ export const getAccessToken = () => {
 
 // API 요청을 보낼 때 AC 토큰을 포함한 설정 생성
 export const ApiHttpWithAuth = axios.create({
-  baseURL: "https://miniproject-team9.p-e.kr/api"
+  baseURL: "/mini"
 });
 
 ApiHttpWithAuth.interceptors.request.use(
