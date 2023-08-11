@@ -99,7 +99,6 @@ export default function Home() {
   const [userYearlySchedulesLoading, setUserYearlySchedulesLoading] =
     useState(false);
 
-  const [pendingLoading, setPendingLoading] = useState(false);
   useEffect(() => {
     const getUsersYearlySchedules = async () => {
       if (!accessToken) {
@@ -124,18 +123,20 @@ export default function Home() {
           });
         setSideMyschedule(sideMyScheduleData);
 
-        const events = listResponseData.map((item: ScheduleItem) => {
-          const adjustEndDate = dayjs(item.endDate)
-            .add(1, 'day')
-            .format('YYYY-MM-DD');
-          return {
-            userEmail: item.userEmail,
-            title: item.userName,
-            start: item.startDate,
-            end: adjustEndDate,
-            color: DUTY_ANNUAL[item.scheduleType].color,
-          };
-        });
+        const events = listResponseData
+          .filter((item: mySchedule) => item.state === 'APPROVE')
+          .map((item: ScheduleItem) => {
+            const adjustEndDate = dayjs(item.endDate)
+              .add(1, 'day')
+              .format('YYYY-MM-DD');
+            return {
+              userEmail: item.userEmail,
+              title: item.userName,
+              start: item.startDate,
+              end: adjustEndDate,
+              color: DUTY_ANNUAL[item.scheduleType].color,
+            };
+          });
         setEvents(events);
       } catch (error) {
         console.log(error);
@@ -145,6 +146,8 @@ export default function Home() {
     };
     getUsersYearlySchedules();
   }, [year, accessToken, userEmail]);
+
+  const [pendingLoading, setPendingLoading] = useState(false);
 
   useEffect(() => {
     const myPendingSchedule = async () => {
@@ -174,7 +177,7 @@ export default function Home() {
       }
     };
     myPendingSchedule();
-  }, [year, reRender, accessToken]);
+  }, [year, accessToken, reRender]);
 
   const handleSelect = (value: string) => {
     setScheduleInput({
@@ -221,7 +224,25 @@ export default function Home() {
             ]?.label
           } 신청 완료`,
         });
-        setReRender((prev) => !prev);
+
+        if (response.data.response.scheduleType === 'ANNUAL') {
+          setReRender((prev) => !prev);
+        }
+
+        if (response.data.response.scheduleType === 'DUTY') {
+          const newPendingSchedule = {
+            id: response.data.response.id,
+            key: response.data.response.id,
+            scheduleType: response.data.response.scheduleType,
+            startDate: response.data.response.startDate,
+            endDate: response.data.response.endDate,
+            state: response.data.response.state,
+          };
+          setMyPendingScheduleList((prev) => {
+            console.log(prev);
+            return [...prev, newPendingSchedule];
+          });
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -241,7 +262,7 @@ export default function Home() {
   };
 
   const mySchedule = events.filter((event) => event.userEmail === userEmail);
-  console.log(events);
+
   return (
     <>
       {contextHolder}
