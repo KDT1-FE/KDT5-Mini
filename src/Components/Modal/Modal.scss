@@ -11,7 +11,6 @@
   justify-content: center;
   align-items: center;
   background-color: $main-color-30;
-<<<<<<< HEAD
   z-index: 99;
 }
 
@@ -26,22 +25,9 @@
   font-size: 16px; /* 폰트 크기 조정 */
   margin-top: 20px; /* 모달 컨텐츠 상단 여백 추가 */
   text-align: center; /* 내용을 가운데 정렬 */
-  
   .modal-close {
     @include small-button;
     width: 164px;
-    display: none;
-=======
-  z-index: 9999;
-  .modal-window {
-    width: 80%;
-    max-width: 500px;
-    height: 300px;
-    border-radius: 30px;
-    overflow: hidden;
-    padding: 20px;
-    font-size: 16px;
->>>>>>> f83abe9333d678966d95a5939771ecf45cd707a9
     margin-top: 20px;
     &:hover {
       transform: scale(1.03);

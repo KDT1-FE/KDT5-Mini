@@ -140,6 +140,7 @@ interface NewEvent {
 }
 
 interface UpdateType {
+  message(message: any): unknown;
   id?: number;
   title: string;
   startDate: string;

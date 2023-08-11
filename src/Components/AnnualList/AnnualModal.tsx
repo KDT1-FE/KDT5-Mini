@@ -2,6 +2,7 @@ import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
 import "./annualModal.scss";
+import { AnnualType, UpdateType } from "types/common";
 
 export default function AnnualModal(props: {
   annual?: AnnualType;
@@ -19,6 +20,7 @@ export default function AnnualModal(props: {
   const visivility = props.visivility;
   const setVisivility = props.setVisivility;
   const { changeMyData, deleteMyData } = useDataQuery();
+  
 
   const handleEditClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -73,6 +75,9 @@ export default function AnnualModal(props: {
     });
   };
 
+
+
+  
   const handleDelete = async () => {
     deleteMyData.mutate(id, {
       onSuccess: (res: any) => {
@@ -96,7 +101,7 @@ export default function AnnualModal(props: {
     <>
       <Modal visibility={visivility} toggle={setVisivility}>
         <div className="custom_modal_content">
-          <button className="Event_close">
+          <button className="Event_close" onClick={() => window.location.reload()}>
             <i className="fa-sharp fa-solid fa-circle-plus"></i>
           </button>
           <div className="addEvent_wrap">
