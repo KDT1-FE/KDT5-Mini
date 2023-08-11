@@ -1,27 +1,100 @@
-# ✔️ 미니 프로젝트_연차/당직 프로그램 만들기
+# 'RE:POST'
 
-## 필수 요구 사항
+### Rest + Post : 휴식에 선택의 유연함을 더하다
+<br>
 
-- 로그인 / 회원가입 페이지
-- 개인 정보 수정 페이지
-- 사용자간 공유 게시 페이지 캘린더 사용
+<img src="https://github.com/azure0929/mini-project/assets/128226527/0ef5cf18-d2d4-420e-8120-ae1c1596d6b3" />
 
-## 선택 요구 사항
+#### 연차 당직 관리 시스템을 보다 편리하게 관리하기 위해 해당 서비스를 구현하게 되었습니다. 
+#### 일반 연차 / 당직 관리 시스템의 차별화된 기능으로는 연차 및 당직 사유를 작성할 수 있고, 관리자가 신청 및 거절을 할 수 있어 보다 체계적인 관리가 가능하고, 특정 사원의 직급 수정 및 잔여 연차를 수정 할 수 있는 서비스를 제공하고자 하였습니다.
+<br>
 
-- `useCallback`, `useMemo `등을 통한 컴포넌트 렌더링 최적화
-- 내가 작성한 코드를 팀원 중 누가봐도 쉽게 알아볼 수 있도록 고민하면서 작성해주세요.
+#### • 사용자 배포 주소: [I5E1-Client](https://i5e1-fe-user-repost.netlify.app/)
+#### • 관리자 배포 주소: [I5E1-Admin](https://i5e1-fe-admin-repost.vercel.app/)
+- 관리자 이메일 : qwer@naver.com
+- 관리자 비밀번호  : 1234
+<br><br>
 
-## 과제 수행 및 제출 방법
+#### • FE-사용자 깃허브 주소 [Client](https://github.com/I5E1/I5E1-FE)
+#### • FE-관리자 깃허브 주소 [Admin](https://github.com/I5E1/I5E1-FE-ADMIN)
+<br>
 
-1. 현재 저장소를 로컬에 클론(Clone)합니다.
-2. 팀별로 브랜치를 생성합니다.(`git branch KDT5_TEAM_ABC`)
-3. 팀별 브랜치에서 과제를 수행합니다.
-4. 과제 수행이 완료되면, 자신의 본명 브랜치를 원격 저장소에 푸시(Push)합니다.(`main` 브랜치에 푸시하지 않도록 꼭 주의하세요, `git push origin KDT5_TEAM_ABC`)
-5. 저장소에서 `main` 브랜치를 대상으로 Pull Request 생성하면, 과제 제출이 완료됩니다!(E.g, `main` <== `KDT5_TEAM_ABC`)
+#### • BE-사용자 깃허브 주소 [Client](https://github.com/I5E1/I5E1-Server)
+#### • BE-관리자 깃허브 주소 [Admin](https://github.com/I5E1/I5E1-Admin-Server)
+<br><br><br>
 
-### 주의사항!
+---
+<br>
 
-- `main` 혹은 다른 사람의 브랜치로 절대 병합하지 않도록 주의하세요!
-- Pull Request에서 보이는 설명을 다른 사람들이 이해하기 쉽도록 꼼꼼하게 작성하세요!
-- Pull Request에서 과제 제출 후 절대 병합(Merge)하지 않도록 주의하세요!
-- 과제 수행 및 제출 과정에서 문제가 발생한 경우, 바로 담당 멘토나 강사에서 얘기하세요!
+### 🗓 프로젝트 기간: 2023.07.24 ~ 2023.08.11
+
+<br>
+
+### 🧔 개발팀 
+| **[양준용](https://github.com/7581058)** | **[김진우](https://github.com/dev-junehee)** | **[김세연](https://github.com/doitidey)** |
+| :---: | :---: | :---: |
+| <img src="https://avatars.githubusercontent.com/u/128226527?v=4" width=200px alt="양준용" /> | <img src="https://avatars.githubusercontent.com/u/105920346?v=4" width=200px alt="김진우" /> | <img src="https://avatars.githubusercontent.com/u/118176015?v=4" width=200px alt="김세연" /> |
+| <br> 로그인 <br/> 회원가입 <br/> 관리자 페이지 <br /> -연차/당직관리 부분 승인 및 <br> 거절 처리 상태 적용 <br> -사원관리 부분 수정 기능 적용, <br> 검색 결과에 따른 페이지 적용 <br><br> | 메인 페이지<br/> 마이 페이지<br/> | 관리자 페이지 <br/> -연차/당직관리<br/> -사원관리<br/> -로그아웃 |
+<br>
+
+### 기술 스택
+Development
+<p>
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white" />
+<img src="https://img.shields.io/badge/Tailwind css-06B6D4?style=flat&logo=tailwind css&logoColor=white" />
+<img src="https://img.shields.io/badge/Styled-components-DB7093?style=flat&logo=styled-components&logoColor=white">
+<img src="https://img.shields.io/badge/Zustand-F05032?style=flat&logo=Zustand&logoColor=white">
+</p>
+
+Config
+<p>
+<img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white"/></a>
+</p>
+
+Environment
+<p>
+<img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat&logo=Visual Studio Code&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a>
+</p>
+
+Cowork Tools
+<p>
+<img src="https://img.shields.io/badge/Zoom-2D8CFF?style=flat&logo=Zoom&logoColor=white" />
+<img src="https://img.shields.io/badge/discord-5865F2?style=flat&logo=discord&logoColor=white" />
+</p>
+<br>
+
+<br>
+
+## 💻 프로젝트 테스트
+<br>
+
+### Clone Project
+```
+$ git clone git@github.com:I5E1/I5E1-FE.git
+$ git clone git@github.com:I5E1/I5E1-FE-ADMIN.git
+```
+<br>
+
+### Go to Project
+```
+$ cd I5E1-FE
+# cd I5E1-FE-ADMIN
+```
+<br>
+
+### Install
+```
+$ npm i
+```
+<br>
+
+### Start Project
+```
+$ npm run dev
+```
+<br><br>
+
+### 🙏 감사합니다 </br>

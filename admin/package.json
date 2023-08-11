@@ -1,0 +1,36 @@
+{
+  "name": "mini-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "vercel:login": "vercel login",
+    "vercel:dev": "vercel dev"
+  },
+  "dependencies": {
+    "@types/node": "20.4.5",
+    "@types/react": "18.2.17",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "babel-plugin-styled-components": "^2.1.4",
+    "dayjs": "^1.11.9",
+    "eslint-config-next": "13.4.12",
+    "next": "13.4.12",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "^6.0.5",
+    "styled-reset": "^4.5.1",
+    "typescript": "5.1.6",
+    "zustand": "^4.3.9"
+  },
+  "devDependencies": {
+    "@craco/types": "^7.1.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "vercel": "^31.2.0"
+  }
+}
