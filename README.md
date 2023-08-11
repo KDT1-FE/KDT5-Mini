@@ -1,27 +1,76 @@
-# ✔️ 미니 프로젝트_연차/당직 프로그램 만들기
+## 📌프로젝트 소개
 
-## 필수 요구 사항
+### 🏢SOONYANG프로젝트
 
-- 로그인 / 회원가입 페이지
-- 개인 정보 수정 페이지
-- 사용자간 공유 게시 페이지 캘린더 사용
+Next.Js , React, TypeScript, Rest API를 활용해서 만든 연차 당직 관리 웹사이트 입니다.
 
-## 선택 요구 사항
+### 프로젝트 기간
 
-- `useCallback`, `useMemo `등을 통한 컴포넌트 렌더링 최적화
-- 내가 작성한 코드를 팀원 중 누가봐도 쉽게 알아볼 수 있도록 고민하면서 작성해주세요.
+2023년 7월 24일 ~ 2023년 8월 11일
 
-## 과제 수행 및 제출 방법
+## 📌개발팀원 및 역할
 
-1. 현재 저장소를 로컬에 클론(Clone)합니다.
-2. 팀별로 브랜치를 생성합니다.(`git branch KDT5_TEAM_ABC`)
-3. 팀별 브랜치에서 과제를 수행합니다.
-4. 과제 수행이 완료되면, 자신의 본명 브랜치를 원격 저장소에 푸시(Push)합니다.(`main` 브랜치에 푸시하지 않도록 꼭 주의하세요, `git push origin KDT5_TEAM_ABC`)
-5. 저장소에서 `main` 브랜치를 대상으로 Pull Request 생성하면, 과제 제출이 완료됩니다!(E.g, `main` <== `KDT5_TEAM_ABC`)
+| <a href="https://github.com/1017yu"><img src="https://avatars.githubusercontent.com/u/83483378?v=4" width=200px alt="유희태" /></a> | <a href="https://github.com/96uoow"><img src="https://avatars.githubusercontent.com/u/121873684?v=4" width=200px alt="문현수" /></a> | <a href="https://github.com/KIMKAEUN"><img src="https://avatars.githubusercontent.com/u/129493066?v=4" width=200px alt="김가은" /></a> | <a href="https://github.com/leechanghwi"><img src="https://avatars.githubusercontent.com/u/128275359?v=4" width=200px alt="이창휘" /></a> |
+| :---------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                 [유희태](https://github.com/1017yu)                                                 |                                                 [문현수](https://github.com/96uoow)                                                  |                                                 [김가은](https://github.com/KIMKAEUN)                                                  |                                                 [이창휘](https://github.com/leechanghwi)                                                  |
+|                                                         로그인 페이지 구현                                                          |                                                           메인 페이지 구현                                                           |                                                            마이 페이지 구현                                                            |                                                            관리자 페이지 구현                                                             |
 
-### 주의사항!
+## 📌배포사이트
 
-- `main` 혹은 다른 사람의 브랜치로 절대 병합하지 않도록 주의하세요!
-- Pull Request에서 보이는 설명을 다른 사람들이 이해하기 쉽도록 꼼꼼하게 작성하세요!
-- Pull Request에서 과제 제출 후 절대 병합(Merge)하지 않도록 주의하세요!
-- 과제 수행 및 제출 과정에서 문제가 발생한 경우, 바로 담당 멘토나 강사에서 얘기하세요!
+[SOONYANG](https://soonyang.vercel.app)
+
+## 📌Stack
+
+Config  
+<img src="https://img.shields.io/badge/Npm-CB3837?style=flat&logo=npm&CB3837&logoColor=white"/>
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Vite&logoColor=white"/>
+
+Development  
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=styledcomponents&logoColor=white"/>
+
+Library  
+<img src="https://img.shields.io/badge/Recoil-0075EB?style=flat&logo=&logoColor=white"/>
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white"/> <img src="https://img.shields.io/badge/HeroIcons-9999FF?style=flat&logo=chartdotjs&logoColor=white"/> <img src="https://img.shields.io/badge/Antd-40D1F5?style=flat&logo=chartdotjs&logoColor=white"/> <img src="https://img.shields.io/badge/DatePicker-0099E5?style=flat&logo=Date&logoColor=white"/>
+
+Enviroment  
+<img src="https://img.shields.io/badge/Github-181717?style=flat&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/>
+<img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=flat&logo=VisualStudioCode&logoColor=white"/>
+
+Deployment  
+<img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=netlify&logoColor=white"/>
+
+Cowork Tools  
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=miro&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-4A154B?style=flat&logo=lack&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white"/>
+
+## 📌구현 페이지와 주요 기능
+
+**1️⃣ 로그인 페이지**
+
+-
+-
+- 1
+
+**2️⃣ 메인 페이지**
+
+-
+-
+- 1
+
+**3️⃣ 마이페이지 페이지**
+
+- 개인정보 조회
+- 개인정보 수정
+- 연차, 당직신청 내역 조회
+
+**4️⃣ 관리자페이지**
+
+- 사원 조회
+- 사원 필터별 검색
+- 사원 상세정보 조회
+- 사원 상세정보 수정
+- 사원별 승인된 연차 및 당직 조회
+- 사원 휴가 및 당직 요청 조회
+- 사원 휴가 및 당직 요청 승인 및 거절
