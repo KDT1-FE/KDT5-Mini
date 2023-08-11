@@ -9,6 +9,33 @@ import Button from "./common/Button";
 import ImageSelectionModal from "./ImageSelectionModal";
 import { editUserInfo } from "../lib/api/userApi";
 import { useUserStore } from "../store/userStore";
+import { REG_EXP_PW_PATTERN } from "../lib/util/constants";
+import { useNavigate } from "react-router-dom";
+
+// 이미지를 import로 참조
+import image1 from "../../src/assets/1.png";
+import image2 from "../../src/assets/2.png";
+import image3 from "../../src/assets/3.png";
+import image4 from "../../src/assets/4.png";
+import image5 from "../../src/assets/5.png";
+import image6 from "../../src/assets/6.png";
+import image7 from "../../src/assets/7.png";
+import image8 from "../../src/assets/8.png";
+import image9 from "../../src/assets/9.png";
+import image10 from "../../src/assets/10.png";
+
+const imageObjects = [
+  { src: image1, path: "/src/assets/1.png" },
+  { src: image2, path: "/src/assets/2.png" },
+  { src: image3, path: "/src/assets/3.png" },
+  { src: image4, path: "/src/assets/4.png" },
+  { src: image5, path: "/src/assets/5.png" },
+  { src: image6, path: "/src/assets/6.png" },
+  { src: image7, path: "/src/assets/7.png" },
+  { src: image8, path: "/src/assets/8.png" },
+  { src: image9, path: "/src/assets/9.png" },
+  { src: image10, path: "/src/assets/10.png" },
+];
 
 interface User {
   imageUrl: string;
@@ -29,7 +56,7 @@ interface FormValues {
   newPasswordCheck: string;
 }
 
-const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, closeModal}) => {
+const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, closeModal }) => {
   const {
     register,
     setValue,
@@ -42,10 +69,14 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
 
   const [imagePreview, setImagePreview] = useState(user.imageUrl); // Image URL을 저장하는 상태
   const [showImageModal, setShowImageModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleImageSelection = (imageSrc: string) => {
-    setImagePreview(imageSrc);
-    setValue("imageUrl", imageSrc); // imageUrl 값을 업데이트
+    const selectedImage = imageObjects.find((obj) => obj.path === imageSrc);
+    if (selectedImage) {
+      setImagePreview(selectedImage.src);
+    }
+    setValue("imageUrl", imageSrc);
     setShowImageModal(false);
   };
 
@@ -61,7 +92,7 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
 
       // 성공적으로 변경되었을 때의 로직
       if (response.status === 200 && response.msg === "success") {
-        alert("회원정보가 수정되었습니다"); // Alert message
+        alert("회원정보가 정상 수정되었습니다.\n로그인 페이지로 이동합니다."); // Alert message
 
         // 전역 상태 업데이트
         useUserStore.getState().setUser({
@@ -72,17 +103,22 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
           accessToken: useUserStore.getState().user.accessToken,
         });
 
-        onCancel(); // 모달 닫기
+        navigate("/login"); // 로그인 페이지로 리다이렉트합니다.
+
+        onCancel(); // 회원정보 수정 모달 닫기
+        closeModal(); // 회원정보 조회 모달 닫기
+      } else {
+        alert("회원정보 수정 중 문제가 발생했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
       // 에러 발생 시 처리할 로직
       console.error("Error editing user info:", error);
+      alert("회원정보 수정 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
-
   return (
     <>
-      <Modal>
+      <Modal $h500Modal>
         <ModalTitleArea>
           <ModalTitle>회원정보 수정</ModalTitle>
           <CloseButton onClick={closeModal}>
@@ -111,7 +147,7 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
                   required: true,
                   minLength: 8,
                   maxLength: 15,
-                  pattern: /^(?=.*[A-Za-z])(?=.*\d)(?!.*\s).{8,15}$/,
+                  pattern: REG_EXP_PW_PATTERN,
                 })}
                 placeholder="현재 비밀번호"
               />
@@ -129,7 +165,7 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
                 "비밀번호는 최대 15자 이하입니다."}
               {errors.currentPassword &&
                 errors.currentPassword.type === "pattern" &&
-                "영문, 숫자를 포함(공백 제외)하여 입력해주세요."}
+                "영문, 숫자, 특수문자를 포함(공백 제외)한 8~15자"}
             </ErrorMessage>
             <InputWrapper>
               <Label>새 비밀번호</Label>
@@ -139,7 +175,7 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
                   required: true,
                   minLength: 8,
                   maxLength: 15,
-                  pattern: /^(?=.*[A-Za-z])(?=.*\d)(?!.*\s).{8,15}$/,
+                  pattern: REG_EXP_PW_PATTERN,
                 })}
                 placeholder="새 비밀번호"
               />
@@ -151,7 +187,7 @@ const EditUserInfoModal: React.FC<EditUserInfoModalProps> = ({ user, onCancel, c
               {errors.newPassword && errors.newPassword.type === "maxLength" && "비밀번호는 최대 15자 이하입니다."}
               {errors.newPassword &&
                 errors.newPassword.type === "pattern" &&
-                "영문, 숫자를 포함(공백 제외)하여 입력해주세요."}
+                "영문, 숫자, 특수문자를 포함(공백 제외)한 8~15자"}
             </ErrorMessage>
             <InputWrapper>
               <Label>새 비밀번호 확인</Label>
