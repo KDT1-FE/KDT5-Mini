@@ -195,9 +195,6 @@ const MainCalendar = () => {
                   />
                   전체 일정
                 </label>
-                <label className="select_calendar_option">
-                  <input type="checkbox" className="input_checkbox" />내 일정
-                </label>
               </div>
             </div>
             <div className="select_categories">
