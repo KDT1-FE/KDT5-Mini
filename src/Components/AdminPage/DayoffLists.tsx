@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query";
 import styles from "./DayoffLists.module.scss";
+import { AxiosResponse } from "axios";
 
 interface AdminListsAll {
   id: number;
@@ -32,7 +33,7 @@ export default function DayoffLists({ item }: Props) {
   const handlePermissionClick = async (): Promise<void> => {
     if (status === "결재 대기") {
       try {
-        const res = await changeAdminData.mutateAsync(item);
+        const res: AxiosResponse = await changeAdminData.mutateAsync(item);
         if (res && res.data) {
           setStatus("결재완료");
         }

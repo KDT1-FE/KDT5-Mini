@@ -4,7 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@types/common": ["src/types/common.ts"]
+      "@types/common": ["src/types/common.ts"],
+      "@api/*": ["src/Api/*"]
+
     },
     "useDefineForClassFields": true,
     "lib": [
