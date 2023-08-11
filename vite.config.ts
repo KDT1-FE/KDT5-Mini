@@ -12,7 +12,7 @@ export default defineConfig({
     alias: [{ find: "@", replacement: `${__dirname}/src` }],
   },
   server: {
-    host: "localhost",
+    host: "https://miniproject-team9.p-e.kr/",
     proxy: {
       "/mini": {
         target: "https://miniproject-team9.p-e.kr/",
