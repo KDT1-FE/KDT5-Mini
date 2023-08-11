@@ -17,6 +17,7 @@ export const ApiHttpWithAuth = axios.create({
   baseURL: "/mini"
 });
 
+
 ApiHttpWithAuth.interceptors.request.use(
   (config) => {
     const acToken = getAccessToken(); // AC 토큰 가져오기
