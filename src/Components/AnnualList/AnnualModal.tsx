@@ -1,7 +1,7 @@
 import Modal from "@/Components/Modal/Modal.tsx";
 import { ChangeEvent, useState } from "react";
 import useDataQuery from "@/Hooks/useData-Query.tsx";
-import "./annualModal.scss";
+import "./AnnualModal.scss";
 import { AnnualType, UpdateType } from "types/common";
 
 export default function AnnualModal(props: {
