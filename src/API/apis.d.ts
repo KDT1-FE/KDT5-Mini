@@ -1,9 +1,9 @@
 // apis.d.ts
 
 import { AxiosInstance } from "axios";
-import { UpdateType } from "types/common";
+import { UpdateType } from "../types/common";
 
-declare module "src/Api/apis" {
+declare module "src/Api/apis.ts" {
   export const getAccessToken: () => string | undefined;
   
   export const ApiHttp: AxiosInstance;
