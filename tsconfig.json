@@ -6,7 +6,6 @@
       "@/*": ["src/*"],
       "@types/common": ["src/types/common.ts"],
       "@api/apis": ["src/Api/apis.ts"]
-
     },
     "useDefineForClassFields": true,
     "lib": [
