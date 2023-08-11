@@ -9,6 +9,7 @@ export const getAccessToken = (): string | undefined => {
   return cookie.get("accessToken");
 };
 
+
 const ACCESSTOKEN = getAccessToken();
 export const ApiHttp: AxiosInstance = axios.create({
   baseURL: "/mini",
