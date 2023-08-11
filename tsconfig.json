@@ -32,6 +32,7 @@
   "include": [
     "src",
     "src/types/common.ts",
+    "src/Api/apis.ts",
     "src/main.tsx",
     "vite-env.d.ts",
     "client",
