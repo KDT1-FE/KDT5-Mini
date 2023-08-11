@@ -14,7 +14,7 @@ export const ApiHttp: AxiosInstance = axios.create({
   baseURL: "https://miniproject-team9.p-e.kr",
   headers: {
     Authorization: `Bearer ${ACCESSTOKEN}`,
-  },
+  }, 
 });
 
 export const ApiLogin: AxiosInstance = axios.create({
