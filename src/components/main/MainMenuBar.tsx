@@ -2,6 +2,7 @@ import { dutyState, manageState, modalState } from '@/recoil/common/modal';
 import { useRecoilState } from 'recoil';
 import ApproveModal from '@/components/common/ApproveModal';
 import ManageModal from '@/components/common/ManagerModal';
+import Router from 'next/router';
 
 export default function MenuBar() {
   const [isModalShow, setIsModalShow] = useRecoilState(modalState);
@@ -33,7 +34,8 @@ export default function MenuBar() {
       <div>
         <div
           className="before:content-[''] before:block before:w-1.5 before:h-6 before:bg-mainBlack before:absolute before:top-3.5 before:left-0 before:hover:bg-primary
-          py-3.5 relative text-mainBlack pl-7 font-semibold cursor-pointer hover:text-primary">
+          py-3.5 relative text-mainBlack pl-7 font-semibold cursor-pointer hover:text-primary"
+          onClick={()=> Router.push('/member')}>
           마이페이지
         </div>
         <div

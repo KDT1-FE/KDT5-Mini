@@ -1,17 +1,28 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
 import { rPassword } from '@/constants/constants';
 import { requestResetPw } from '@/api/auth/resetPw';
+import DialogModal from '@/components/common/Dialog';
 import AuthValidCheck from '@/components/auth/sign-up/AuthValidCheck';
 
 export default function AuthResetPwInput() {
   const router = useRouter();
-  const { query } = router;
+
+  const { query } = router; // get query
   const authToken = query.authToken; // query에서 AuthToken get
+
   const [password, setPassword] = useState(''); // 새로운 비밀번호
   const [confirmPassword, setComfirmPassword] = useState(''); // 새로운 비밀번호 확인
+
+  // Diaglog Modal 렌더링 조건
+  const [renderModal, setRenderModal] = useState(true);
+
+  // query의 authToken을 가져오지 못했다면 (비정상 접근인 경우) 경고 모달
+  useEffect(() => {
+    if (authToken) setRenderModal(false);
+  }, [authToken]);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event?.target.value);
@@ -70,6 +81,7 @@ export default function AuthResetPwInput() {
       if (response) {
         if (response.data.success) {
           alert(response.data.message);
+          router.push('/');
         }
       }
     } catch (error: any) {
@@ -79,6 +91,7 @@ export default function AuthResetPwInput() {
 
   return (
     <>
+      {renderModal && <DialogModal message={'로그인이 필요합니다.'} />}
       <form onSubmit={handleResetPw}>
         <div className="sm:mb-8 mb-8">
           <Input

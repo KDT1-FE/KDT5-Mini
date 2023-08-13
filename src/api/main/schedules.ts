@@ -17,8 +17,9 @@ export default async function requestSchedules() {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('Request_Fail', error);
-    throw error;
+  } catch (error: any) {
+    alert(error.response.data.message);
+    location.replace('/');
+    return error;
   }
 }

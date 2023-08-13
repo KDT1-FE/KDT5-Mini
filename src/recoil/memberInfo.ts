@@ -11,6 +11,7 @@ export const memberInfoState = atom<IMember>({
     phone: '',
     hireDate: '',
     profilePath: '',
-    position: ''
+    position: '',
+    isLoading: true
   }
 });

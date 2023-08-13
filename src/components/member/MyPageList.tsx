@@ -25,12 +25,12 @@ export default function MyPageList() {
   }, []);
 
   return (
-    <div className="w-[64rem] h-[36.67rem]">
+    <div className="w-[64rem] border-[1px] rounded shadow h-[36.67rem] ">
       <div className="relative  w-[9rem] rounded-sm font-bold sm:text-2xl sm:pb-8 h-9">
         <span className="bg-primary absolute  top-0 left-0 w-4 h-9 z-0"></span>
         <span className="relative z-10 pl-4 ml-2">연차 리스트</span>
       </div>
-      <div className="flex justify-between border-y-2 border-solid mt-6 text-1.5xl font-semibold py-3 text-center">
+      <div className="mx-4 flex justify-between border-y-2 border-solid mt-6 text-1.5xl font-semibold rounded-sm py-3 text-center shadow">
         <div className="w-[13.33rem] ">요청</div>
         <div className="w-[16.67rem]">사용날짜</div>
         <div className="w-[16.67rem]">사유</div>
@@ -41,7 +41,7 @@ export default function MyPageList() {
           <div
             key={dayoffs.dayOffId}
             className="h-[3.33rem] flex justify-between border-b-2 border-solid text-1.5xl py-3  text-center ">
-            <div className="w-[13.33rem] font-semibold">
+            <div className="w-[13.33rem] text-mainBlack font-semibold">
               {dayoffs.type}({dayoffs.amount}일)
             </div>
             <div className="w-[16.67rem] text-gray-500">{`${dayoffs.startDate} ~ ${dayoffs.endDate}`}</div>
@@ -66,7 +66,7 @@ export default function MyPageList() {
         <span className="relative z-10 pl-4 ml-2">당직 리스트</span>
       </div>
       <div>
-        <div className="flex justify-between border-y-2 border-solid mt-6 text-1.5xl font-semibold py-3 text-center">
+        <div className="mx-4 flex justify-between border-y-2 border-solid mt-6 text-1.5xl font-semibold py-3 shadow rounded-sm text-center">
           <div className="w-[13.33rem]">요청</div>
           <div className="w-[33.33rem] ">사용날짜</div>
           <div className="w-[13.33rem]"> 처리결과</div>
@@ -78,7 +78,9 @@ export default function MyPageList() {
               <div
                 key={duties.dutyId}
                 className="flex justify-between border-b-2 border-solid text-1.5xl py-3  overflow-y-auto text-center">
-                <div className="w-[13.33rem] font-semibold">{duties.type}</div>
+                <div className="w-[13.33rem] font-semibold text-mainBlack">
+                  {duties.type}
+                </div>
                 <div className="w-[33.33rem] text-gray-500">{duties.date}</div>
                 <div
                   className={`w-[13.33rem] font-semibold ${

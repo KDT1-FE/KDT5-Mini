@@ -18,8 +18,7 @@ export default async function memberInfo() {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('List_FAILURE', error);
-    throw error;
+  } catch (error: any) {
+    return error;
   }
 }

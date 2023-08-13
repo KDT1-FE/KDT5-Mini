@@ -10,3 +10,10 @@ export interface IChangeDuty {
 export interface ICancelDuty {
 	status: string
 }
+
+export interface IDutiesFormatted {
+  dutyId:number
+  date:string
+  status:string
+  type:string
+}

@@ -20,9 +20,8 @@ export default async function dayOffRes(
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('DAYOFFRES_FAILURE', error);
-    throw error;
+  } catch (error: any) {
+    return error;
   }
 }
 //연차승인요청

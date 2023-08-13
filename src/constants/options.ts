@@ -37,6 +37,15 @@ export const MODIFY_DEPARTMENT = [
   '순양그룹'
 ];
 
+export const MEMBER_DEPARTMENT = [
+  '순양자동차',
+  '순양백화점',
+  '순양증권',
+  '순양반도체',
+  '순양의료원',
+  '순양마이크로'
+];
+
 export const TEMP_DEPARTMENT = {
   '순양 자동차': 'AUTOMOBILE',
   '순양 백화점': 'STORE',

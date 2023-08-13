@@ -22,7 +22,10 @@ module.exports = {
         mainBlack: '#525252',
         modalBorder: '#A1A1A1',
         mainBlue: '#4050E0',
-        subHover: '#e8bec2'
+        subHover: '#e8bec2',
+        naver: '#03c75a',
+        google: '#4285F4',
+        kakao: '#FEE102'
       }
     }
   },

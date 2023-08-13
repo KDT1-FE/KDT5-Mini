@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { signInState } from '@/recoil/logIn';
-import PwBox from '@/components/common/PwBox';
 import Button from '@/components/common/Button';
 import { requestSignIn } from '@/api/auth/logIn';
+import AuthBox from '@/components/auth/AuthBox';
 import AuthSignInInput from '@/components/auth/sign-in/AuthSignInInput';
 
 export default function AuthSignInBox() {
@@ -31,13 +31,14 @@ export default function AuthSignInBox() {
         // 사원 id
         const employeeId = response.data.data.employee.id;
 
+        // role
+        const role = response.data.data.employee.role;
+
         // 쿠키 생성
         document.cookie = `accessToken=${accessToken};`;
         document.cookie = `expires=${expireDate.toUTCString()};`;
         document.cookie = `employeeId=${employeeId};`;
-
-        // 성공 메시지 alert
-        alert(response.data.message);
+        document.cookie = `role=${role};`;
 
         // 관리자면 admin-manage 페이지로 라우팅
         if (response.data.data.employee.role === 'ADMIN') {
@@ -58,7 +59,7 @@ export default function AuthSignInBox() {
   };
 
   return (
-    <PwBox>
+    <AuthBox>
       <form onSubmit={handleLogin}>
         <AuthSignInInput />
         <Button contents={'로그인'} submit />
@@ -75,6 +76,6 @@ export default function AuthSignInBox() {
           </Link>
         </div>
       </form>
-    </PwBox>
+    </AuthBox>
   );
 }

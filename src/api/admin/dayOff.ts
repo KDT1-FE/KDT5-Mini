@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { clientInstance } from '@/api/axios';
-import { ILeaveProps } from '@/types/IAdmin';
 import { Cookies } from 'react-cookie';
 
 const cookie = new Cookies();
 const accessToken = cookie.get('accessToken');
 
-export default async function dayOffList(): Promise<ILeaveProps> {
+export default async function dayOffList() {
   try {
-    const response = await axios.get<ILeaveProps>(
+    const response = await axios.get(
       `${clientInstance.defaults.baseURL}/api/admin/day-offs`,
       {
         headers: {
@@ -18,9 +17,6 @@ export default async function dayOffList(): Promise<ILeaveProps> {
     );
 
     return response.data;
-  } catch (error) {
-    console.error('DAYOFF_FAILURE', error);
-    throw error;
-  }
+  } catch (error) {}
 }
 //연차요청관리페이지

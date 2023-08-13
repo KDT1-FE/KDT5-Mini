@@ -17,9 +17,8 @@ export default async function dutiesList(): Promise<IDutyProps> {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('DUTY_FAILURE', error);
-    throw error;
+  } catch (error: any) {
+    return error;
   }
 }
 //당직요청관리페이지

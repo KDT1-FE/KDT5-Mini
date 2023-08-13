@@ -27,15 +27,16 @@ export async function requestDayOff(requestData: IApplyDayOff) {
 
 export async function changeDayOff(requestChange: IChangeDayOff) {
   try {
-    const response = await axios.post(
-      `${clientInstance.defaults.baseURL}/api/schedules/day-off/`,
-      requestChange
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // }
+    const response = await axios.put(
+      `${clientInstance.defaults.baseURL}/api/schedules/day-off/${requestChange.dayOffId}`,
+      requestChange,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
     );
+    return response
   } catch (error) {
     console.error('Request_Fail', error);
     throw error;
@@ -45,14 +46,15 @@ export async function changeDayOff(requestChange: IChangeDayOff) {
 export async function cancelDayOff(requestChange: ICancelDayOff) {
   try {
     const response = await axios.put(
-      `${clientInstance.defaults.baseURL}/api/schedules/day-off/status`,
-      requestChange
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`
-      //   }
-      // }
+      `${clientInstance.defaults.baseURL}/api/schedules/day-off/{${requestChange.dayOffId}}/${requestChange.status}`,
+      requestChange,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
     );
+    return response
   } catch (error) {
     console.error('Request_Fail', error);
     throw error;

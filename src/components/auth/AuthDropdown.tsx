@@ -18,7 +18,7 @@ export default function AuthDropdown({ ...props }: IDropdown) {
   }, [props.options, selected, setSignUpInfo]);
 
   return (
-    <div className="pt-2 text-left border-b-2 h-10 border-gray-200 mb-4 max-w-[calc(100%-5rem)] sm:max-w-[calc(100%-6rem)]">
+    <div className="pt-2 text-left border-b-2 h-10 border-gray-200 mb-4 max-w-[calc(100%-5rem)] sm:max-w-[calc(100%-7rem)]">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
           <Listbox.Button className="pl-1 w-full cursor-default text-left sm:text-sm text-xs">

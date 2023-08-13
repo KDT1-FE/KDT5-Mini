@@ -140,14 +140,9 @@ export default function ApproveModal(modalProps: IModalProps) {
   };
 
   const submitDayOff = () => {
+    //event?.preventDefault()
     requestDayOff(dayOffData);
   };
-
-  // if (modalProps.IsDutyModal) {
-  //   startDateForm !== endDateForm
-  //     ? alert('반차의 경우 시작일과 마감일이 같아야 합니다.')
-  //     : null;
-  // }
 
   const dutyData = {
     employeeId: employeeId,
@@ -155,7 +150,6 @@ export default function ApproveModal(modalProps: IModalProps) {
   };
 
   const submitDuty = () => {
-    event?.preventDefault();
     requestDuty(dutyData);
   };
 

@@ -60,9 +60,11 @@ export default function RequestList({
       setIsLoading(true);
       if (page === 'admin-leave') {
         const responseLeave = await dayOffList();
-        const responseDataLeave = responseLeave.data;
-        const leaveEmployees = responseDataLeave || [];
-        setEmployees(leaveEmployees);
+        if (responseLeave) {
+          const responseDataLeave = responseLeave.data;
+          const leaveEmployees = responseDataLeave || [];
+          setEmployees(leaveEmployees);
+        }
       } else if (page === 'admin-duty') {
         const responseDuty = await dutyOffList();
         const responseDataDuty = responseDuty.data;

@@ -1,4 +1,8 @@
 import Link from 'next/link';
+import { Cookies } from 'react-cookie';
+
+const cookie = new Cookies();
+const employeeId = cookie.get('employeeId');
 
 export default function NotFound() {
   return (
@@ -20,12 +24,18 @@ export default function NotFound() {
       <div className="flex justify-center text-xl mt-16 sm:text-[3rem] sm:mt-8 text-mainBlack">
         페이지를 찾을 수 없습니다.
       </div>
-      <div
-        className="flex justify-center text-xl mt-4 mb-8 sm:text-3xl sm:mt-16 sm:mb-24 text-mainBlack cursor-pointer;
-">
-        <Link className="transition ease-in-out hover:scale-110" href={'/'}>
-          정심재로 돌아가기
-        </Link>
+      <div className="flex justify-center text-xl mt-4 mb-8 sm:text-3xl sm:mt-16 sm:mb-24 text-mainBlack cursor-pointer;">
+        {employeeId ? (
+          <Link
+            className="transition ease-in-out hover:scale-110"
+            href={'/main'}>
+            정심재로 돌아가기
+          </Link>
+        ) : (
+          <Link className="transition ease-in-out hover:scale-110" href={'/'}>
+            정심재로 돌아가기
+          </Link>
+        )}
       </div>
     </div>
   );

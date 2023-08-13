@@ -10,4 +10,5 @@ export interface IPersonal {
 export interface IMember extends IPersonal {
   profilePath: string;
   position: string;
+  isLoading: boolean;
 }

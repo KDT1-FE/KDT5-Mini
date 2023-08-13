@@ -7,6 +7,7 @@ export interface IButtonProps {
   submit?: boolean;
   secondary?: boolean;
   disabled?: boolean;
+  site?: string;
 }
 
 // Layout Interface

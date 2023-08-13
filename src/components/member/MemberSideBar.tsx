@@ -11,7 +11,7 @@ export default function MemberSideBar() {
     비밀번호수정: '/change-pw'
   };
   return (
-    <div className="sm:mt-8">
+    <>
       {Object.entries(sideList).map(([key, link]) => (
         <div
           key={key}
@@ -25,6 +25,6 @@ export default function MemberSideBar() {
           <Link href={link}>{key}</Link>
         </div>
       ))}
-    </div>
+    </>
   );
 }

@@ -39,14 +39,18 @@ export default function EmployeeList({
 
   useEffect(() => {
     setIsLoading(true);
-    const fetchEmployees = async () => {
-      const response = await reqManage();
-      setEmployees(response.data || []);
-    };
-    {
-      setTimeout(() => setIsLoading(false), 500);
+    try {
+      const fetchEmployees = async () => {
+        const response = await reqManage();
+        setEmployees(response.data || []);
+      };
+      {
+        setTimeout(() => setIsLoading(false), 500);
+      }
+      fetchEmployees();
+    } catch (error: any) {
+      console.log(error);
     }
-    fetchEmployees();
   }, []);
 
   const handleDayOffDetails = async (employeeId: number) => {

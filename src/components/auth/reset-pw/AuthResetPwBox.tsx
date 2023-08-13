@@ -1,9 +1,9 @@
-import PwBox from '@/components/common/PwBox';
+import AuthBox from '@/components/auth/AuthBox';
 import AuthResetPwInput from '@/components/auth/reset-pw/AuthResetPwInput';
 
 export default function AuthResetPwBox() {
   return (
-    <PwBox>
+    <AuthBox>
       <div className="sm:mb-8 sm:text-3xl mb-4 text-sm">
         순양 계정의
         <br /> 비밀번호를 재설정합니다.
@@ -12,6 +12,6 @@ export default function AuthResetPwBox() {
         재설정할 비밀번호를 <br /> 입력해주세요.
       </div>
       <AuthResetPwInput />
-    </PwBox>
+    </AuthBox>
   );
 }

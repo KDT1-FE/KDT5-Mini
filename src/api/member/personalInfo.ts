@@ -17,8 +17,5 @@ export default async function requestPersonal() {
       }
     );
     return response.data;
-  } catch (error) {
-    console.error('Request_Fail', error);
-    throw error;
-  }
+  } catch (error) {}
 }

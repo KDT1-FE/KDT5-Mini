@@ -19,7 +19,6 @@ export default async function memberModify(data: FormData) {
     );
     return response.data;
   } catch (error) {
-    console.error('MEMBERMODIFY_FAILURE', error);
-    throw error;
+    console.log(error);
   }
 }

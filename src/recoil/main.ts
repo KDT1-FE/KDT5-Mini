@@ -24,3 +24,8 @@ export const emailState = atom({
   key: 'userEmail',
   default: ''
 });
+
+export const typeState = atom({
+  key: 'dayOffType',
+  default: ''
+});

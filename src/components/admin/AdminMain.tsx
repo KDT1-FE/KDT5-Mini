@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import { RecoilRoot } from 'recoil';
+import { Cookies } from 'react-cookie';
+import React, { useEffect, useState } from 'react';
+import DialogModal from '@/components/common/Dialog';
 import { IMainProps } from '@/types/IAdmin';
 import MainHeader from '@/components/admin//AdminMainHeader';
 import SideBar from '@/components/admin//AdminSideBar';
@@ -7,7 +10,6 @@ import RequestList from '@/components/admin/AdminRequestList';
 import EmployeeList from '@/components/admin/AdminManageList';
 import CustomPicker from '@/components/common/CustomPicker';
 import AdminModify from '@/components/admin/AdminModify';
-import { RecoilRoot } from 'recoil';
 
 import {
   EMPLOYEE_POSITION,
@@ -17,6 +19,11 @@ import {
 } from '@/constants/options';
 
 export default function Main({ page }: IMainProps) {
+  // 쿠키에 저장된 employeeId를 꺼내와서 employeeId 변수에 저장
+  const cookie = new Cookies();
+  const isAdmin = cookie.get('role');
+
+  const [renderModal, setRenderModal] = useState(true); // Diaglog Modal 렌더링 조건
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [selectedDepartment, setSelectedDepartment] =
     useState<string>('계열사');
@@ -28,6 +35,10 @@ export default function Main({ page }: IMainProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const itemsPerPage = 10;
+
+  useEffect(() => {
+    if (isAdmin === 'ADMIN') setRenderModal(false);
+  }, [isAdmin]);
 
   const handlePageChange = (selectedPage: number) => {
     setCurrentPage(selectedPage);
@@ -59,6 +70,8 @@ export default function Main({ page }: IMainProps) {
 
   return (
     <RecoilRoot>
+      {renderModal && <DialogModal message={'관리자 로그인이 필요합니다.'} />}
+
       <div className="w-[96rem] h-[52.25rem] bg-white mx-auto my-auto rounded-2xl ">
         <MainHeader onToggleSidebar={handleToggleSidebar} />
         <div className=" flex">

@@ -116,7 +116,7 @@ export default function AuthSignUpInput({ ...props }: IAuthSignUpInput) {
   };
 
   return (
-    <div className="sm:mb-4 mb-2">
+    <div className="sm:mb-8 mb-4">
       <div className="flex">
         <Input
           label={`${props.label}`}
@@ -129,7 +129,7 @@ export default function AuthSignUpInput({ ...props }: IAuthSignUpInput) {
           valid={renderValid()}
           type={props.type}
         />
-        <div className="flex sm:min-w-[5rem] min-w-[4rem] items-end justify-center ml-4">
+        <div className="flex sm:min-w-[6rem] min-w-[4rem] items-end justify-center ml-4">
           {renderButton()}
         </div>
       </div>

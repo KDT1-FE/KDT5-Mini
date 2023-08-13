@@ -5,7 +5,7 @@ import AuthSignUpTitle from '@/components/auth/sign-up/AuthSignUpTitle';
 export default function SignUp() {
   return (
     <RecoilRoot>
-      <div className="mx-auto sm:w-[500px] sm:my-[90px]">
+      <div className="mx-auto sm:w-[640px] sm:my-[90px]">
         <AuthSignUpTitle />
         <AuthSignUpBox />
       </div>

@@ -4,7 +4,7 @@ import { ILayout } from '@/types/ICommon';
 
 export default function AuthLayout({ children }: ILayout) {
   return (
-    <div className="flex h-screen mx-auto sm:w-[580px] sm:py-16 flex-col justify-center">
+    <div className="flex h-screen mx-auto sm:w-[640px] sm:py-16 flex-col justify-center">
       <div className="flex justify-center mb-16">
         <Link href={'/'}>
           <Image src="/logo.png" alt="logo" width={250} height={20} priority />

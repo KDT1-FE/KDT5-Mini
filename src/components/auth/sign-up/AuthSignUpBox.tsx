@@ -5,12 +5,14 @@ import Button from '@/components/common/Button';
 import { requestSignUp } from '@/api/auth/signUp';
 import { TEMP_DEPARTMENT } from '@/constants/options';
 import { SIGNUP_INPUT_INFO } from '@/constants/constants';
-import AuthDropdown from '@/components/common/AuthDropdown';
+import AuthDropdown from '@/components/auth/AuthDropdown';
 import SinglePicker from '@/components/common/SinglePicker';
 import AuthSignUpInput from '@/components/auth/sign-up/AuthSignUpInput';
 
 export default function AuthSignUpBox() {
+  // 회원가입 폼 recoil state value 구독
   const signUpData = useRecoilValue(signUpState);
+  // 라우팅
   const router = useRouter();
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,7 +59,7 @@ export default function AuthSignUpBox() {
       <div className="text-xs sm:text-base font-semibold pl-1 text-mainBlack">
         입사일
       </div>
-      <div className="border-b-2 border-gray-200 mb-4 sm:w-full sm:max-w-[calc(100%-6rem)] pl-1">
+      <div className="border-b-2 border-gray-200 mb-4 sm:w-full sm:max-w-[calc(100%-7rem)] pl-1">
         <SinglePicker name={'hireDate'} />
       </div>
       <form onSubmit={handleSignUp}>

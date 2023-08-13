@@ -1,30 +1,23 @@
 import React from 'react';
-import MainHeader from '@/components/main/MainHeader';
+
 import MemberBoard from '@/components/member/MemberBoard';
 import MemberSideBar from '@/components/member/MemberSideBar';
-
+import MemberLayout from '@/components/member/MemberLayout';
 import MemberInfoEdit from '@/components/member/MemberInfoEdit';
 import { RecoilRoot } from 'recoil';
 
 export default function memberEdit() {
   return (
-    <>
     <RecoilRoot>
-      <div className=" w-full shadow-md">
-        <MainHeader />
-      </div>
-      <div className="flex mx-24 my-24">
-        <div className="pb-10 mr-20">
-          <MemberBoard />
-          <div className="mt-16">
+      <MemberLayout>
+        <div className="flex justify-between my-24 px-16">
+          <div className="pb-10 mr-16">
+            <MemberBoard />
             <MemberSideBar />
           </div>
-        </div>
-        <div className="">
           <MemberInfoEdit />
         </div>
-      </div>
+      </MemberLayout>
     </RecoilRoot>
-    </>
   );
 }

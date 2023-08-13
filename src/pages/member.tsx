@@ -1,7 +1,6 @@
 import { RecoilRoot } from 'recoil';
 import MemberBoard from '@/components/member/MemberBoard';
 import MemberDetail from '@/components/member/MemberDetail';
-import MemberHeader from '@/components/member/MemberHeader';
 import MemberLayout from '@/components/member/MemberLayout';
 import MemberSideBar from '@/components/member/MemberSideBar';
 
@@ -9,16 +8,12 @@ export default function Member() {
   return (
     <RecoilRoot>
       <MemberLayout>
-        <div className="flex my-24">
-          <div className="pb-10">
+        <div className="flex justify-between my-24 px-16">
+          <div className="pb-10 mr-16">
             <MemberBoard />
-            <div className="mt-16">
-              <MemberSideBar />
-            </div>
+            <MemberSideBar />
           </div>
-          <div>
-            <MemberDetail />
-          </div>
+          <MemberDetail />
         </div>
       </MemberLayout>
     </RecoilRoot>
