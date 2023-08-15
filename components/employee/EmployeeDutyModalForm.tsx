@@ -36,6 +36,7 @@ function EmployeeDutyModalForm({
     const inputendAt = selectedDates[1];
     setStartAt(inputstartAt);
     setEndAt(inputendAt);
+    console.log(startAt, endAt);
   };
 
   useEffect(() => {
@@ -175,18 +176,20 @@ function EmployeeDutyModalForm({
             />
           </StyledSpace>
         ) : null}
-        <StyledSpace direction="horizontal">
-          <StyledLabel>사유</StyledLabel>
-          <StyledInput
-            bordered={false}
-            type="text"
-            placeholder="입력하세요"
-            value={inputReason}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setInputReason(e.target.value);
-            }}
-          ></StyledInput>
-        </StyledSpace>
+        {toggle ? (
+          <StyledSpace direction="horizontal">
+            <StyledLabel>사유</StyledLabel>
+            <StyledInput
+              bordered={false}
+              type="text"
+              placeholder="입력하세요"
+              value={inputReason}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setInputReason(e.target.value);
+              }}
+            ></StyledInput>
+          </StyledSpace>
+        ) : null}
         <StyledSpace direction="horizontal">
           <StyledLabel>특이사항</StyledLabel>
           <StyledInput

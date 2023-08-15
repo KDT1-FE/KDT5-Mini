@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import DataTabel from "@components/common/DataTabel";
+import DataTabel from "@components/common/DataTable";
 import Header from "@components/common/Header";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -7,46 +7,55 @@ import { employeeListApi } from "@lib/api/employeeAPI";
 import { IDataSourceItem } from "@lib/interface/Admin";
 
 function History() {
-  const [mounted, setMounted] = useState(false);
   const [datas, setDatas] = useState<IDataSourceItem[]>([]);
+  const [pageSize, setPageSize] = useState(10);
 
   const setlist = async () => {
-    const list = await employeeListApi();
-    setDatas(list?.data.response.content);
+    try {
+      const res = await employeeListApi(pageSize);
+      const Data = res?.data;
+      setDatas(Data.response.content);
+      if (Data.response.totalElements > 10) {
+        setPageSize(Data.response.totalElements + 1);
+      }
+      if (!Data.success) {
+        console.error("등록 실패");
+        return;
+      }
+    } catch (error) {
+      console.error("서버 응답 없음", error);
+    }
   };
 
   useEffect(() => {
     setlist();
-    setMounted(true);
   }, []);
 
   return (
-    mounted && (
-      <>
-        <Header />
-        <Container>
-          <div className="details">
-            <DataTabel
-              tableTitle={"결재 대기 내역"}
-              type={"employee"}
-              dataSource={datas.filter((data) => {
-                return data.status == "대기";
-              })}
-            />
-          </div>
+    <>
+      <Header />
+      <Container>
+        <div className="details">
+          <DataTabel
+            tableTitle={"결재 대기 내역"}
+            type={"employee"}
+            dataSource={datas.filter((data) => {
+              return data.status == "대기";
+            })}
+          />
+        </div>
 
-          <div className="details">
-            <DataTabel
-              tableTitle={"결재 완료 내역"}
-              type={"employee"}
-              dataSource={datas.filter((data) => {
-                return data.status != "대기";
-              })}
-            />
-          </div>
-        </Container>
-      </>
-    )
+        <div className="details">
+          <DataTabel
+            tableTitle={"결재 완료 내역"}
+            type={"employee"}
+            dataSource={datas.filter((data) => {
+              return data.status != "대기";
+            })}
+          />
+        </div>
+      </Container>
+    </>
   );
 }
 

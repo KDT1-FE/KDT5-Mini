@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Satisfy&display=swap');
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
@@ -30,6 +30,8 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     background: ${(props) => props.theme.bgColor};
+    background-image: url("https://github.com/FAST-MINI-TEAM1/client-team1/assets/125563995/ff793dc1-4cfb-4c40-83f6-a5874d3465c9");
+    background-size: 100%;
     box-sizing: inherit;
     font-family: 'Noto Sans KR', sans-serif;
   }

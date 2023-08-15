@@ -61,7 +61,14 @@ export interface IDataSourceItem {
   category?: string;
   etc?: string;
 }
+// 일별 사용대장 페이지
 
+export interface IDailyResponse {
+  empName: string;
+  empNo: number;
+  orderType: string;
+  date: string;
+}
 // 월별 사용대장 페이지
 export interface IColumnsData {
   id: number;
@@ -71,6 +78,7 @@ export interface IColumnsData {
   total: number;
 }
 
+// 사원 조회 페이지
 export interface ISearch {
   id: number;
   empNo: number;

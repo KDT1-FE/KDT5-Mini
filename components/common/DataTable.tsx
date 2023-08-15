@@ -6,9 +6,8 @@ import Button from "@components/common/Button";
 import type { ColumnsType } from "antd/es/table";
 import { IDataTableProps, IDataSourceItem } from "@lib/interface/Admin";
 
-function DataTabel({ tableTitle, dataSource, type }: IDataTableProps) {
+function DataTable({ tableTitle, dataSource, type }: IDataTableProps) {
   const [open, setOpen] = useState(false);
-
   const [employeeOpen, setEmployeeOpen] = useState(false);
   const [details, setDetils] = useState<IDataSourceItem>();
   const [listUpdate, setListUpdate] = useState(false);
@@ -121,13 +120,8 @@ function DataTabel({ tableTitle, dataSource, type }: IDataTableProps) {
       <Table
         dataSource={dataSource}
         columns={columns}
-        pagination={{ size: "small", position: ["bottomCenter"] }}
+        pagination={false}
         scroll={{ y: 240 }}
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: () => console.log(record, rowIndex),
-          };
-        }}
       />
       {type === "admin" ? (
         <ApprovalModal open={open} setOpen={setOpen} details={details} />
@@ -143,4 +137,4 @@ function DataTabel({ tableTitle, dataSource, type }: IDataTableProps) {
   );
 }
 
-export default DataTabel;
+export default DataTable;

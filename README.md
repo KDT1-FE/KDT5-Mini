@@ -7,7 +7,7 @@
     <td align="center">
       <a href="https://github.com/ChoEun-Sang">
         <img src="https://avatars.githubusercontent.com/u/128155681?v=4" width="100px;" alt="ChoEun-Sang"/><br />
-        <sub><b>👑 조은상</b><br></sub>
+        <sub><b>조은상</b><br></sub>
       </a>
     </td>
     <td align="center">
@@ -139,7 +139,7 @@
 - 사용자 비밀번호는 암호화해 저장합니다.(관리자는 확인할 수 없습니다!)
 
 ```curl
-curl http://54.79.60.180:8080/api/register
+curl http://3.34.110.127/api/register
   \ -X 'POST'
 ```
 
@@ -186,7 +186,7 @@ interface ResponseValue {
 - 발급된 `accessToken`은 30분 후 만료됩니다.(만료 후 다시 로그인 필요)
 
 ```curl
-curl http://54.79.60.180:8080/api/login
+curl http://3.34.110.127/api/login
   \ -X 'POST'
 ```
 
@@ -229,10 +229,9 @@ interface ResponseValue {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/update
+curl http://3.34.110.127/api/admin/order/update
   \ -X 'POST'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -260,10 +259,9 @@ interface RequestBody {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/list/status/wait?page=${page}&size=${size}
+curl http://3.34.110.127/api/admin/order/list/status/wait?page=${page}&size=${size}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -365,10 +363,9 @@ interface ContentData {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/list/status/complete?page=${page}&size=${size}
+curl http://3.34.110.127/api/admin/order/list/status/complete?page=${page}&size=${size}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -468,10 +465,9 @@ interface ResponseValue {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/list/monthly/duty?year=${year}
+curl http://3.34.110.127/api/admin/order/list/monthly/duty?year=${year}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -537,10 +533,9 @@ interface IDutyItem {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/list/monthly/annual?year=${year}
+curl http://3.34.110.127/api/admin/order/list/monthly/annual?year=${year}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -601,15 +596,86 @@ interface IAnnualItem {
 ]
 ```
 
+### 일별 사용대장 - 연차 조회
+
+- 관리자 전용 API 입니다.
+
+```curl
+curl http://3.34.110.127/api/admin/order/list/daily/annual?year=${year}&month=${month}
+  \ -X 'GET'
+  \ -H 'Authorization: accessToken'
+```
+
+요청 데이터 타입 및 예시:
+
+- 없음
+
+응답 데이터 타입 및 예시:
+
+```ts
+interface IResponseBody {
+  empName: string;
+  empNo: number;
+  orderType: string;
+  date: string;
+}
+```
+
+```json
+[
+  {
+    "empName": "홍길동",
+    "empNo": 20230001,
+    "orderType": "당직",
+    "date": "2023-08--20"
+  }
+]
+```
+
+### 일별 사용대장 - 당직 조회
+
+- 관리자 전용 API 입니다.
+
+```curl
+curl http://3.34.110.127/api/admin/order/list/daily/duty?year=${year}&month=${month}
+  \ -X 'GET'
+  \ -H 'Authorization: accessToken'
+```
+
+요청 데이터 타입 및 예시:
+
+- 없음
+
+응답 데이터 타입 및 예시:
+
+```ts
+interface IResponseBody {
+  empName: string;
+  empNo: number;
+  orderType: string;
+  date: string;
+}
+```
+
+```json
+[
+  {
+    "empName": "홍길동",
+    "empNo": 20230001,
+    "orderType": "당직",
+    "date": "2023-08--20"
+  }
+]
+```
+
 ### 사원조회 - 사원명
 
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/user/search?name=${name}
+curl http://3.34.110.127/api/admin/user/search?name=${name}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -641,10 +707,9 @@ interface ISearch {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/user/search?empno=${empno}
+curl http://3.34.110.127/api/admin/user/search?empno=${empno}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -676,10 +741,9 @@ interface ISearch {
 - 관리자 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/list?user=${user}&page=${page}&size=${size}
+curl http://3.34.110.127/api/admin/order/list?user=${user}&page=${page}&size=${size}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
-  \ -H 'Authorization-refresh : Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -781,9 +845,9 @@ interface ResponseValue {
 - 시원 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/admin/order/add
+curl http://3.34.110.127/api/admin/order/add
   \ -X 'POST'
-  \ -H 'Authorization: Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -801,12 +865,12 @@ interface RequestBody {
 
 ```json
 {
-    "orderType": “당직 or 연차”,
-    "startAt": “2023-07-31”,
-    "endAt": “2023-07-31”,
-    "reason" : “이유”
-    "category"? : “경조사”
-    "etc"?: “특이사항입니다.”
+    "orderType": "당직 or 연차",
+    "startAt": "2023-07-31",
+    "endAt": "2023-07-31",
+    "reason" : "이유"
+    "category"? : "경조사"
+    "etc"?: "특이사항입니다."
 }
 ```
 
@@ -833,9 +897,9 @@ interface ResponseValue {
 - 시원 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/user/myorder?page={page}&size={size}
+curl http://3.34.110.127/api/user/myorder?page={page}&size={size}
   \ -X 'GET'
-  \ -H 'Authorization: Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:
@@ -941,9 +1005,9 @@ interface ResponseValue {
 - 시원 전용 API 입니다.
 
 ```curl
-curl http://54.79.60.180:8080/api/user/order/delete?id={id}
+curl http://3.34.110.127/api/user/order/delete?id={id}
   \ -X 'POST'
-  \ -H 'Authorization: Bearer <token>'
+  \ -H 'Authorization: accessToken'
 ```
 
 요청 데이터 타입 및 예시:

@@ -2,15 +2,11 @@
 import React, { useState } from "react";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import EmployeeTable from "@components/employee/EmployeeTable";
 import { styled } from "styled-components";
+import EmployeeTable from "@components/employee/EmployeeTable";
 import Calendar from "@components/common/Calender";
 
-interface EmployeeTableTabProps {
-  scheduleData: any[];
-}
-
-function EmployeeTableTab({ scheduleData }: EmployeeTableTabProps) {
+function EmployeeTableTab() {
   const [selectedTap, setSelectedTap] = useState("전체");
   const [toggle, setToggle] = useState(true);
 
@@ -31,7 +27,7 @@ function EmployeeTableTab({ scheduleData }: EmployeeTableTabProps) {
       children: (
         <Layout>
           <CalendarContainer>
-            <Calendar />
+            <Calendar selectedTap={selectedTap} />
           </CalendarContainer>
           <EmployeeTable selectedTap={selectedTap} />
         </Layout>
@@ -43,7 +39,7 @@ function EmployeeTableTab({ scheduleData }: EmployeeTableTabProps) {
       children: (
         <Layout>
           <CalendarContainer>
-            <Calendar />
+            <Calendar selectedTap={selectedTap} toggle={toggle} />
           </CalendarContainer>
           <EmployeeTable selectedTap={selectedTap} toggle={toggle} />
         </Layout>
@@ -55,7 +51,7 @@ function EmployeeTableTab({ scheduleData }: EmployeeTableTabProps) {
       children: (
         <Layout>
           <CalendarContainer>
-            <Calendar />
+            <Calendar selectedTap={selectedTap} toggle={toggle} />
           </CalendarContainer>
           <EmployeeTable selectedTap={selectedTap} toggle={toggle} />
         </Layout>
@@ -77,7 +73,6 @@ function EmployeeTableTab({ scheduleData }: EmployeeTableTabProps) {
 const StyledTabs = styled(Tabs)`
   color: #090909;
   font-size: 16px;
-  text-shadow: 0px 3px 7px rgba(81, 81, 81, 0.25);
   h1 {
     color: black;
     font-size: 16px;
@@ -115,11 +110,13 @@ const Layout = styled.div`
   flex-direction: row;
   position: relative;
   justify-content: space-between;
+  text-shadow: 0px 3px 4px rgba(81, 81, 81, 0.25);
 `;
 
 const CalendarContainer = styled.div`
   width: 950px;
   height: 670px;
+  overflow: hidden;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.16);

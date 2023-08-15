@@ -21,6 +21,8 @@ const AuthTemplateBlock = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("https://github.com/FAST-MINI-TEAM1/client-team1/assets/125563995/ff793dc1-4cfb-4c40-83f6-a5874d3465c9");
+  background-size: 100%;
 `;
 
 const WhiteBox = styled.div`

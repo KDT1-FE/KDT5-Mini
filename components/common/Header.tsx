@@ -12,7 +12,7 @@ function Header() {
     localStorage.removeItem("empName");
     router.push("/login");
   }, [router]);
-  const userName =
+  const username =
     typeof window !== "undefined" && localStorage.getItem("empName");
 
   return (
@@ -24,7 +24,7 @@ function Header() {
           </Link>
           <UserWelcome>
             <p>
-              <span>{userName}</span> 님, 반갑습니다!
+              <span>{username}</span> 님, 반갑습니다!
             </p>
             <LogOutBtn onClick={onClick}>로그아웃 ⇢</LogOutBtn>
           </UserWelcome>

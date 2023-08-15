@@ -1,13 +1,12 @@
 import { Select } from "antd";
-import DataTabel from "@components/common/DataTabel";
+import DataTable from "@components/common/DataTable";
 import styled from "styled-components";
 import AdminHeader from "@components/common/AdminHeader";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { getUserName, getUserNumber, getOrders } from "@lib/api/adminAPI";
 import { ISearch } from "@lib/interface/Admin";
 
 function SearchPage() {
-  const [mounted, setMounted] = useState(false);
   const [selectedOption, setSelectedOption] = useState("1");
   const [searchWord, setSearchWord] = useState("");
   const [empNumber, setEmpNumber] = useState(0);
@@ -20,10 +19,6 @@ function SearchPage() {
     empNo: 0,
     id: 0,
   });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const onNameSubmit = useCallback(
     async (event: FormEvent) => {
@@ -45,8 +40,8 @@ function SearchPage() {
           );
           setVisible(true);
         }
-      } catch (e) {
-        console.error(e, "실패");
+      } catch (error) {
+        alert("사원명 검색 실패하였습니다!");
       }
     },
     [searchWord],
@@ -72,8 +67,8 @@ function SearchPage() {
           );
           setVisible(true);
         }
-      } catch (e) {
-        console.error(e, "실패");
+      } catch (error) {
+        alert("사원번호 검색 실패하였습니다!");
       }
     },
     [empNumber],
@@ -85,7 +80,6 @@ function SearchPage() {
       setSearchWord(value);
     } else {
       setEmpNumber(Number(value));
-      console.log(empNumber);
     }
   };
 
@@ -101,67 +95,69 @@ function SearchPage() {
   ];
 
   return (
-    mounted && (
-      <>
-        <AdminHeader />
-        <Search>
-          <SearchBar>
-            <SearchForm
-              onSubmit={selectedOption === "1" ? onNameSubmit : onNumberSubmit}
-            >
-              <Select
-                defaultValue="1"
-                options={options}
-                onChange={(value: string) => {
-                  setSelectedOption(value);
-                  console.log(selectedOption);
-                }}
-              />
-              <StyledInput onChange={handleChangeInput} autoFocus />
-              <StyeldBtn className="searchBtn">Search</StyeldBtn>
-            </SearchForm>
-          </SearchBar>
-          {visible && (
-            <>
-              <BasicSection>
-                <h3>기본정보</h3>
-                <div className="container">
-                  <ul>
-                    <li>
-                      <span>사원명</span>
-                      <p>{basicData.empName}</p>
-                    </li>
-                    <li>
-                      <span>사원번호</span>
-                      <p>{basicData.empNo}</p>
-                    </li>
-                    <li>
-                      <span>입사일</span>
-                      <p>{basicData.createdAt}</p>
-                    </li>
-                  </ul>
-                </div>
-              </BasicSection>
-              <TableSection>
-                <h3>연차 / 당직</h3>
-                <div className="details">
-                  <DataTabel
-                    tableTitle="결재 대기"
-                    dataSource={pendingOrder}
-                    type={"admin"}
-                  />
-                  <DataTabel
-                    tableTitle="결재 완료"
-                    dataSource={completeOrder}
-                    type={"admin"}
-                  />
-                </div>
-              </TableSection>
-            </>
-          )}
-        </Search>
-      </>
-    )
+    <>
+      <AdminHeader />
+      <Search>
+        <SearchBar>
+          <SearchForm
+            onSubmit={selectedOption === "1" ? onNameSubmit : onNumberSubmit}
+          >
+            <Select
+              defaultValue="1"
+              options={options}
+              onChange={(value: string) => {
+                setSelectedOption(value);
+                console.log(selectedOption);
+              }}
+            />
+            <StyledInput
+              onChange={handleChangeInput}
+              placeholder={selectedOption === "1" ? "ex.홍길동" : "ex.20230009"}
+              autoFocus
+            />
+            <StyeldBtn className="searchBtn">Search</StyeldBtn>
+          </SearchForm>
+        </SearchBar>
+        {visible && (
+          <>
+            <BasicSection>
+              <h3>기본정보</h3>
+              <div className="container">
+                <ul>
+                  <li>
+                    <span>사원명</span>
+                    <p>{basicData.empName}</p>
+                  </li>
+                  <li>
+                    <span>사원번호</span>
+                    <p>{basicData.empNo}</p>
+                  </li>
+                  <li>
+                    <span>입사일</span>
+                    <p>{basicData.createdAt}</p>
+                  </li>
+                </ul>
+              </div>
+            </BasicSection>
+            <TableSection>
+              <h3>연차 / 당직</h3>
+              <div className="details">
+                <DataTable
+                  tableTitle="결재 대기"
+                  dataSource={pendingOrder}
+                  type={"admin"}
+                />
+                <DataTable
+                  tableTitle="결재 완료"
+                  dataSource={completeOrder}
+                  type={"admin"}
+                />
+              </div>
+            </TableSection>
+          </>
+        )}
+      </Search>
+    </>
   );
 }
 
@@ -186,7 +182,7 @@ const SearchForm = styled.form`
   display: grid;
   grid-template-columns: 100px auto;
   align-items: center;
-  width: 700px;
+  width: 950px;
   height: 50px;
   padding: 5px 20px;
   box-sizing: border-box;
@@ -205,7 +201,7 @@ const StyledInput = styled.input`
   outline: none;
   padding-bottom: 3px;
   font-size: 14px;
-  text-indent: 10px;
+  text-indent: 30px;
 `;
 
 const StyeldBtn = styled.button`
@@ -218,7 +214,7 @@ const StyeldBtn = styled.button`
 `;
 
 const BasicSection = styled.section`
-  width: 700px;
+  width: 950px;
   .container {
     padding: 20px 30px 30px;
     box-sizing: border-box;
@@ -246,12 +242,14 @@ const TableSection = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 700px;
+    width: 950px;
     padding: 20px 30px 30px;
     box-sizing: border-box;
     border-radius: 30px;
     background: #fff;
     box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    gap: 20px;
   }
 `;
+
 export default SearchPage;

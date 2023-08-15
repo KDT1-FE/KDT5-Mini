@@ -37,29 +37,33 @@ const StyledButton = styled.button<{
   ${(props) =>
     props.employee &&
     css`
-      background: ${(props) => props.theme.buttonColor.empButton};
+      background: rgba(255, 255, 255);
       border: 1px solid ${(props) => props.theme.buttonColor.empButton};
       color: ${(props) => props.theme.buttonTextColor.empColor};
       font-size: 20px;
+      font-weight: 500;
       border-radius: 30px;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       &:hover {
-        color: ${(props) => props.theme.buttonColor.empButton};
+        color: ${(props) => props.theme.pointColor.green};
+        background: rgba(255, 255, 255, 0.75);
         border: 1px solid ${(props) => props.theme.buttonColor.empButton};
       }
     `}
   ${(props) =>
     props.admin &&
     css`
-      background: ${(props) => props.theme.buttonColor.managerButton};
-      border: 1px solid ${(props) => props.theme.buttonColor.managerButton};
+      background: ${(props) => props.theme.pointColor.red};
       color: ${(props) => props.theme.buttonTextColor.adminColor};
       font-size: 20px;
+      font-weight: 500;
       border-radius: 30px;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       &:hover {
         color: ${(props) => props.theme.buttonColor.managerButton};
-        border: 1px solid ${(props) => props.theme.buttonColor.managerButton};
+        background: rgba(255, 255, 255, 0.75);
+        // border: 1px solid ${(props) =>
+          props.theme.buttonColor.managerButton};
       }
     `}
   ${(props) =>

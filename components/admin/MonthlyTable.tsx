@@ -11,7 +11,7 @@ function MonthlyTable({ dataSource }: IMonthlyPros) {
           title: "사원번호",
           dataIndex: "empNo",
           key: "empNo",
-          width: 90,
+          width: 100,
           align: "center",
           sorter: (a, b) => a.empNo - b.empNo,
           render: (_, data) => <p>{data.empNo}</p>,
@@ -30,104 +30,116 @@ function MonthlyTable({ dataSource }: IMonthlyPros) {
       title: "1월",
       dataIndex: "jan",
       key: "jan",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.jan}</p>,
+      render: (_, data) =>
+        data.month.jan === 0 ? "" : <p>{data.month.jan}</p>,
     },
     {
       title: "2월",
       dataIndex: "feb",
       key: "feb",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.feb}</p>,
+      render: (_, data) =>
+        data.month.feb === 0 ? "" : <p>{data.month.feb}</p>,
     },
     {
       title: "3월",
       dataIndex: "mar",
       key: "mar",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.mar}</p>,
+      render: (_, data) =>
+        data.month.mar === 0 ? "" : <p>{data.month.mar}</p>,
     },
     {
       title: "4월",
       dataIndex: "apr",
       key: "apr",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.apr}</p>,
+      render: (_, data) =>
+        data.month.apr === 0 ? "" : <p>{data.month.apr}</p>,
     },
     {
       title: "5월",
       dataIndex: "may",
       key: "may",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.may}</p>,
+      render: (_, data) =>
+        data.month.may === 0 ? "" : <p>{data.month.may}</p>,
     },
     {
       title: "6월",
       dataIndex: "jun",
       key: "jun",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.jun}</p>,
+      render: (_, data) =>
+        data.month.jun === 0 ? "" : <p>{data.month.jun}</p>,
     },
     {
       title: "7월",
       dataIndex: "jul",
       key: "jul",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.jul}</p>,
+      render: (_, data) =>
+        data.month.jul === 0 ? "" : <p>{data.month.jul}</p>,
     },
     {
       title: "8월",
       dataIndex: "aug",
       key: "aug",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.aug}</p>,
+      render: (_, data) =>
+        data.month.aug === 0 ? "" : <p>{data.month.aug}</p>,
     },
     {
       title: "9월",
       dataIndex: "sept",
-      key: "sep",
-      width: 50,
+      key: "sept",
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.sept}</p>,
+      render: (_, data) =>
+        data.month.sept === 0 ? "" : <p>{data.month.sept}</p>,
     },
     {
       title: "10월",
       dataIndex: "oct",
       key: "oct",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.oct}</p>,
+      render: (_, data) =>
+        data.month.oct === 0 ? "" : <p>{data.month.oct}</p>,
     },
     {
       title: "11월",
       dataIndex: "nov",
       key: "nov",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.nov}</p>,
+      render: (_, data) =>
+        data.month.nov === 0 ? "" : <p>{data.month.nov}</p>,
     },
     {
       title: "12월",
       dataIndex: "dec",
       key: "dec",
-      width: 50,
+      width: 70,
       align: "center",
-      render: (_, data) => <p>{data.month.dec}</p>,
+      render: (_, data) =>
+        data.month.dec === 0 ? "" : <p>{data.month.dec}</p>,
     },
     {
       title: "합계",
       key: "합계",
       fixed: "right",
       align: "center",
-      width: 70,
+      width: 80,
       sorter: (a, b) => a.total - b.total,
       render: (_, data) => <p>{data.total}</p>,
     },
@@ -136,9 +148,10 @@ function MonthlyTable({ dataSource }: IMonthlyPros) {
   return (
     <>
       <Table
+        size="large"
         columns={columnsData}
         dataSource={dataSource}
-        size="small"
+        pagination={false}
         bordered
       />
     </>

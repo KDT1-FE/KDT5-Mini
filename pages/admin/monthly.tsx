@@ -20,7 +20,7 @@ function Monthly() {
       const { data: duty } = await getMonthlyDuty(year);
       setDutyData(duty.response);
     } catch (error) {
-      console.log("월별 조회 실패, error");
+      alert("월별 사용 조회 오류 발생하였습니다!");
     }
   }, []);
 

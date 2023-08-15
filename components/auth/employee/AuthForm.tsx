@@ -138,6 +138,9 @@ function AuthForm({ type }: IAuthFormProps) {
       {loading && <Loading />}
       <AuthFormBlock>
         <h3>{text}</h3>
+        <Link href="/">
+          <a>홈</a>
+        </Link>
         <form onSubmit={type === "login" ? onLogin : onRegister}>
           {type === "login" && (
             <>
@@ -266,21 +269,6 @@ const AuthFormBlock = styled.div`
     margin-bottom: 40px;
   }
 `;
-
-// const StyledInput = styled.input`
-//   font-size: 1rem;
-//   border: none;
-//   border-bottom: 1px solid #666;
-//   padding-bottom: 0.5rem;
-//   outline: none;
-//   width: 100%;
-//   &:focus {
-//     border-bottom: 2px solid #000;
-//   }
-//   & + & {
-//     margin-top: 2rem;
-//   }
-// `;
 
 const InputWrapper = styled.div`
   display: flex;

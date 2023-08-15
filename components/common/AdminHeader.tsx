@@ -16,7 +16,7 @@ function AdminHeader() {
       <HeaderContent>
         <LogoContainer>
           <Link href="/admin">
-            <Image src={logo} alt="logo" width={189} height={65} />
+            <Logo src={logo} alt="logo" width={189} height={65} />
           </Link>
           <UserWelcome>
             <span>관리자</span>
@@ -34,13 +34,36 @@ function AdminHeader() {
               </Link>
             </li>
             <SheetSection>
-              <span>사용대장</span>
+              <Link href="/admin/daily">
+                <a
+                  className={
+                    router.pathname === "/admin/daily" ||
+                    router.pathname === "/admin/monthly"
+                      ? "active"
+                      : ""
+                  }
+                >
+                  사용대장
+                </a>
+              </Link>
               <div className="subMenu">
                 <Link href="/admin/daily">
-                  <a>일별사용대장</a>
+                  <a
+                    className={
+                      router.pathname === "/admin/daily" ? "active" : ""
+                    }
+                  >
+                    일별사용대장
+                  </a>
                 </Link>
                 <Link href="/admin/monthly">
-                  <a>월별사용대장</a>
+                  <a
+                    className={
+                      router.pathname === "/admin/monthly" ? "active" : ""
+                    }
+                  >
+                    월별사용대장
+                  </a>
                 </Link>
               </div>
             </SheetSection>
@@ -70,12 +93,12 @@ const HeaderBlock = styled.header`
   justify-content: center;
   align-items: center;
   padding: 0 20px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const HeaderContent = styled.div`
   width: 1320px;
   height: inherit;
-  /* background: coral; */
   max-width: 1280px;
   display: flex;
   justify-content: space-between;
@@ -89,6 +112,10 @@ const LogoContainer = styled.div`
   gap: 1rem;
 `;
 
+const Logo = styled(Image)`
+  cursor: pointer;
+`;
+
 const UserWelcome = styled.div`
   span {
     &:first-child {
@@ -97,18 +124,6 @@ const UserWelcome = styled.div`
     }
   }
 `;
-
-// const Logo = styled.a`
-//   width: 70px;
-//   height: 70px;
-//   background: #fff;
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   cursor: pointer;
-//   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-// `;
 
 const Nav = styled.nav`
   ul {
@@ -137,6 +152,7 @@ const Nav = styled.nav`
     }
   }
 `;
+
 const SheetSection = styled.li`
   .subMenu {
     display: none;
@@ -186,5 +202,4 @@ const LogOutBtn = styled.button`
     border: 1px solid #f27676;
   }
 `;
-
 export default AdminHeader;

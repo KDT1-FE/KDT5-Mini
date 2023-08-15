@@ -69,18 +69,24 @@ function EmployeeHistoyModal({
             </li>
           </StyledSpace>
           {contnetdetails?.orderType == "연차" ? (
-            <StyledSpace direction="horizontal" size="middle">
-              <StyledLabel>휴가종류</StyledLabel>
-              <li>{contnetdetails.category}</li>
-            </StyledSpace>
+            <div>
+              <StyledSpace direction="horizontal" size="middle">
+                <StyledLabel>휴가종류</StyledLabel>
+                <li>{contnetdetails?.category}</li>
+              </StyledSpace>
+              <StyledSpace direction="horizontal" size="middle">
+                <StyledLabel>사유</StyledLabel>
+                <li>
+                  {contnetdetails.reason
+                    ? `${contnetdetails?.reason}`
+                    : "미기입"}
+                </li>
+              </StyledSpace>
+            </div>
           ) : null}
           <StyledSpace direction="horizontal" size="middle">
-            <StyledLabel>사유</StyledLabel>
-            <li>{contnetdetails?.reason}</li>
-          </StyledSpace>
-          <StyledSpace direction="horizontal" size="middle">
             <StyledLabel>특이사항</StyledLabel>
-            <li>{contnetdetails?.etc}</li>
+            <li>{contnetdetails?.etc ? `${contnetdetails?.etc}` : "미기입"}</li>
           </StyledSpace>
           <StyledSpace direction="horizontal" size="middle">
             <StyledLabel>승인상태</StyledLabel>

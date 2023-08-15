@@ -1,219 +1,245 @@
+import React, { useState, useEffect } from "react";
+import { Tabs } from "antd";
+import type { TabsProps } from "antd";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import moment from "moment";
+import { getDailyDuty, getDailyAnnual } from "@lib/api/adminAPI";
+import { styled } from "styled-components";
 import AdminHeader from "@components/common/AdminHeader";
-import React, { useState } from "react";
-import styled from "styled-components";
+import { IDailyResponse } from "@lib/interface/Admin";
 
-const Daily: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+function Daily() {
+  const [tabKey, setTabKey] = useState("");
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [dutyData, setDutyData] = useState<IDailyResponse[]>([]);
+  const [annualData, setAnnualData] = useState<IDailyResponse[]>([]);
 
-  // 이전 달로 이동하는 함수
-  const prevMonth = () => {
-    setCurrentDate((prevDate) => {
-      const prevMonthDate = new Date(prevDate);
-      prevMonthDate.setMonth(prevMonthDate.getMonth() - 1);
-      return prevMonthDate;
-    });
+  useEffect(() => {
+    const getDailyData = async () => {
+      if (tabKey === "당직") {
+        try {
+          const { data } = await getDailyDuty(year, month);
+          setDutyData(data.response);
+        } catch (error) {
+          alert("당직 조회 오류 발생하였습니다!");
+        }
+      } else {
+        try {
+          const { data } = await getDailyAnnual(year, month);
+          setAnnualData(data.response);
+        } catch (error) {
+          alert("연차 조회 오류 발생하였습니다!");
+        }
+      }
+    };
+    getDailyData();
+  }, [tabKey, year, month]);
+
+  const handleChange = (activeStartDate: Date | null) => {
+    if (activeStartDate) {
+      const activeYear = new Date(activeStartDate).getFullYear();
+      const activeMonth = new Date(activeStartDate).getMonth() + 1;
+      setYear(activeYear);
+      setMonth(activeMonth);
+    }
   };
 
-  // 다음 달로 이동하는 함수
-  const nextMonth = () => {
-    setCurrentDate((prevDate) => {
-      const nextMonthDate = new Date(prevDate);
-      nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-      return nextMonthDate;
-    });
-  };
-
-  const getFirstDay = (date: Date) => {
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    return firstDay.getDay();
-  };
-
-  const getLastDateOfMonth = (date: string | number | Date) => {
-    const nextMonth = new Date(date);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    nextMonth.setDate(0);
-    return nextMonth.getDate();
-  };
-
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth() + 1;
-  const today = currentDate.getDate();
-
-  const weeks = [];
-  const firstDayIndex = getFirstDay(currentDate);
-  const lastDateOfMonth = getLastDateOfMonth(currentDate);
-
-  let week = [];
-  for (let i = 0; i < firstDayIndex; i++) {
-    week.push(null);
-  }
-
-  for (let date = 1; date <= lastDateOfMonth; date++) {
-    week.push(date);
-
-    if (week.length === 7) {
-      weeks.push(week);
-      week = [];
+  function dutyTileContent({ date }: any) {
+    if (
+      dutyData?.find((item) => item.date === moment(date).format("YYYY-MM-DD"))
+    ) {
+      const filteredDate = moment(date).format("YYYY-MM-DD");
+      const employeeData = dutyData?.filter((item) => {
+        return item.date === filteredDate;
+      });
+      return (
+        <>
+          {employeeData?.map((item) => (
+            <>
+              <DutyPerson key={item.empNo}>
+                {item.empName} / {item.empNo}
+              </DutyPerson>
+            </>
+          ))}
+        </>
+      );
     }
   }
 
-  if (week.length > 0) {
-    while (week.length < 7) {
-      week.push(null);
+  function annualTileContent({ date }: any) {
+    if (
+      annualData?.find(
+        (item) => item.date === moment(date).format("YYYY-MM-DD"),
+      )
+    ) {
+      const filteredDate = moment(date).format("YYYY-MM-DD");
+      const employeeData = annualData?.filter((item) => {
+        return item.date === filteredDate;
+      });
+      return (
+        <>
+          {employeeData?.map((item) => (
+            <>
+              <AnnualPerson key={item.empNo}>
+                {item.empName} / {item.empNo}
+              </AnnualPerson>
+            </>
+          ))}
+        </>
+      );
     }
-    weeks.push(week);
   }
+
+  const handleClick = (key: string) => {
+    setTabKey(key);
+  };
+  const items: TabsProps["items"] = [
+    {
+      key: "연차",
+      label: `연차`,
+    },
+    {
+      key: "당직",
+      label: `당직`,
+    },
+  ];
 
   return (
     <>
       <AdminHeader />
-      <CalendarContainer>
-        <h2>일별 사용 대장</h2>
-        <CalendarMonth>
-          <ArrowButton onClick={prevMonth}>&lt;</ArrowButton>
-          <span>{currentYear}년 </span>
-          <span>{currentMonth}월</span>
-          <ArrowButton onClick={nextMonth}>&gt;</ArrowButton>
-        </CalendarMonth>
-        <CalendarTable>
-          <thead>
-            <tr>
-              <SundayHeader>일</SundayHeader>
-              <Th>월</Th>
-              <Th>화</Th>
-              <Th>수</Th>
-              <Th>목</Th>
-              <Th>금</Th>
-              <SaturdayHeader>토</SaturdayHeader>
-            </tr>
-          </thead>
-          <tbody>
-            {weeks.map((week, index) => (
-              <tr key={index}>
-                {week.map((date, idx) => {
-                  if (date === null) {
-                    return <DateCell key={idx} />;
-                  }
-
-                  const isCurrentDay = date === today;
-                  const isPast12PM =
-                    isCurrentDay && new Date().getHours() >= 12;
-
-                  return (
-                    <DateCell
-                      key={idx}
-                      className={
-                        isCurrentDay
-                          ? isPast12PM
-                            ? "current-day-black"
-                            : "current-day"
-                          : "other-day black-text"
-                      }
-                    >
-                      <DateNumber>{date}</DateNumber>
-                    </DateCell>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </CalendarTable>
-      </CalendarContainer>
+      <DateSection>
+        <StyledTabs
+          defaultActiveKey="1"
+          items={items}
+          tabBarGutter={30}
+          onTabClick={(key: any) => handleClick(key)}
+        />
+        <Container>
+          <StyeldCalendar
+            calendarType="gregory"
+            formatDay={(_: any, date: any) => moment(date).format("D")}
+            tileContent={
+              tabKey === "당직" ? dutyTileContent : annualTileContent
+            }
+            onActiveStartDateChange={({ activeStartDate }: any) =>
+              handleChange(activeStartDate)
+            }
+          />
+        </Container>
+      </DateSection>
     </>
   );
-};
-
-const CalendarContainer = styled.div`
-  font-family: Arial, sans-serif;
-  h2 {
-    font-size: 20px;
-    margin: 30px 90px;
+}
+const DateSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+`;
+const StyledTabs = styled(Tabs)`
+  &.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: coral;
+  }
+  &.ant-tabs .ant-tabs-ink-bar {
+    background: coral;
   }
 `;
-
-const ArrowButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 30px;
-  padding: 30px;
-  cursor: pointer;
+const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1050px;
+  height: 900px;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
 `;
 
-const SundayHeader = styled.th`
-  font-size: 20px;
-  color: red;
-  background-color: #f5f5f5;
-  border-radius: 5px;
+const DutyPerson = styled.div`
+  background: #ff5b48;
+  padding: 5px 0;
+  border-radius: 10px;
+  color: #fff;
+  margin-bottom: 5px;
 `;
 
-const SaturdayHeader = styled.th`
-  font-size: 20px;
-  color: blue;
-  background-color: #f5f5f5;
-  border-radius: 5px;
+const AnnualPerson = styled.div`
+  background: #2c88de;
+  padding: 5px 0;
+  border-radius: 10px;
+  color: #fff;
+  margin-bottom: 2px;
 `;
+const StyeldCalendar = styled(Calendar)`
+  &.react-calendar {
+    width: 1000px;
+    border: none;
+    color: #191919;
+  }
+  // Today
+  .react-calendar__tile--now {
+    background-color: transparent;
 
-const Th = styled.th`
-  background-color: #f5f5f5;
-  padding: 15px;
-`;
-
-const CalendarTable = styled.table`
-  border-collapse: collapse;
-  width: 950px;
-  height: 600px;
-  margin: 0 auto;
-  font-size: 20px;
-  tbody {
-    tr:nth-child(odd) {
-      background-color: #ffffff;
+    abbr {
+      border-bottom: 1.8px solid #1ebf91;
+      width: 30px;
+      padding-bottom: 5px;
     }
+  }
 
-    tr:nth-child(even) {
-      background-color: #f5f5f5;
+  // 2. 달력 년/월 표시 글씨 커스텀
+
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus {
+  }
+
+  .react-calendar__navigation__label > span {
+    font-size: 30px;
+  }
+  // 날짜 화살표 아이콘
+  .react-calendar__navigation__arrow react-calendar__navigation__next-button {
+  }
+
+  //요일 section 커스텀 하기
+  .react-calendar__month-view__weekdays {
+    abbr {
+      color: #adb5bd;
+      font-size: 14px;
+      font-weight: 400;
     }
   }
-`;
-
-const CalendarMonth = styled.div`
-  padding: 10px;
-  font-size: 30px;
-  text-align: center;
-  margin: 0 auto;
-`;
-
-const DateCell = styled.td`
-  cursor: pointer;
-  width: 100px;
-  height: 100px;
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid #ccc;
-  position: relative;
-
-  &.current-day {
-    background-color: #ccc;
+  // day 타일 한개 한개 모양 커스텀하기
+  .react-calendar__tile {
+    position: relative;
+    height: 130px;
+    border-top: 1px solid #e4e4e4;
+    abbr {
+      position: absolute;
+      top: 15px;
+      right: 10px;
+      font-size: 18px;
+    }
+  }
+  // day 타일 hover, focus 시 모양 커스텀
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background-color: #f0f0f0;
+  }
+  // 날짜 선택 됐을 때 day 타일 커스텀하기
+  .react-calendar__tile--active {
+    background-color: #f0f0f0;
+  }
+  //(range일 경우)시작날짜, 끝 날짜 커스텀하기
+  .react-calendar__tile--rangeStart,
+  .react-calendar__tile--rangeEnd {
   }
 
-  &.current-day-black {
-    color: black;
+  //. range 선택 중 hover 때 중간 날짜 커스텀하기
+  .react-calendar--selectRange .react-calendar__tile--hover {
   }
-
-  &.other-day {
-    color: #ccc;
-  }
-
-  &.black-text {
-    color: black;
-  }
-`;
-
-const DateNumber = styled.div`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 16px;
-  color: black;
 `;
 
 export default Daily;
