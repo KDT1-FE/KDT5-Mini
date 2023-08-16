@@ -1,0 +1,66 @@
+.profile_image img {
+  object-fit: cover;
+}
+
+.icons {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.icons:hover {
+  scale: 1.2;
+}
+
+/* 달력 평일, 토요일, 일요일 색상 변경 */
+.fc-day-sun a {
+  color: #ff4d4f;
+}
+
+.fc-day-sat a {
+  color: #69b1ff;
+}
+
+.fc-day-mon a,
+.fc-day-tue a,
+.fc-day-wed a,
+.fc-day-thu a,
+.fc-day-fri a {
+  color: #595959;
+}
+
+.fc-day {
+  font-weight: bold;
+}
+
+.myScheduleRow {
+  font-size: 10px;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  text-align: center;
+}
+
+.booh {
+  display: none;
+}
+@media screen and (min-width: 1000px) {
+  .booh {
+    display: block;
+  }
+}
+
+.ant-upload-wrapper .ant-upload-list {
+  width: 148px;
+}
+
+.ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select {
+  margin: 0;
+  width: 150px;
+  height: 150px;
+}
+
+.ant-layout * {
+  vertical-align: middle;
+  margin: 0;
+}
